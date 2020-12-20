@@ -1,3 +1,5 @@
+package talabat;
+
 public class Meal {
     public String name ,description;
     public float price;

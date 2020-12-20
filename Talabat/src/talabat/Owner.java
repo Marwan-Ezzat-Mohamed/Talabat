@@ -1,3 +1,5 @@
+package talabat;
+
 public class Owner {
 
     public String username, password, restaurantName;
