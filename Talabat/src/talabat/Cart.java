@@ -1,35 +1,35 @@
 package talabat;
 
 public class Cart {
-    private final int maxOrders = 100;    
-    public Order [] orders = new Order[maxOrders];
+
+    private final int maxMeals = 100;
+    public Meal[] meals = new Meal[maxMeals];
     public float totalPrice = 0;
-     int ordersQuantity;  //number of orders currently in the cart.
+    public int mealsQuantity;  //number of orders currently in the cart.
+
+    public void addMeal(Meal meal) {
+        meals[mealsQuantity++]=meal;
+    }
     
-    public Cart() {
-        ordersQuantity = 0; 
-    }
-    public void addOrder(Order order)
-    {
-        orders[ordersQuantity++] = order;
-        float price = order.ordererdMeall.mealPrice;
-        totalPrice += price * order.getQuantity();
-    }
-    public void removeOrder(Order order)
-    {
-        for(int i = 0; i < ordersQuantity; i++)
-        {
-            if(order == orders[i])
-            {
-                for (int j = i+1; j < ordersQuantity; j++)
-                {
-                    orders[j-1] = orders[j]; 
-                } 
-                float Price = order.ordererdMeall.mealPrice;
-                totalPrice -= Price * order.getQuantity();
-                ordersQuantity--;
-                return;
+    public void removeMeal(int index) {
+        mealsQuantity--;
+        index--;
+        Meal[] newMeals = new Meal[100];
+        int j = 0;
+        for (int i = 0; i < 100; i++) {
+            if (i == index) {
+                continue;
             }
+            newMeals[j++] = meals[i];
         }
+        meals = newMeals;
+    }
+    
+     public void displayMeals() {
+       for(int i=0;i<mealsQuantity;i++)
+       {
+           
+           meals[i].displayInfo();;
+       }
     }
 }
