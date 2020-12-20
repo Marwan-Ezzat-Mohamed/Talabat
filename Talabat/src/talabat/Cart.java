@@ -8,9 +8,9 @@ public class Cart {
     public int mealsQuantity;  //number of orders currently in the cart.
 
     public void addMeal(Meal meal) {
-        meals[mealsQuantity++]=meal;
+        meals[mealsQuantity++] = meal;
     }
-    
+
     public void removeMeal(int index) {
         mealsQuantity--;
         index--;
@@ -24,12 +24,19 @@ public class Cart {
         }
         meals = newMeals;
     }
-    
-     public void displayMeals() {
-       for(int i=0;i<mealsQuantity;i++)
-       {
-           
-           meals[i].displayInfo();;
-       }
+
+    public void displayMeals() {
+        for (int i = 0; i < mealsQuantity; i++) {
+
+            meals[i].displayInfo();;
+        }
     }
+
+    public void emptyCart() {
+        for (int i = 0; i < maxMeals; i++) {
+            meals[i] = null;
+        }
+        mealsQuantity = 0;
+    }
+
 }

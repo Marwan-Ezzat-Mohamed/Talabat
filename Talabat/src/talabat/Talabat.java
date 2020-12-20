@@ -1,12 +1,12 @@
 package talabat;
 
 public class Talabat {
-    
-    public void testingMeals(){
+
+    public void testingMeals() {
         Customer ahmed = new Customer("341312", "34211fsdgsd");
-        Meal x= new Meal("burger", "gdfsgsdf", 100F);
-        Meal y= new Meal("fsdfsd", "fsdf", 12132134F);
-        
+        Meal x = new Meal("burger", "gdfsgsdf", 100F);
+        Meal y = new Meal("fsdfsd", "fsdf", 12132134F);
+
         ahmed.cart.addMeal(x);
         ahmed.cart.addMeal(y);
         ahmed.cart.displayMeals();
@@ -14,14 +14,27 @@ public class Talabat {
         ahmed.cart.removeMeal(2);
         ahmed.cart.displayMeals();
     }
-    
-         
-    
+
+    public void testingCart() {
+        Customer ahmed = new Customer("341312", "34211fsdgsd");
+        Meal x = new Meal("burger", "gdfsgsdf", 100F);
+        Meal y = new Meal("fsdfsd", "fsdf", 12132134F);
+
+        ahmed.cart.addMeal(x);
+        ahmed.cart.addMeal(y);
+        ahmed.cart.displayMeals();
+        System.out.println("..........................");
+        ahmed.orderCart();
+        System.out.println(ahmed.cart.mealsQuantity);
+
+        ahmed.viewOrders();
+
+    }
 
     public static void main(String[] args) {
-//       Talabat t = new Talabat();
-//       t.testingMeals();
-        
+//        Talabat t = new Talabat();
+//        t.testingCart();
+
     }
-    
+
 }

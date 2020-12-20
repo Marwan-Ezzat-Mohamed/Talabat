@@ -32,21 +32,19 @@ public class Owner {
     }
 
     //waiting for gui
-    
     public void editMeal(int i) {
-            //restaurant.meals[i].name /// = textbox text
-            //restaurant.meals[i].description /// = textbox text
-            //restaurant.meals[i].price /// = textbox text
+        //restaurant.meals[i].name /// = textbox text
+        //restaurant.meals[i].description /// = textbox text
+        //restaurant.meals[i].price /// = textbox text
     }
 
     //waiting for orders class
-     
-  public void viewOrders() {
+    public void viewOrders() {
 //        for (int i = 0; i < restaurant.mealCount; i++) {
 //
 //            restaurant.orders[i].displayInfo();
 //        }
-   }
+    }
 
     public void viewMeals() {
         for (int i = 0; i < restaurant.mealCount; i++) {
