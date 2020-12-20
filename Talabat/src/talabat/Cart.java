@@ -2,9 +2,9 @@ package talabat;
 
 public class Cart {
     private final int maxOrders = 100;    
-    Order [] orders = new Order[maxOrders];
-    private float totalPrice = 0;
-    private int ordersQuantity; //number of orders currently in the cart.
+    public Order [] orders = new Order[maxOrders];
+    public float totalPrice = 0;
+     int ordersQuantity;  //number of orders currently in the cart.
     
     public Cart() {
         ordersQuantity = 0; 
@@ -12,8 +12,8 @@ public class Cart {
     public void addOrder(Order order)
     {
         orders[ordersQuantity++] = order;
-        float Price = order.getorderedMeal().getmealPrice();
-        totalPrice += Price * order.getquantity();
+        float price = order.ordererdMeall.mealPrice;
+        totalPrice += price * order.getQuantity();
     }
     public void removeOrder(Order order)
     {
@@ -25,8 +25,8 @@ public class Cart {
                 {
                     orders[j-1] = orders[j]; 
                 } 
-                float Price = order.getorderedMeal().getmealPrice();
-                totalPrice -= Price * order.getquantity();
+                float Price = order.ordererdMeall.mealPrice;
+                totalPrice -= Price * order.getQuantity();
                 ordersQuantity--;
                 return;
             }

@@ -13,6 +13,7 @@ public class Customer {
 
     public int mobileNumber;
     public String address;
+    Cart cart = new Cart();
 
     public Customer(int mobileNumber, String address) {
         this.mobileNumber = mobileNumber;
@@ -20,8 +21,8 @@ public class Customer {
 
     }
 
-    public void orderMeal() {
-
+    public void orderMeal(Meal m,int quantity) {
+            
     }
 
     public void browseRestaurants() {

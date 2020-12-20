@@ -21,7 +21,6 @@ public class Owner {
         restaurant.mealCount--;
         index--;
         Meal[] newMeals = new Meal[100];
-
         int j = 0;
         for (int i = 0; i < 100; i++) {
             if (i == index) {
