@@ -1,8 +1,8 @@
 package talabat;
 
-public class Owner {
+public class Owner extends User {
 
-    public String username, password, restaurantName;
+    public String restaurantName;
     private Restaurant restaurant = new Restaurant();
 
     public Owner(String username, String password, String restaurantName) {

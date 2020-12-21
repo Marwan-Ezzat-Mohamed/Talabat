@@ -1,6 +1,6 @@
 package talabat;
 
-public class Customer {
+public class Customer extends User {
 
     public String mobileNumber;
     public String address;
@@ -8,10 +8,11 @@ public class Customer {
     public int ordersCount;
     Cart cart = new Cart();
 
-    public Customer(String mobileNumber, String address) {
-        this.mobileNumber = mobileNumber;
-        this.address = address;
-
+    public Customer(String username,String pass) {
+        this.accountType=0;
+        this.username=username;
+        this.password=pass;
+        
     }
 
     public void orderCart() {
