@@ -3,9 +3,9 @@ package talabat;
 public class Talabat {
 
     static LoginAndSignUpFrame loginFrame;
-    static Customer[] customers = new Customer[2];
+    static Customer[] customers = new Customer[3];
 
-    static Owner[] owners = new Owner[2];
+    static Owner[] owners = new Owner[3];
 
     public static void login() {
         int numberOfCustomers = Customer.numberOfCustomers;
@@ -13,7 +13,7 @@ public class Talabat {
 
         String inputUsername = loginFrame.usernameTextField.getText().toString();
         String inputPassword = loginFrame.passwordField.getText().toString();
- 
+
         boolean validLogin = false;
         for (int i = 0; i < numberOfCustomers; i++) {
             if (customers[i].username.equals(inputUsername) && customers[i].password.equals(inputPassword)) {
@@ -45,10 +45,12 @@ public class Talabat {
         loginFrame = new LoginAndSignUpFrame();
         loginFrame.show();
 
-        customers[0] = new Customer("marwan", "123");
-        customers[1] = new Customer("joe", "123");
+        customers[0] = new Customer("noran", "123");
+        customers[1] = new Customer("nour", "123");
+        customers[2] = new Customer("habiba", "143243242jhgrfherfs45y53462345223");
         owners[0] = new Owner("marwan", "12345", "mac");
-        owners[1] = new Owner("jow", "12345", "mac2");
+        owners[1] = new Owner("joe", "12345", "mac2");
+        owners[2] = new Owner("mina", "12345", "mac3");
 
         loginFrame.loginButton.addActionListener((e) -> login());
 
