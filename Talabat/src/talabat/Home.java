@@ -51,7 +51,6 @@ public class Home extends javax.swing.JFrame {
         retaurants2 = new javax.swing.JLabel();
         retaurants3 = new javax.swing.JLabel();
         retaurants4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home");
@@ -65,7 +64,7 @@ public class Home extends javax.swing.JFrame {
 
         Talabat_logo.setForeground(new java.awt.Color(51, 255, 51));
         Talabat_logo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        Talabat_logo.setIcon(new javax.swing.ImageIcon("C:\\Users\\minab\\Desktop\\1x\\Asset 3.png")); // NOI18N
+        Talabat_logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (4).png"))); // NOI18N
 
         label1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         label1.setForeground(new java.awt.Color(255, 255, 255));
@@ -74,9 +73,9 @@ public class Home extends javax.swing.JFrame {
         Search.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Search.setToolTipText("");
 
-        side_plate1.setIcon(new javax.swing.ImageIcon("C:\\Users\\minab\\Desktop\\1x\\Asset 4.png")); // NOI18N
+        side_plate1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (5).png"))); // NOI18N
 
-        side_plate2.setIcon(new javax.swing.ImageIcon("C:\\Users\\minab\\Desktop\\1x\\Asset 5.png")); // NOI18N
+        side_plate2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (6).png"))); // NOI18N
 
         about.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         about.setForeground(new java.awt.Color(255, 255, 255));
@@ -86,7 +85,7 @@ public class Home extends javax.swing.JFrame {
         my_orders.setForeground(new java.awt.Color(255, 255, 255));
         my_orders.setText("MY ORDERS");
 
-        Search_button.setIcon(new javax.swing.ImageIcon("C:\\Users\\minab\\Desktop\\1x\\Asset 7.png")); // NOI18N
+        Search_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (1).png"))); // NOI18N
         Search_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         all_restaurants.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -250,8 +249,6 @@ public class Home extends javax.swing.JFrame {
                 .addGap(0, 4, Short.MAX_VALUE))
         );
 
-        jLabel1.setText("jLabel1");
-
         javax.swing.GroupLayout dwn_panelLayout = new javax.swing.GroupLayout(dwn_panel);
         dwn_panel.setLayout(dwn_panelLayout);
         dwn_panelLayout.setHorizontalGroup(
@@ -264,20 +261,13 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, dwn_panelLayout.createSequentialGroup()
                         .addGap(191, 191, 191)
                         .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(67, 67, 67)
-                .addComponent(jLabel1)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
         dwn_panelLayout.setVerticalGroup(
             dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dwn_panelLayout.createSequentialGroup()
-                .addGroup(dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(dwn_panelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(dwn_panelLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel1)))
+                .addGap(10, 10, 10)
+                .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(restau_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(112, Short.MAX_VALUE))
@@ -349,7 +339,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel all_restaurants;
     private javax.swing.JLabel basket;
     private javax.swing.JPanel dwn_panel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel meal1pic;
     private javax.swing.JLabel meal2pic;
