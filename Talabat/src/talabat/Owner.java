@@ -2,6 +2,7 @@ package talabat;
 
 public class Owner extends User {
 
+    public static int numberOfOwners;
     public String restaurantName;
     private Restaurant restaurant = new Restaurant();
 
@@ -11,6 +12,8 @@ public class Owner extends User {
         this.password = password;
         this.restaurantName = restaurantName;
         restaurant.name = this.restaurantName;
+        this.accountType = 1;
+        numberOfOwners++;
     }
 
     public void addMeal(Meal m) {

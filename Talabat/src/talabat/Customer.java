@@ -2,6 +2,9 @@ package talabat;
 
 public class Customer extends User {
 
+    public static int  numberOfCustomers;
+        
+    
     public String mobileNumber;
     public String address;
     Order[] orders = new Order[100];
@@ -12,6 +15,7 @@ public class Customer extends User {
         this.accountType=0;
         this.username=username;
         this.password=pass;
+        numberOfCustomers++;
         
     }
 

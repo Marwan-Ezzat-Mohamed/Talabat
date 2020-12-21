@@ -35,6 +35,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         talabatLogo = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         showPasswordCheckBox = new javax.swing.JCheckBox();
+        invalidLoginLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,6 +94,8 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
             }
         });
 
+        invalidLoginLabel.setForeground(new java.awt.Color(51, 51, 255));
+
         javax.swing.GroupLayout LoginPanelLayout = new javax.swing.GroupLayout(LoginPanel);
         LoginPanel.setLayout(LoginPanelLayout);
         LoginPanelLayout.setHorizontalGroup(
@@ -102,16 +105,16 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
                 .addComponent(talabatLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(LoginPanelLayout.createSequentialGroup()
-                .addGap(359, 359, 359)
+                .addGap(363, 363, 363)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(387, Short.MAX_VALUE))
+                .addContainerGap(383, Short.MAX_VALUE))
             .addGroup(LoginPanelLayout.createSequentialGroup()
                 .addGap(293, 293, 293)
-                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(usernameTextField)
-                        .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
-                    .addComponent(showPasswordCheckBox))
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(showPasswordCheckBox)
+                    .addComponent(usernameTextField)
+                    .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                    .addComponent(invalidLoginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LoginPanelLayout.setVerticalGroup(
@@ -123,11 +126,13 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
                 .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(invalidLoginLabel)
                 .addGap(18, 18, 18)
                 .addComponent(showPasswordCheckBox)
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -214,10 +219,11 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LoginPanel;
-    private javax.swing.JButton loginButton;
-    private javax.swing.JPasswordField passwordField;
+    public javax.swing.JLabel invalidLoginLabel;
+    public javax.swing.JButton loginButton;
+    public javax.swing.JPasswordField passwordField;
     private javax.swing.JCheckBox showPasswordCheckBox;
     private javax.swing.JLabel talabatLogo;
-    private javax.swing.JTextField usernameTextField;
+    public javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 }
