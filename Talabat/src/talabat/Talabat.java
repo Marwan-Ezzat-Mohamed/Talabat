@@ -34,6 +34,8 @@ public class Talabat {
     public static void main(String[] args) {
 //        Talabat t = new Talabat();
 //        t.testingCart();
+        LoginAndSignUpFrame loginFrame = new LoginAndSignUpFrame();
+        loginFrame.show();
 
     }
 
