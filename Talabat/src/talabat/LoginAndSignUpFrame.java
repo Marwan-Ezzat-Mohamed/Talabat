@@ -40,6 +40,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         LoginPanel.setBackground(new java.awt.Color(255, 102, 0));
 
