@@ -11,7 +11,7 @@ public class Talabat {
         int numberOfCustomers = Customer.numberOfCustomers;
         int numberOfOwners = Owner.numberOfOwners;
 
-        //System.out.println(customers[3].username);
+        ////System.out.println(customers[3].username);
 
         String inputUsername = loginFrame.usernameTextField.getText().toString();
         String inputPassword = loginFrame.passwordField.getText().toString();
