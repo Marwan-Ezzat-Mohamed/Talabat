@@ -60,6 +60,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1170, 860));
         setResizable(false);
 
         LoginAndSignUpPanel.setBackground(new java.awt.Color(255, 51, 51));
@@ -69,11 +70,11 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
 
         usernameLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        usernameLabel.setText("username");
+        usernameLabel.setText("Username");
 
         passwordLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         passwordLabel.setForeground(new java.awt.Color(255, 255, 255));
-        passwordLabel.setText("password");
+        passwordLabel.setText("Password");
 
         invalidLoginLabel.setForeground(new java.awt.Color(51, 51, 255));
 
@@ -86,9 +87,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
             }
         });
 
-        passwordField.setBackground(new java.awt.Color(255, 255, 255));
         passwordField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        passwordField.setForeground(new java.awt.Color(0, 0, 0));
         passwordField.setBorder(null);
         passwordField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -103,7 +102,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
 
         talabatLogo.setFont(new java.awt.Font("DialogInput", 1, 54)); // NOI18N
         talabatLogo.setForeground(new java.awt.Color(255, 255, 255));
-        talabatLogo.setText("talabat");
+        talabatLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (4).png"))); // NOI18N
 
         loginButton.setBackground(new java.awt.Color(255, 198, 44));
         loginButton.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -113,9 +112,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         loginButton.setBorderPainted(false);
         loginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        usernameTextField.setBackground(new java.awt.Color(255, 255, 255));
         usernameTextField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        usernameTextField.setForeground(new java.awt.Color(0, 0, 0));
         usernameTextField.setBorder(null);
         usernameTextField.setCaretColor(new java.awt.Color(255, 153, 0));
         usernameTextField.setDisabledTextColor(new java.awt.Color(102, 102, 255));
@@ -154,63 +151,64 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(talabatLogo)
-                .addGap(313, 313, 313))
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addGap(260, 260, 260)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(usernameLabel)
                     .addGroup(loginPanelLayout.createSequentialGroup()
-                        .addComponent(passwordLabel)
-                        .addGap(22, 22, 22)
+                        .addGap(532, 532, 532)
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(478, 478, 478)
                         .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(loginPanelLayout.createSequentialGroup()
+                                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(invalidLoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(usernameLabel)
+                            .addComponent(passwordLabel)
+                            .addComponent(showPasswordCheckBox)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(invalidLoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(showPasswordCheckBox)
-                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(loginPanelLayout.createSequentialGroup()
-                            .addComponent(dontHaveAccountLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(signUpLinkButton))
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(301, Short.MAX_VALUE))
+                            .addComponent(talabatLogo)))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(472, 472, 472)
+                        .addComponent(dontHaveAccountLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(signUpLinkButton)))
+                .addContainerGap(299, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(197, 197, 197)
                 .addComponent(talabatLogo)
-                .addGap(33, 33, 33)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(invalidLoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(107, 107, 107)
+                .addComponent(usernameLabel)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(invalidLoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(showPasswordCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(51, 51, 51)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dontHaveAccountLabel)
                     .addComponent(signUpLinkButton))
-                .addContainerGap(225, Short.MAX_VALUE))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
 
         LoginAndSignUpPanel.add(loginPanel, "card2");
 
         signUpForCustomerPanel.setBackground(new java.awt.Color(255, 102, 0));
 
-        signUpUsernameTextField.setBackground(new java.awt.Color(255, 255, 255));
         signUpUsernameTextField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        signUpUsernameTextField.setForeground(new java.awt.Color(0, 0, 0));
         signUpUsernameTextField.setBorder(null);
         signUpUsernameTextField.setCaretColor(new java.awt.Color(255, 153, 0));
         signUpUsernameTextField.setDisabledTextColor(new java.awt.Color(102, 102, 255));
@@ -237,9 +235,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         talabatLogoForSignUp.setForeground(new java.awt.Color(255, 255, 255));
         talabatLogoForSignUp.setText("talabat");
 
-        passwordFieldForSignUp.setBackground(new java.awt.Color(255, 255, 255));
         passwordFieldForSignUp.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        passwordFieldForSignUp.setForeground(new java.awt.Color(0, 0, 0));
         passwordFieldForSignUp.setBorder(null);
         passwordFieldForSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -275,9 +271,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         confirmPasswordLabelForSignUp.setForeground(new java.awt.Color(255, 255, 255));
         confirmPasswordLabelForSignUp.setText("confirm password");
 
-        confirmPasswordFieldForSignUp.setBackground(new java.awt.Color(255, 255, 255));
         confirmPasswordFieldForSignUp.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        confirmPasswordFieldForSignUp.setForeground(new java.awt.Color(0, 0, 0));
         confirmPasswordFieldForSignUp.setBorder(null);
         confirmPasswordFieldForSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -294,9 +288,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         mobileLabelForSignUp.setForeground(new java.awt.Color(255, 255, 255));
         mobileLabelForSignUp.setText("mobile number");
 
-        mobileTextFieldForSignUp.setBackground(new java.awt.Color(255, 255, 255));
         mobileTextFieldForSignUp.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        mobileTextFieldForSignUp.setForeground(new java.awt.Color(0, 0, 0));
         mobileTextFieldForSignUp.setBorder(null);
         mobileTextFieldForSignUp.setCaretColor(new java.awt.Color(255, 153, 0));
         mobileTextFieldForSignUp.setDisabledTextColor(new java.awt.Color(102, 102, 255));
@@ -316,9 +308,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         addressLabelForSignUp.setForeground(new java.awt.Color(255, 255, 255));
         addressLabelForSignUp.setText("address");
 
-        addressTextFieldForSignUp.setBackground(new java.awt.Color(255, 255, 255));
         addressTextFieldForSignUp.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        addressTextFieldForSignUp.setForeground(new java.awt.Color(0, 0, 0));
         addressTextFieldForSignUp.setBorder(null);
         addressTextFieldForSignUp.setCaretColor(new java.awt.Color(255, 153, 0));
         addressTextFieldForSignUp.setDisabledTextColor(new java.awt.Color(102, 102, 255));
@@ -366,7 +356,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         signUpForCustomerPanelLayout.setHorizontalGroup(
             signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
-                .addGap(0, 222, Short.MAX_VALUE)
+                .addGap(0, 532, Short.MAX_VALUE)
                 .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, signUpForCustomerPanelLayout.createSequentialGroup()
                         .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
