@@ -2,21 +2,20 @@ package talabat;
 
 public class Customer extends User {
 
-    public static int  numberOfCustomers;
-        
-    
+    public static int numberOfCustomers;
+
     public String mobileNumber;
     public String address;
     Order[] orders = new Order[100];
     public int ordersCount;
     Cart cart = new Cart();
 
-    public Customer(String username,String pass) {
-        this.accountType=0;
-        this.username=username;
-        this.password=pass;
+    public Customer(String mobileNumber, String address, String user, String pass) {
+        this.mobileNumber = mobileNumber;
+        this.address = address;
+        this.username = user;
+        this.password = pass;
         numberOfCustomers++;
-        
     }
 
     public void orderCart() {

@@ -11,7 +11,7 @@ package talabat;
  */
 public class Testing {
     public void testingMeals() {
-        Customer ahmed = new Customer("341312", "34211fsdgsd");
+        Customer ahmed = new Customer("1", "s1","noran","123");
         Meal x = new Meal("burger", "gdfsgsdf", 100F);
         Meal y = new Meal("fsdfsd", "fsdf", 12132134F);
 
@@ -24,7 +24,7 @@ public class Testing {
     }
 
     public void testingCart() {
-        Customer ahmed = new Customer("341312", "34211fsdgsd");
+        Customer ahmed = new Customer("1", "s1","noran","123");
         Meal x = new Meal("burger", "gdfsgsdf", 100F);
         Meal y = new Meal("fsdfsd", "fsdf", 12132134F);
 

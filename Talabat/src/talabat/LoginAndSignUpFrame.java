@@ -366,10 +366,6 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
         signUpForCustomerPanelLayout.setHorizontalGroup(
             signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
-                .addGap(299, 299, 299)
-                .addComponent(talabatLogoForSignUp)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, signUpForCustomerPanelLayout.createSequentialGroup()
                 .addGap(0, 222, Short.MAX_VALUE)
                 .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, signUpForCustomerPanelLayout.createSequentialGroup()
@@ -406,6 +402,10 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addComponent(SignUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(255, 255, 255))
+            .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
+                .addGap(313, 313, 313)
+                .addComponent(talabatLogoForSignUp)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         signUpForCustomerPanelLayout.setVerticalGroup(
             signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,7 +434,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
                     .addComponent(addressTextFieldForSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addressLabelForSignUp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(invalidLoginLabelForSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(showPasswordCheckBoxForSignUp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
