@@ -51,6 +51,7 @@ public class Home extends javax.swing.JFrame {
         retaurants2 = new javax.swing.JLabel();
         retaurants3 = new javax.swing.JLabel();
         retaurants4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home");
@@ -249,6 +250,8 @@ public class Home extends javax.swing.JFrame {
                 .addGap(0, 4, Short.MAX_VALUE))
         );
 
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout dwn_panelLayout = new javax.swing.GroupLayout(dwn_panel);
         dwn_panel.setLayout(dwn_panelLayout);
         dwn_panelLayout.setHorizontalGroup(
@@ -261,13 +264,20 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, dwn_panelLayout.createSequentialGroup()
                         .addGap(191, 191, 191)
                         .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addGap(67, 67, 67)
+                .addComponent(jLabel1)
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         dwn_panelLayout.setVerticalGroup(
             dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dwn_panelLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dwn_panelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dwn_panelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel1)))
                 .addGap(18, 18, 18)
                 .addComponent(restau_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(112, Short.MAX_VALUE))
@@ -339,6 +349,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel all_restaurants;
     private javax.swing.JLabel basket;
     private javax.swing.JPanel dwn_panel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel meal1pic;
     private javax.swing.JLabel meal2pic;
