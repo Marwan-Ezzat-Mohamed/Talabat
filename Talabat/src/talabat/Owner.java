@@ -4,7 +4,7 @@ public class Owner extends User {
 
     public static int numberOfOwners;
     public String restaurantName;
-    private Restaurant restaurant = new Restaurant();
+    public Restaurant restaurant = new Restaurant();
 
     public Owner(String username, String password, String restaurantName) {
 

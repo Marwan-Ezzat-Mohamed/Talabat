@@ -248,12 +248,12 @@ public class Meal_jframe extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     protected int value=1;
-    Meal m=new Meal("haga", "wsf", 50f);
+    
     private void plusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_plusMouseClicked
         // TODO add your handling code here:
         if(value<100) value++;
         quantityValue.setText(String.valueOf(value));
-        float totalPrice=m.getPrice()*value;
+        float totalPrice=Talabat.owners[1].restaurant.meals[0].mealPrice*value;
         orderPrice.setText(String.valueOf(totalPrice));
     }//GEN-LAST:event_plusMouseClicked
 
@@ -261,7 +261,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(value>1) value--;
         quantityValue.setText(String.valueOf(value));
-        float totalPrice=m.getPrice()*value;
+        float totalPrice=Talabat.owners[1].restaurant.meals[0].mealPrice*value;
         orderPrice.setText(String.valueOf(totalPrice));
     }//GEN-LAST:event_minusMouseClicked
 
