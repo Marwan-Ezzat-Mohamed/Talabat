@@ -1770,6 +1770,7 @@ public class LoginAndSignUpFrame extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         if (Talabat.login()) {
+            System.out.println("gertg");
             LoginAndSignUpPanel.removeAll();
             LoginAndSignUpPanel.repaint();
             LoginAndSignUpPanel.revalidate();

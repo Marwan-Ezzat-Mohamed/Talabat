@@ -13,13 +13,14 @@ public class Talabat {
         int numberOfCustomers = Customer.numberOfCustomers;
         int numberOfOwners = Owner.numberOfOwners;
 
-        ////System.out.println(customers[3].username);
         String inputUsername = loginFrame.usernameTextField.getText().toString();
         String inputPassword = loginFrame.passwordField.getText().toString();
-
+ 
+        
         for (int i = 0; i < numberOfCustomers; i++) {
             if (customers[i].username.equals(inputUsername) && customers[i].password.equals(inputPassword)) {
                 System.out.println("Login successful");
+                loginFrame.invalidLoginLabel.setText("");
                 //do some thing;
                 return true;
 
@@ -27,12 +28,19 @@ public class Talabat {
         }
 
         for (int i = 0; i < numberOfOwners; i++) {
+            if (owners[i].username.equals(inputUsername) && owners[i].password.equals(inputPassword)) {
+                System.out.println("Login successful");
+                loginFrame.invalidLoginLabel.setText("");
+                //do some thing;
+                return true;
+
+            }
             //System.out.println("Login successful");
             //do some thing;
-            return true;
-        }
-        return false;
 
+        }
+        loginFrame.invalidLoginLabel.setText("Invalid username or password");
+        return false;
     }
 
     public static void signUpForCustomer() {
@@ -62,7 +70,7 @@ public class Talabat {
     }
 
     public static void main(String[] args) {
-        
+
         Connection myConn = null;
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -85,19 +93,21 @@ public class Talabat {
             System.out.println("error 404");
         }
         System.out.println(customers[0].username);
-        
-        
-        
+        System.out.println(customers[0].password);
+
         //Testing t = new Testing();
         // t.testingCart();
-        //loginFrame = new LoginAndSignUpFrame();
-        //loginFrame.show();
+        Meal y = new Meal("fsdfsd", "fsdf", 14F);
+        owners[0] = new Owner("joe", "123", "mac");
+        owners[0].addMeal(y);
+
+        loginFrame = new LoginAndSignUpFrame();
+        loginFrame.show();
         //Home min = new Home();
         //min.show();
 
         //Meal_jframe m = new Meal_jframe();
         //m.show();
-         
         //loginFrame.loginButton.addActionListener((e) -> login());
         //loginFrame.SignUpButton.addActionListener((e) -> signUpForCustomer());
     }
