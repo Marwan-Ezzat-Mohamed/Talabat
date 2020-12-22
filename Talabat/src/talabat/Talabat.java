@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class Talabat {
 
-    static LoginAndSignUpFrame loginFrame;
+    static MainFrame loginFrame;
     static Customer[] customers = new Customer[100];
     static Owner[] owners = new Owner[100];
 
@@ -101,7 +101,7 @@ public class Talabat {
         owners[0] = new Owner("joe", "123", "mac");
         owners[0].addMeal(y);
 
-        loginFrame = new LoginAndSignUpFrame();
+        loginFrame = new MainFrame();
         loginFrame.show();
         //Home min = new Home();
         //min.show();
