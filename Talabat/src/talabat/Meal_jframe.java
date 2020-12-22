@@ -5,7 +5,6 @@
  */
 
 package talabat;
-
 /**
  *
  * @author Joemo
@@ -28,22 +27,23 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        quantity = new javax.swing.JLabel();
+        size = new javax.swing.JLabel();
+        orderPrice = new javax.swing.JLabel();
+        note = new javax.swing.JLabel();
+        total = new javax.swing.JLabel();
+        quantityValue = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
+        noteTextarea = new javax.swing.JTextArea();
+        sizeCheckbox = new javax.swing.JComboBox<>();
+        plus = new javax.swing.JLabel();
+        minus = new javax.swing.JLabel();
+        addtoBasket = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        mealName = new javax.swing.JLabel();
+        mealDescription = new javax.swing.JLabel();
+        mealImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -59,44 +59,57 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel4.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel4.setText("Quantity");
+        quantity.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        quantity.setText("Quantity");
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel5.setText("Size");
+        size.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        size.setText("Size");
 
-        jLabel9.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel9.setText("50 EGP");
+        orderPrice.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        orderPrice.setText("50");
 
-        jLabel6.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel6.setText("Add a note");
+        note.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        note.setText("Add a note");
 
-        jLabel7.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel7.setText("Total");
+        total.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        total.setText("Total");
 
-        jLabel12.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("1");
+        quantityValue.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        quantityValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        quantityValue.setText("1");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(153, 153, 153));
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(4);
-        jTextArea1.setText("Optional");
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        noteTextarea.setColumns(20);
+        noteTextarea.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        noteTextarea.setForeground(new java.awt.Color(153, 153, 153));
+        noteTextarea.setLineWrap(true);
+        noteTextarea.setRows(4);
+        noteTextarea.setText("Optional");
+        noteTextarea.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(noteTextarea);
 
-        jComboBox1.setBackground(new java.awt.Color(255, 208, 184));
-        jComboBox1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium ", "Large" }));
-        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        sizeCheckbox.setBackground(new java.awt.Color(255, 208, 184));
+        sizeCheckbox.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        sizeCheckbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium ", "Large" }));
+        sizeCheckbox.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/plus.png"))); // NOI18N
+        plus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/plus.png"))); // NOI18N
+        plus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                plusMouseClicked(evt);
+            }
+        });
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/minus.png"))); // NOI18N
+        minus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/minus.png"))); // NOI18N
+        minus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minusMouseClicked(evt);
+            }
+        });
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addtobasket.png"))); // NOI18N
+        addtoBasket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addtobasket.png"))); // NOI18N
+
+        jLabel10.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jLabel10.setText("EGP");
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -106,30 +119,33 @@ public class Meal_jframe extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jPanel3Layout.createSequentialGroup()
-                        .add(jLabel7)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 46, Short.MAX_VALUE)
-                        .add(jLabel9)
-                        .add(68, 68, 68)
-                        .add(jLabel11))
+                        .add(total)
+                        .add(86, 86, 86)
+                        .add(orderPrice)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jLabel10)
+                        .add(29, 29, 29)
+                        .add(addtoBasket)
+                        .add(0, 63, Short.MAX_VALUE))
                     .add(jPanel3Layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jPanel3Layout.createSequentialGroup()
-                                .add(jLabel10)
+                                .add(minus)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jLabel12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(quantityValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jLabel8))
-                            .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                                .add(plus))
+                            .add(sizeCheckbox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                 .add(67, 67, 67))
             .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
                     .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(jLabel5)
-                        .add(jLabel6)
+                        .add(size)
+                        .add(note)
                         .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 374, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(jLabel4))
+                        .add(quantity))
                     .addContainerGap(119, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
@@ -137,26 +153,27 @@ public class Meal_jframe extends javax.swing.JFrame {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(jLabel12)
-                    .add(jLabel10)
-                    .add(jLabel8))
+                    .add(quantityValue)
+                    .add(minus)
+                    .add(plus))
                 .add(37, 37, 37)
-                .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(sizeCheckbox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 152, Short.MAX_VALUE)
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                        .add(jLabel9)
-                        .add(jLabel7))
-                    .add(jLabel11))
-                .add(45, 45, 45))
+                        .add(orderPrice)
+                        .add(total)
+                        .add(jLabel10))
+                    .add(addtoBasket))
+                .add(69, 69, 69))
             .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
-                    .add(jLabel4)
+                    .add(quantity)
                     .add(29, 29, 29)
-                    .add(jLabel5)
+                    .add(size)
                     .add(18, 18, 18)
-                    .add(jLabel6)
+                    .add(note)
                     .add(18, 18, 18)
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(106, Short.MAX_VALUE)))
@@ -164,16 +181,16 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 102, 0));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Meal name");
+        mealName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        mealName.setForeground(new java.awt.Color(255, 255, 255));
+        mealName.setText("Meal name");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Description");
+        mealDescription.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        mealDescription.setForeground(new java.awt.Color(255, 255, 255));
+        mealDescription.setText("Description");
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        mealImage.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        mealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -182,19 +199,19 @@ public class Meal_jframe extends javax.swing.JFrame {
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel1)
-                    .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 151, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(mealName)
+                    .add(mealDescription, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 151, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jLabel3))
+                .add(mealImage))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+            .add(mealImage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1)
+                .add(mealName)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 26, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(mealDescription, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 26, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -204,7 +221,7 @@ public class Meal_jframe extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(43, 43, 43))
         );
@@ -230,6 +247,23 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    protected int value=1;
+    Meal m=new Meal("haga", "wsf", 50f);
+    private void plusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_plusMouseClicked
+        // TODO add your handling code here:
+        if(value<100) value++;
+        quantityValue.setText(String.valueOf(value));
+        float totalPrice=m.getPrice()*value;
+        orderPrice.setText(String.valueOf(totalPrice));
+    }//GEN-LAST:event_plusMouseClicked
+
+    private void minusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minusMouseClicked
+        // TODO add your handling code here:
+        if(value>1) value--;
+        quantityValue.setText(String.valueOf(value));
+        float totalPrice=m.getPrice()*value;
+        orderPrice.setText(String.valueOf(totalPrice));
+    }//GEN-LAST:event_minusMouseClicked
 
     /**
      * @param args the command line arguments
@@ -267,24 +301,25 @@ public class Meal_jframe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel addtoBasket;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel mealDescription;
+    private javax.swing.JLabel mealImage;
+    private javax.swing.JLabel mealName;
+    private javax.swing.JLabel minus;
+    private javax.swing.JLabel note;
+    private javax.swing.JTextArea noteTextarea;
+    private javax.swing.JLabel orderPrice;
+    private javax.swing.JLabel plus;
+    private javax.swing.JLabel quantity;
+    private javax.swing.JLabel quantityValue;
+    private javax.swing.JLabel size;
+    private javax.swing.JComboBox<String> sizeCheckbox;
+    private javax.swing.JLabel total;
     // End of variables declaration//GEN-END:variables
 
 }
