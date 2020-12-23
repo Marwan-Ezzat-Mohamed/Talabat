@@ -6,6 +6,7 @@
 package talabat;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -167,7 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         MyOrder = new javax.swing.JPanel();
         jPanel32 = new javax.swing.JPanel();
-        jLabel83 = new javax.swing.JLabel();
+        homeLogo = new javax.swing.JLabel();
         jLabel84 = new javax.swing.JLabel();
         jLabel85 = new javax.swing.JLabel();
         jLabel86 = new javax.swing.JLabel();
@@ -175,8 +176,8 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
-        jLabel88 = new javax.swing.JLabel();
-        retaurants6 = new javax.swing.JLabel();
+        username = new javax.swing.JLabel();
+        userPhoto = new javax.swing.JLabel();
         meals_pan8 = new javax.swing.JPanel();
         jPanel35 = new javax.swing.JPanel();
         meal1pic19 = new javax.swing.JLabel();
@@ -218,9 +219,12 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Talabat App");
         setResizable(false);
 
         LoginAndSignUpPanel.setBackground(new java.awt.Color(255, 51, 51));
+        LoginAndSignUpPanel.setToolTipText("");
+        LoginAndSignUpPanel.setName(""); // NOI18N
         LoginAndSignUpPanel.setLayout(new java.awt.CardLayout());
 
         loginPanel.setBackground(new java.awt.Color(255, 102, 0));
@@ -254,6 +258,11 @@ public class MainFrame extends javax.swing.JFrame {
         passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordFieldActionPerformed(evt);
+            }
+        });
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
             }
         });
 
@@ -638,6 +647,11 @@ public class MainFrame extends javax.swing.JFrame {
         my_orders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/ordrclr.png"))); // NOI18N
         my_orders.setText("MY ORDERS");
         my_orders.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        my_orders.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                my_ordersMouseClicked(evt);
+            }
+        });
 
         Search_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (1).png"))); // NOI18N
         Search_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1681,12 +1695,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel32.setBackground(new java.awt.Color(255, 90, 0));
 
-        jLabel83.setBackground(new java.awt.Color(255, 226, 192));
-        jLabel83.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
-        jLabel83.setForeground(new java.awt.Color(255, 102, 51));
-        jLabel83.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel83.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (4).png"))); // NOI18N
-        jLabel83.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        homeLogo.setBackground(new java.awt.Color(255, 226, 192));
+        homeLogo.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
+        homeLogo.setForeground(new java.awt.Color(255, 102, 51));
+        homeLogo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        homeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (4).png"))); // NOI18N
+        homeLogo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        homeLogo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                homeLogoMousePressed(evt);
+            }
+        });
 
         jLabel84.setBackground(new java.awt.Color(255, 201, 147));
         jLabel84.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
@@ -1719,7 +1738,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel32Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel83)
+                .addComponent(homeLogo)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel84)
                 .addGap(34, 34, 34)
@@ -1736,7 +1755,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel32Layout.createSequentialGroup()
-                        .addComponent(jLabel83, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(homeLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2750, 2750, 2750))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel32Layout.createSequentialGroup()
                         .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -1757,12 +1776,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel34.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel88.setFont(new java.awt.Font("Verdana", 1, 48)); // NOI18N
-        jLabel88.setForeground(new java.awt.Color(230, 81, 0));
-        jLabel88.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel88.setText("Username");
+        username.setFont(new java.awt.Font("Verdana", 1, 48)); // NOI18N
+        username.setForeground(new java.awt.Color(230, 81, 0));
+        username.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        username.setText("Username");
 
-        retaurants6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/user5x.png"))); // NOI18N
+        userPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/user5x.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
         jPanel34.setLayout(jPanel34Layout);
@@ -1770,9 +1789,9 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(retaurants6)
+                .addComponent(userPhoto)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel88, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel34Layout.setVerticalGroup(
@@ -1781,10 +1800,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel34Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(retaurants6))
+                        .addComponent(userPhoto))
                     .addGroup(jPanel34Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jLabel88)))
+                        .addComponent(username)))
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
@@ -2352,6 +2371,45 @@ public class MainFrame extends javax.swing.JFrame {
         meal.show();
     }//GEN-LAST:event_meal1pic11MouseClicked
 
+    private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
+        // TODO add your handling code here:
+        LoginAndSignUpPanel.removeAll();
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+
+        // add sign up panel
+        LoginAndSignUpPanel.add(MyOrder);
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+    }//GEN-LAST:event_my_ordersMouseClicked
+
+    private void homeLogoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogoMousePressed
+        // TODO add your handling code here:
+        LoginAndSignUpPanel.removeAll();
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+
+        // add sign up panel
+        LoginAndSignUpPanel.add(homePanel);
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+    }//GEN-LAST:event_homeLogoMousePressed
+
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
+            if (Talabat.login()) {
+            LoginAndSignUpPanel.removeAll();
+            LoginAndSignUpPanel.repaint();
+            LoginAndSignUpPanel.revalidate();
+
+            LoginAndSignUpPanel.add(homePanel);
+            LoginAndSignUpPanel.repaint();
+            LoginAndSignUpPanel.revalidate();
+        }
+    }
+    }//GEN-LAST:event_passwordFieldKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -2411,6 +2469,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel confirmPasswordLabelForSignUp;
     public javax.swing.JLabel dontHaveAccountLabel;
     public javax.swing.JPanel dwn_panel;
+    public javax.swing.JLabel homeLogo;
     public javax.swing.JPanel homePanel;
     public javax.swing.JLabel invalidLoginLabel;
     public javax.swing.JLabel invalidLoginLabelForSignUp;
@@ -2487,12 +2546,10 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel80;
     public javax.swing.JLabel jLabel81;
     public javax.swing.JLabel jLabel82;
-    public javax.swing.JLabel jLabel83;
     public javax.swing.JLabel jLabel84;
     public javax.swing.JLabel jLabel85;
     public javax.swing.JLabel jLabel86;
     public javax.swing.JLabel jLabel87;
-    public javax.swing.JLabel jLabel88;
     public javax.swing.JLabel jLabel89;
     public javax.swing.JLabel jLabel9;
     public javax.swing.JPanel jPanel1;
@@ -2565,7 +2622,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel retaurants3;
     public javax.swing.JLabel retaurants4;
     public javax.swing.JLabel retaurants5;
-    public javax.swing.JLabel retaurants6;
     public javax.swing.JCheckBox showPasswordCheckBox;
     public javax.swing.JCheckBox showPasswordCheckBoxForSignUp;
     public javax.swing.JLabel side_plate1;
@@ -2575,6 +2631,8 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JTextField signUpUsernameTextField;
     public javax.swing.JLabel talabatLogo;
     public javax.swing.JLabel talabatLogoForSignUp;
+    public javax.swing.JLabel userPhoto;
+    public javax.swing.JLabel username;
     public javax.swing.JLabel usernameLabel;
     public javax.swing.JLabel usernameLabelForSignUp;
     public javax.swing.JTextField usernameTextField;

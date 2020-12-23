@@ -21,6 +21,7 @@ public class Talabat {
             if (customers[i].username.equals(inputUsername) && customers[i].password.equals(inputPassword)) {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
+                loginFrame.username.setText(customers[i].username);
                 //do some thing;
                 return true;
 
