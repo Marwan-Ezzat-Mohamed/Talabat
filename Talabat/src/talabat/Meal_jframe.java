@@ -89,6 +89,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         sizeCheckbox.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         sizeCheckbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium ", "Large" }));
         sizeCheckbox.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        sizeCheckbox.setOpaque(false);
         sizeCheckbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sizeCheckboxActionPerformed(evt);
@@ -121,7 +122,6 @@ public class Meal_jframe extends javax.swing.JFrame {
                     .add(jPanel3Layout.createSequentialGroup()
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(size)
-                            .add(note)
                             .add(quantity))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -135,13 +135,16 @@ public class Meal_jframe extends javax.swing.JFrame {
                         .add(51, 51, 51))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel3Layout.createSequentialGroup()
+                                .add(note)
+                                .add(297, 297, 297))
+                            .add(jScrollPane1)
                             .add(jPanel3Layout.createSequentialGroup()
                                 .add(total)
                                 .add(45, 45, 45)
                                 .add(orderPrice, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 109, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 28, Short.MAX_VALUE)
-                                .add(addtoBasket))
-                            .add(jScrollPane1))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(addtoBasket)))
                         .add(54, 54, 54))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -158,12 +161,12 @@ public class Meal_jframe extends javax.swing.JFrame {
                         .add(29, 29, 29)
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(size)
-                            .add(sizeCheckbox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(18, 18, 18)
-                        .add(note)))
+                            .add(sizeCheckbox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 28, Short.MAX_VALUE)
+                .add(note)
                 .add(18, 18, 18)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(total)
                     .add(orderPrice)

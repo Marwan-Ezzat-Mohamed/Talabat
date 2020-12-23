@@ -287,7 +287,6 @@ public class MainFrame extends javax.swing.JFrame {
         usernameTextField.setBorder(null);
         usernameTextField.setCaretColor(new java.awt.Color(255, 153, 0));
         usernameTextField.setDisabledTextColor(new java.awt.Color(102, 102, 255));
-        usernameTextField.setSelectedTextColor(new java.awt.Color(153, 255, 0));
         usernameTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 usernameTextFieldMouseClicked(evt);
@@ -381,7 +380,6 @@ public class MainFrame extends javax.swing.JFrame {
         signUpUsernameTextField.setBorder(null);
         signUpUsernameTextField.setCaretColor(new java.awt.Color(255, 153, 0));
         signUpUsernameTextField.setDisabledTextColor(new java.awt.Color(102, 102, 255));
-        signUpUsernameTextField.setSelectedTextColor(new java.awt.Color(153, 255, 0));
         signUpUsernameTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 signUpUsernameTextFieldMouseClicked(evt);
@@ -467,7 +465,6 @@ public class MainFrame extends javax.swing.JFrame {
         mobileTextFieldForSignUp.setBorder(null);
         mobileTextFieldForSignUp.setCaretColor(new java.awt.Color(255, 153, 0));
         mobileTextFieldForSignUp.setDisabledTextColor(new java.awt.Color(102, 102, 255));
-        mobileTextFieldForSignUp.setSelectedTextColor(new java.awt.Color(153, 255, 0));
         mobileTextFieldForSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mobileTextFieldForSignUpMouseClicked(evt);
@@ -487,7 +484,6 @@ public class MainFrame extends javax.swing.JFrame {
         addressTextFieldForSignUp.setBorder(null);
         addressTextFieldForSignUp.setCaretColor(new java.awt.Color(255, 153, 0));
         addressTextFieldForSignUp.setDisabledTextColor(new java.awt.Color(102, 102, 255));
-        addressTextFieldForSignUp.setSelectedTextColor(new java.awt.Color(153, 255, 0));
         addressTextFieldForSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addressTextFieldForSignUpMouseClicked(evt);
