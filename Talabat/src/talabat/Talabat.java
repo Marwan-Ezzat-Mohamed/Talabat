@@ -2,8 +2,18 @@ package talabat;
 
 import javax.print.attribute.standard.JobName;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Talabat {
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     static MainFrame loginFrame;
     static Customer[] customers = new Customer[100];
@@ -15,8 +25,7 @@ public class Talabat {
 
         String inputUsername = loginFrame.usernameTextField.getText().toString();
         String inputPassword = loginFrame.passwordField.getText().toString();
- 
-        
+
         for (int i = 0; i < numberOfCustomers; i++) {
             if (customers[i].username.equals(inputUsername) && customers[i].password.equals(inputPassword)) {
                 System.out.println("Login successful");
@@ -71,8 +80,10 @@ public class Talabat {
 
     }
 
-    public static void main(String[] args) {
+    
 
+    public static void main(String[] args) {
+        
         Connection myConn = null;
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -102,9 +113,12 @@ public class Talabat {
         Meal y = new Meal("fsdfsd", "fsdf", 14F);
         owners[0] = new Owner("joe", "123", "mac");
         owners[0].addMeal(y);
+        
+        jtabelFrame  j = new jtabelFrame();
+        j.show();
 
-        loginFrame = new MainFrame();
-        loginFrame.show();
+       //loginFrame = new MainFrame();
+        //loginFrame.show();
         //Home min = new Home();
         //min.show();
 
