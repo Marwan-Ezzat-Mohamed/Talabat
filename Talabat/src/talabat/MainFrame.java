@@ -1810,6 +1810,11 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel35.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         meal1pic19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        meal1pic19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                meal1pic19MouseClicked(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel21.setText("Meal Name");
@@ -2346,7 +2351,17 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void SignUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonActionPerformed
         // TODO add your handling code here:
-        Talabat.signUpForCustomer();
+        if(Talabat.signUpForCustomer()){
+            LoginAndSignUpPanel.removeAll();
+            LoginAndSignUpPanel.repaint();
+            LoginAndSignUpPanel.revalidate();
+
+            // add sign up panel
+            LoginAndSignUpPanel.add(homePanel);
+            LoginAndSignUpPanel.repaint();
+            LoginAndSignUpPanel.revalidate();
+        }
+        
     }//GEN-LAST:event_SignUpButtonActionPerformed
 
     private void all_restaurantsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_restaurantsMouseClicked
@@ -2355,15 +2370,13 @@ public class MainFrame extends javax.swing.JFrame {
         LoginAndSignUpPanel.repaint();
         LoginAndSignUpPanel.revalidate();
 
-        // add sign up panel
-        LoginAndSignUpPanel.add(Resturant);
+        LoginAndSignUpPanel.add(loginPanel);
         LoginAndSignUpPanel.repaint();
         LoginAndSignUpPanel.revalidate();
     }//GEN-LAST:event_all_restaurantsMouseClicked
-
+    Meal_jframe meal = new Meal_jframe();
     private void meal1pic11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic11MouseClicked
         // TODO add your handling code here:
-        Meal_jframe meal = new Meal_jframe();
         meal.show();
     }//GEN-LAST:event_meal1pic11MouseClicked
 
@@ -2405,6 +2418,11 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     }//GEN-LAST:event_passwordFieldKeyPressed
+
+    private void meal1pic19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic19MouseClicked
+        // TODO add your handling code here:
+        meal.show();
+    }//GEN-LAST:event_meal1pic19MouseClicked
 
     /**
      * @param args the command line arguments

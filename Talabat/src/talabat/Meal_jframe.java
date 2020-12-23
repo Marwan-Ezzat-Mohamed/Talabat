@@ -5,6 +5,9 @@
  */
 
 package talabat;
+
+import javax.swing.JLabel;
+
 /**
  *
  * @author Joemo
@@ -50,8 +53,10 @@ public class Meal_jframe extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 102, 0));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setMinimumSize(new java.awt.Dimension(540, 450));
+        setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         setResizable(false);
         setSize(new java.awt.Dimension(540, 450));
+        setType(java.awt.Window.Type.POPUP);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(921, 921));
@@ -305,6 +310,10 @@ public class Meal_jframe extends javax.swing.JFrame {
                 new Meal_jframe().setVisible(true);
             }
         });
+    }
+
+    public JLabel getOrderPrice() {
+        return orderPrice;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -44,7 +44,7 @@ public class Talabat {
         return false;
     }
 
-    public static void signUpForCustomer() {
+    public static boolean signUpForCustomer() {
         int numberOfCustomers = Customer.numberOfCustomers;
 
         String inputUsername = loginFrame.signUpUsernameTextField.getText().toString();
@@ -59,12 +59,13 @@ public class Talabat {
 //        System.out.println(address);
         if (address.equals("") || inputUsername.equals("") || inputPassword.equals("") || confirmPassword.equals("") || mobile.equals("")) {
             loginFrame.invalidLoginLabelForSignUp.setText("you must fill all the fields");
-            return;
+            return false;
         } else if (!inputPassword.equals(confirmPassword)) {
             loginFrame.invalidLoginLabelForSignUp.setText("passwords don't match");
-            return;
+            return false;
         } else {
             customers[numberOfCustomers++] = new Customer(mobile, address, inputUsername, inputPassword);
+            return true;
             //System.out.println(inputUsername + numberOfCustomers);
         }
 
