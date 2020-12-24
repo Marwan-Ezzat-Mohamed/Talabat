@@ -114,11 +114,11 @@ public class Talabat {
         owners[0] = new Owner("joe", "123", "mac");
         owners[0].addMeal(y);
         
-        jtabelFrame  j = new jtabelFrame();
-        j.show();
+        //jtabelFrame  j = new jtabelFrame();
+        //j.show();
 
-       //loginFrame = new MainFrame();
-        //loginFrame.show();
+         loginFrame = new MainFrame();
+        loginFrame.show();
         //Home min = new Home();
         //min.show();
 

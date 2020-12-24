@@ -19,6 +19,12 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+         
+        new java.util.Timer().schedule(new java.util.TimerTask() {
+            public void run() {
+                endanim();
+            }
+        }, 3000);
     }
 
     /**
@@ -31,6 +37,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         LoginAndSignUpPanel = new javax.swing.JPanel();
+        splashscreen = new javax.swing.JPanel();
+        jLabel112 = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
@@ -277,7 +285,30 @@ public class MainFrame extends javax.swing.JFrame {
         LoginAndSignUpPanel.setName(""); // NOI18N
         LoginAndSignUpPanel.setLayout(new java.awt.CardLayout());
 
-        loginPanel.setBackground(new java.awt.Color(255, 102, 0));
+        splashscreen.setBackground(new java.awt.Color(254, 89, 2));
+
+        jLabel112.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/talabatanim.gif"))); // NOI18N
+
+        javax.swing.GroupLayout splashscreenLayout = new javax.swing.GroupLayout(splashscreen);
+        splashscreen.setLayout(splashscreenLayout);
+        splashscreenLayout.setHorizontalGroup(
+            splashscreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, splashscreenLayout.createSequentialGroup()
+                .addContainerGap(310, Short.MAX_VALUE)
+                .addComponent(jLabel112)
+                .addGap(291, 291, 291))
+        );
+        splashscreenLayout.setVerticalGroup(
+            splashscreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(splashscreenLayout.createSequentialGroup()
+                .addGap(326, 326, 326)
+                .addComponent(jLabel112)
+                .addContainerGap(392, Short.MAX_VALUE))
+        );
+
+        LoginAndSignUpPanel.add(splashscreen, "card2");
+
+        loginPanel.setBackground(new java.awt.Color(254, 89, 2));
 
         usernameLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -424,7 +455,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         LoginAndSignUpPanel.add(loginPanel, "card2");
 
-        signUpForCustomerPanel.setBackground(new java.awt.Color(255, 102, 0));
+        signUpForCustomerPanel.setBackground(new java.awt.Color(254, 89, 2));
 
         signUpUsernameTextField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         signUpUsernameTextField.setBorder(null);
@@ -2751,6 +2782,15 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void endanim() {
+        LoginAndSignUpPanel.removeAll();
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+        LoginAndSignUpPanel.add(loginPanel);
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+    }
+
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
@@ -3099,6 +3139,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel11;
     public javax.swing.JLabel jLabel110;
     public javax.swing.JLabel jLabel111;
+    public javax.swing.JLabel jLabel112;
     public javax.swing.JLabel jLabel12;
     public javax.swing.JLabel jLabel13;
     public javax.swing.JLabel jLabel14;
@@ -3288,6 +3329,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPanel signUpForCustomerPanel;
     public javax.swing.JLabel signUpLinkButton;
     public javax.swing.JTextField signUpUsernameTextField;
+    public javax.swing.JPanel splashscreen;
     public javax.swing.JLabel talabatLogo;
     public javax.swing.JLabel talabatLogoForSignUp;
     public javax.swing.JLabel userPhoto;
