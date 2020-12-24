@@ -13,11 +13,14 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    
-    
-    public Restaurant(String name, byte[] Image) {
+    public Restaurant(String name, byte[] Image,String description) {
         this.name = name;
+        this.description = description;
         this.Image = Image;
     }
+
+    
+    
+    
 
 }

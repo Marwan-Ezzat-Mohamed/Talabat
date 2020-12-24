@@ -48,12 +48,9 @@ public class Talabat {
 
     public static boolean signUpForCustomer() {
         int numberOfCustomers = Customer.numberOfCustomers;
-
-        
         Connection myConn1 = null;
         Statement myStmt1 = null;
-        
-        
+
         String inputUsername = loginFrame.signUpUsernameTextField.getText().toString();
         String inputPassword = loginFrame.passwordFieldForSignUp.getText().toString();
         String confirmPassword = loginFrame.confirmPasswordFieldForSignUp.getText().toString();
@@ -64,21 +61,33 @@ public class Talabat {
 //        System.out.println(inputPassword);
 //        System.out.println(mobile);
 //        System.out.println(address);
+        boolean foundUser = false;
+        for (int i = 0; i < numberOfCustomers; i++) {
+            if (customers[i].username.equals(inputUsername)) {
+                foundUser = true;
+                break;
+            }
+        }
+
         if (address.equals("") || inputUsername.equals("") || inputPassword.equals("") || confirmPassword.equals("") || mobile.equals("")) {
             loginFrame.invalidLoginLabelForSignUp.setText("you must fill all the fields");
             return false;
         } else if (!inputPassword.equals(confirmPassword)) {
             loginFrame.invalidLoginLabelForSignUp.setText("passwords don't match");
             return false;
+        } else if (foundUser) {
+            loginFrame.invalidLoginLabelForSignUp.setText("username already exits login?");
+            return false;
+
         } else {
-           
+
             try {
                 myConn1 = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
                 myStmt1 = myConn1.createStatement();
-                String st="INSERT INTO customers Values( '"+inputUsername+"','"+inputPassword+"','"+mobile+"','"+address+"');";
+                String st = "INSERT INTO customers Values( '" + inputUsername + "','" + inputPassword + "','" + mobile + "','" + address + "');";
                 System.out.println(st);
                 myStmt1.executeUpdate(st);
-                customers[Customer.numberOfCustomers] =  new Customer(mobile, address, inputUsername, inputPassword);
+                customers[Customer.numberOfCustomers] = new Customer(mobile, address, inputUsername, inputPassword);
             } catch (SQLException ex) {
                 Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -87,9 +96,8 @@ public class Talabat {
 
     }
 
-    public static Customer[] updateCustomers()
-    {
-        Customer newCustomers[]= new Customer[100];
+    public static Customer[] updateCustomers() {
+        Customer newCustomers[] = new Customer[100];
         Connection myConn = null;
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -113,21 +121,20 @@ public class Talabat {
     }
 
     public static void main(String[] args) {
-        
-        customers =  updateCustomers();
-       // System.out.println(customers[0].username);
-       // System.out.println(customers[0].password);
+
+        customers = updateCustomers();
+        // System.out.println(customers[0].username);
+        // System.out.println(customers[0].password);
 
         //Testing t = new Testing();
         // t.testingCart();
         Meal y = new Meal("fsdfsd", "fsdf", 14F);
         owners[0] = new Owner("joe", "123", "mac");
         owners[0].addMeal(y);
-        
-        jtabelFrame  j = new jtabelFrame();
-        j.show();
 
-         loginFrame = new MainFrame();
+        //jtabelFrame  j = new jtabelFrame();
+        //j.show();
+        loginFrame = new MainFrame();
         loginFrame.show();
         //Home min = new Home();
         //min.show();

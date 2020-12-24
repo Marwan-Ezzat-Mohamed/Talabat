@@ -36,9 +36,8 @@ public class Database {
             // 4. Process the result set
             Restaurant r;
             while (myRs.next()) {
-                r = new Restaurant(myRs.getString("restaurant_name"), myRs.getBytes("image"));
+                r = new Restaurant(myRs.getString("restaurant_name"), myRs.getBytes("image"),myRs.getString("r_description"));
                 list.add(r);
-
             }
         } catch (Exception ex) {
             System.out.println("error 404");
