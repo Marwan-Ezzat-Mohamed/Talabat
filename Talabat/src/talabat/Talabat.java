@@ -3,17 +3,10 @@ package talabat;
 import javax.print.attribute.standard.JobName;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Talabat {
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     static MainFrame loginFrame;
     static Customer[] customers = new Customer[100];
@@ -23,8 +16,8 @@ public class Talabat {
         int numberOfCustomers = Customer.numberOfCustomers;
         int numberOfOwners = Owner.numberOfOwners;
 
-        String inputUsername = loginFrame.usernameTextField.getText().toString();
-        String inputPassword = loginFrame.passwordField.getText().toString();
+        String inputUsername = loginFrame.usernameTextField.getText();
+        String inputPassword = loginFrame.passwordField.getText();
 
         for (int i = 0; i < numberOfCustomers; i++) {
             if (customers[i].username.equals(inputUsername) && customers[i].password.equals(inputPassword)) {
@@ -56,6 +49,11 @@ public class Talabat {
     public static boolean signUpForCustomer() {
         int numberOfCustomers = Customer.numberOfCustomers;
 
+        
+        Connection myConn1 = null;
+        Statement myStmt1 = null;
+        
+        
         String inputUsername = loginFrame.signUpUsernameTextField.getText().toString();
         String inputPassword = loginFrame.passwordFieldForSignUp.getText().toString();
         String confirmPassword = loginFrame.confirmPasswordFieldForSignUp.getText().toString();
@@ -73,17 +71,25 @@ public class Talabat {
             loginFrame.invalidLoginLabelForSignUp.setText("passwords don't match");
             return false;
         } else {
-            customers[numberOfCustomers++] = new Customer(mobile, address, inputUsername, inputPassword);
+           
+            try {
+                myConn1 = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+                myStmt1 = myConn1.createStatement();
+                String st="INSERT INTO customers Values( '"+inputUsername+"','"+inputPassword+"','"+mobile+"','"+address+"');";
+                System.out.println(st);
+                myStmt1.executeUpdate(st);
+                customers[Customer.numberOfCustomers] =  new Customer(mobile, address, inputUsername, inputPassword);
+            } catch (SQLException ex) {
+                Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return true;
-            //System.out.println(inputUsername + numberOfCustomers);
         }
 
     }
 
-    
-
-    public static void main(String[] args) {
-        
+    public static Customer[] updateCustomers()
+    {
+        Customer newCustomers[]= new Customer[100];
         Connection myConn = null;
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -92,21 +98,25 @@ public class Talabat {
             myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
             // 2. Create a statement
             myStmt = myConn.createStatement();
-
-            // 3. Execute SQL query
             myRs = myStmt.executeQuery("select * from customers");
 
             // 4. Process the result set
             int i = 0;
             while (myRs.next()) {
-                customers[i] = new Customer(myRs.getString("mobile").toString(), myRs.getString("address").toString(), myRs.getString("Username").toString(), myRs.getString("Password").toString());
+                newCustomers[i] = new Customer(myRs.getString("mobile").toString(), myRs.getString("address").toString(), myRs.getString("Username").toString(), myRs.getString("Password").toString());
                 i++;
             }
         } catch (Exception ex) {
             System.out.println("error 404");
         }
-        System.out.println(customers[0].username);
-        System.out.println(customers[0].password);
+        return newCustomers;
+    }
+
+    public static void main(String[] args) {
+        
+        customers =  updateCustomers();
+       // System.out.println(customers[0].username);
+       // System.out.println(customers[0].password);
 
         //Testing t = new Testing();
         // t.testingCart();

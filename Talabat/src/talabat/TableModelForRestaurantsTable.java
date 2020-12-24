@@ -3,10 +3,6 @@ package talabat;
 import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author 1bestcsharp.blogspot.com
- */
 public class TableModelForRestaurantsTable extends AbstractTableModel {
 
     private String[] columns;

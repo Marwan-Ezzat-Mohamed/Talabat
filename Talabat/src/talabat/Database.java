@@ -37,7 +37,6 @@ public class Database {
             Restaurant r;
             while (myRs.next()) {
                 r = new Restaurant(myRs.getString("restaurant_name"), myRs.getBytes("image"));
-                System.out.println(myRs.getBytes("image"));
                 list.add(r);
 
             }

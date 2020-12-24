@@ -91,8 +91,8 @@ public class MainFrame extends javax.swing.JFrame {
         mobileTextFieldForSignUp = new javax.swing.JTextField();
         addressLabelForSignUp = new javax.swing.JLabel();
         addressTextFieldForSignUp = new javax.swing.JTextField();
-        loginLinkButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        loginLinkButton = new javax.swing.JLabel();
         homePanel = new javax.swing.JPanel();
         Up_panel = new javax.swing.JPanel();
         Talabat_logo = new javax.swing.JLabel();
@@ -440,7 +440,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(dontHaveAccountLabel))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(signUpLinkButton))
+                            .addComponent(signUpLinkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
                             .addGap(471, 471, 471)
                             .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,8 +475,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dontHaveAccountLabel)
-                    .addComponent(signUpLinkButton))
-                .addContainerGap(234, Short.MAX_VALUE))
+                    .addComponent(signUpLinkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(223, Short.MAX_VALUE))
         );
 
         LoginAndSignUpPanel.add(loginPanel, "card2");
@@ -602,11 +602,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        loginLinkButton.setBackground(new java.awt.Color(255, 102, 0));
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Already have an account?");
+
         loginLinkButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         loginLinkButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginLinkButton.setText("login");
-        loginLinkButton.setBorder(null);
+        loginLinkButton.setText("Login");
         loginLinkButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginLinkButtonMouseClicked(evt);
@@ -618,16 +621,6 @@ public class MainFrame extends javax.swing.JFrame {
                 loginLinkButtonMouseExited(evt);
             }
         });
-        loginLinkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginLinkButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Already have an account?");
 
         javax.swing.GroupLayout signUpForCustomerPanelLayout = new javax.swing.GroupLayout(signUpForCustomerPanel);
         signUpForCustomerPanel.setLayout(signUpForCustomerPanelLayout);
@@ -640,8 +633,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(SignUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(loginLinkButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(loginLinkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
                         .addGap(381, 381, 381)
                         .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -707,11 +700,14 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(invalidLoginLabelForSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(SignUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(loginLinkButton))
-                .addGap(222, 222, 222))
+                .addGroup(signUpForCustomerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel1))
+                    .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(loginLinkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(214, 214, 214))
         );
 
         mobileTextFieldForSignUp.getAccessibleContext().setAccessibleName("");
@@ -2867,10 +2863,6 @@ public class MainFrame extends javax.swing.JFrame {
         signUpLinkButton.setForeground(new Color(255, 255, 255));
     }//GEN-LAST:event_signUpLinkButtonMouseExited
 
-    private void loginLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginLinkButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginLinkButtonActionPerformed
-
     private void addressTextFieldForSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressTextFieldForSignUpActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addressTextFieldForSignUpActionPerformed
@@ -2920,31 +2912,6 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_signUpUsernameTextFieldMouseClicked
 
-    private void loginLinkButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseClicked
-        // TODO add your handling code here:
-        //remove
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
-
-        // add sign up panel
-        LoginAndSignUpPanel.add(loginPanel);
-        signUpLinkButton.setForeground(Color.WHITE);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
-
-    }//GEN-LAST:event_loginLinkButtonMouseClicked
-
-    private void loginLinkButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseEntered
-        // TODO add your handling code here:
-        loginLinkButton.setForeground(new Color(255, 198, 44));
-    }//GEN-LAST:event_loginLinkButtonMouseEntered
-
-    private void loginLinkButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseExited
-        // TODO add your handling code here:
-        loginLinkButton.setForeground(new Color(255, 255, 255));
-    }//GEN-LAST:event_loginLinkButtonMouseExited
-
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         if (Talabat.login()) {
@@ -2968,7 +2935,7 @@ public class MainFrame extends javax.swing.JFrame {
             LoginAndSignUpPanel.revalidate();
 
             // add sign up panel
-            LoginAndSignUpPanel.add(homePanel);
+            LoginAndSignUpPanel.add(loginPanel);
             LoginAndSignUpPanel.repaint();
             LoginAndSignUpPanel.revalidate();
         }
@@ -3043,7 +3010,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         // add sign up panel
         LoginAndSignUpPanel.add(homePanel);
-
         LoginAndSignUpPanel.repaint();
         LoginAndSignUpPanel.revalidate();
     }//GEN-LAST:event_homeLogo1MousePressed
@@ -3084,6 +3050,29 @@ public class MainFrame extends javax.swing.JFrame {
         LoginAndSignUpPanel.repaint();
         LoginAndSignUpPanel.revalidate();
     }//GEN-LAST:event_jLabel84MousePressed
+
+    private void loginLinkButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseClicked
+        // TODO add your handling code here:
+        LoginAndSignUpPanel.removeAll();
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+
+        // add sign up panel
+        LoginAndSignUpPanel.add(loginPanel);
+        signUpLinkButton.setForeground(Color.WHITE);
+        LoginAndSignUpPanel.repaint();
+        LoginAndSignUpPanel.revalidate();
+    }//GEN-LAST:event_loginLinkButtonMouseClicked
+
+    private void loginLinkButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseEntered
+        // TODO add your handling code here:
+        loginLinkButton.setForeground(new Color(255, 198, 44));
+    }//GEN-LAST:event_loginLinkButtonMouseEntered
+
+    private void loginLinkButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseExited
+        // TODO add your handling code here:
+         loginLinkButton.setForeground(Color.WHITE);
+    }//GEN-LAST:event_loginLinkButtonMouseExited
 
         /**
          * @param args the command line arguments
@@ -3304,7 +3293,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JSeparator jSeparator3;
     public javax.swing.JLabel label1;
     public javax.swing.JButton loginButton;
-    public javax.swing.JButton loginLinkButton;
+    public javax.swing.JLabel loginLinkButton;
     public javax.swing.JPanel loginPanel;
     public javax.swing.JLabel meal1pic;
     public javax.swing.JLabel meal1pic1;
