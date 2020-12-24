@@ -93,7 +93,7 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         sizeCheckbox.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         sizeCheckbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium ", "Large" }));
-        sizeCheckbox.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        sizeCheckbox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         sizeCheckbox.setOpaque(false);
         sizeCheckbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,6 +102,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         });
 
         plus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/plus.png"))); // NOI18N
+        plus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         plus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 plusMouseClicked(evt);
@@ -109,6 +110,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         });
 
         minus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/minus.png"))); // NOI18N
+        minus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         minus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 minusMouseClicked(evt);
@@ -116,6 +118,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         });
 
         addtoBasket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/adtobskt.png"))); // NOI18N
+        addtoBasket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
