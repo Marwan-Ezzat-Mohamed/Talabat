@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * @author Marwan Ezzat
  */
 public class Database {
+    
     public ArrayList<Restaurant> returnAllRestaurants() {
 
         ArrayList<Restaurant> list = new ArrayList<Restaurant>();
