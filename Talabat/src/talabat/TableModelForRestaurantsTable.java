@@ -19,7 +19,7 @@ public class TableModelForRestaurantsTable extends AbstractTableModel {
 
     public Class getColumnClass(int column) {
         // 1 is the index of the column image
-        if (column == 1) {
+        if (column == 0) {
             return Icon.class;
         } else {
             return getValueAt(0, column).getClass();

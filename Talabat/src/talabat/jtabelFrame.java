@@ -24,26 +24,30 @@ public class jtabelFrame extends javax.swing.JFrame {
         populateAllRestaurantsTable();
 
     }
-
+    static ArrayList<Restaurant> list;
     public void populateAllRestaurantsTable() {
         Database mq = new Database();
-        ArrayList<Restaurant> list = mq.returnAllRestaurants();
+        list = mq.returnAllRestaurants();
         String[] columnName = {"Name", "Image"};
         Object[][] rows = new Object[list.size()][2];
         for (int i = 0; i < list.size(); i++) {
-            rows[i][0] = list.get(i).name;
+            rows[i][1] = list.get(i).name;
 
             if (list.get(i).Image != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(list.get(i).Image).getImage().getScaledInstance(150, 120, Image.SCALE_SMOOTH));
-                rows[i][1] = image;
+                ImageIcon image = new ImageIcon(new ImageIcon(list.get(i).Image).getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH));
+                rows[i][0] = image;
             } else {
-                rows[i][1] = null;
+                rows[i][0] = null;
             }
         }
         TableModelForRestaurantsTable model = new TableModelForRestaurantsTable(rows, columnName);
         jTable1.setModel(model);
         jTable1.setRowHeight(120);
-
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+        jTable1.getColumnModel().getColumn(0).setMinWidth(60);
+        jTable1.getColumnModel().getColumn(1).setMaxWidth(150);
+        jTable1.getColumnModel().getColumn(1).setMinWidth(150);
+        
     }
 
     /**
@@ -61,20 +65,41 @@ public class jtabelFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTable1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
         jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        jTable1.setShowHorizontalLines(false);
+        jTable1.setShowVerticalLines(false);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -82,15 +107,15 @@ public class jtabelFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(565, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(114, Short.MAX_VALUE)
+                .addContainerGap(124, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addGap(41, 41, 41))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -106,6 +131,13 @@ public class jtabelFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row=jTable1.getSelectedRow();
+        
+        
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
