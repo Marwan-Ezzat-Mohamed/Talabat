@@ -85,9 +85,56 @@ public class Talabat {
                 myConn1 = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
                 myStmt1 = myConn1.createStatement();
                 String st = "INSERT INTO customers Values( '" + inputUsername + "','" + inputPassword + "','" + mobile + "','" + address + "');";
-                System.out.println(st);
                 myStmt1.executeUpdate(st);
                 customers[Customer.numberOfCustomers] = new Customer(mobile, address, inputUsername, inputPassword);
+            } catch (SQLException ex) {
+                Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        }
+
+    }
+
+    public static boolean signUpForOwner() {
+        int numberOfOwners = Owner.numberOfOwners;
+        Connection myConn1 = null;
+        Statement myStmt1 = null;
+
+        String inputUsername = loginFrame.signUpUsernameTextField1.getText().toString();
+        String inputPassword = loginFrame.passwordFieldForSignUp1.getText().toString();
+        String confirmPassword = loginFrame.confirmPasswordFieldForSignUp1.getText().toString();
+        String restaurantName = loginFrame.restaurantNameTextFieldForSignUp1.getText().toString();
+
+//        System.out.println(inputUsername);
+//        System.out.println(inputPassword);
+//        System.out.println(mobile);
+//        System.out.println(address);
+        boolean foundUser = false;
+        for (int i = 0; i < numberOfOwners; i++) {
+            if (owners[i].username.equals(inputUsername)) {
+                foundUser = true;
+                break;
+            }
+        }
+
+        if (restaurantName.equals("") || inputUsername.equals("") || inputPassword.equals("") || confirmPassword.equals("")) {
+            loginFrame.invalidLoginLabelForSignUp1.setText("you must fill all the fields");
+            return false;
+        } else if (!inputPassword.equals(confirmPassword)) {
+            loginFrame.invalidLoginLabelForSignUp1.setText("passwords don't match");
+            return false;
+        } else if (foundUser) {
+            loginFrame.invalidLoginLabelForSignUp1.setText("username already exists");
+            return false;
+
+        } else {
+
+            try {
+                myConn1 = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+                myStmt1 = myConn1.createStatement();
+                String st = "INSERT INTO owners Values( '" + inputUsername + "','" + inputPassword + "','" + restaurantName + ");";
+                myStmt1.executeUpdate(st);
+                owners[Owner.numberOfOwners] = new Owner(inputUsername, inputPassword, restaurantName);
             } catch (SQLException ex) {
                 Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -99,11 +146,15 @@ public class Talabat {
     public static Customer[] updateCustomers() {
         Customer newCustomers[] = new Customer[100];
         Connection myConn = null;
+
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
             // get connection 
             myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+
+            System.out.println(myConn);
+            
             // 2. Create a statement
             myStmt = myConn.createStatement();
             myRs = myStmt.executeQuery("select * from customers");
@@ -115,8 +166,9 @@ public class Talabat {
                 i++;
             }
         } catch (Exception ex) {
-            System.out.println("error 404");
+            System.out.println("2313");
         }
+        
         return newCustomers;
     }
 

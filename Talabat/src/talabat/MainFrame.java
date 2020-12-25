@@ -53,11 +53,11 @@ public class MainFrame extends javax.swing.JFrame {
     public void populateAllRestaurantsTable() {
         Database mq = new Database();
         list = mq.returnAllRestaurants();
-        String[] columnName = {"Image", "Name"};
-        Object[][] rows = new Object[list.size()][2];
+        String[] columnName = {"Image", "Name", "Description"};
+        Object[][] rows = new Object[list.size()][columnName.length];
         for (int i = 0; i < list.size(); i++) {
             rows[i][1] = list.get(i).name;
-
+            rows[i][2] = list.get(i).description;
             if (list.get(i).Image != null) {
                 ImageIcon image = new ImageIcon(new ImageIcon(list.get(i).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
                 rows[i][0] = image;
@@ -69,10 +69,15 @@ public class MainFrame extends javax.swing.JFrame {
         sorter = new TableRowSorter<>(model);
         jTable1.setModel(model);
         jTable1.setRowHeight(120);
+
         jTable1.getColumnModel().getColumn(0).setMaxWidth(80);
         jTable1.getColumnModel().getColumn(0).setMinWidth(80);
+
         jTable1.getColumnModel().getColumn(1).setMaxWidth(150);
         jTable1.getColumnModel().getColumn(1).setMinWidth(150);
+
+        jTable1.getColumnModel().getColumn(2).setMaxWidth(150);
+        jTable1.getColumnModel().getColumn(2).setMinWidth(150);
 
     }
 
@@ -109,7 +114,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         new java.util.Timer().schedule(new java.util.TimerTask() {
             public void run() {
-                 endSplashScreenAnimation();
+                endSplashScreenAnimation();
             }
         }, 3000);
     }
@@ -123,7 +128,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        LoginAndSignUpPanel = new javax.swing.JPanel();
+        mainFramePanel = new javax.swing.JPanel();
         splashscreen = new javax.swing.JPanel();
         jLabel112 = new javax.swing.JLabel();
         loginPanel = new Gradient();
@@ -154,6 +159,23 @@ public class MainFrame extends javax.swing.JFrame {
         addressTextFieldForSignUp = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         loginLinkButton = new javax.swing.JLabel();
+        signUpAsOwnerLink = new javax.swing.JLabel();
+        signUpForOwnerPanel = new Gradient();
+        signUpUsernameTextField1 = new javax.swing.JTextField();
+        SignUpButtonForOwner = new javax.swing.JButton();
+        talabatLogoForSignUp1 = new javax.swing.JLabel();
+        passwordFieldForSignUp1 = new javax.swing.JPasswordField();
+        showPasswordCheckBoxForSignUp1 = new javax.swing.JCheckBox();
+        passwordLabel2 = new javax.swing.JLabel();
+        usernameLabelForSignUp1 = new javax.swing.JLabel();
+        confirmPasswordLabelForSignUp1 = new javax.swing.JLabel();
+        confirmPasswordFieldForSignUp1 = new javax.swing.JPasswordField();
+        restaurantNameLabelForSignUp1 = new javax.swing.JLabel();
+        restaurantNameTextFieldForSignUp1 = new javax.swing.JTextField();
+        jLabel81 = new javax.swing.JLabel();
+        loginLinkButton1 = new javax.swing.JLabel();
+        signUpAsCustomerLink = new javax.swing.JLabel();
+        invalidLoginLabelForSignUp1 = new javax.swing.JLabel();
         homePanel = new javax.swing.JPanel();
         Up_panel = new javax.swing.JPanel();
         Talabat_logo = new javax.swing.JLabel();
@@ -372,10 +394,10 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("Talabat App");
         setResizable(false);
 
-        LoginAndSignUpPanel.setBackground(new java.awt.Color(255, 51, 51));
-        LoginAndSignUpPanel.setToolTipText("");
-        LoginAndSignUpPanel.setName(""); // NOI18N
-        LoginAndSignUpPanel.setLayout(new java.awt.CardLayout());
+        mainFramePanel.setBackground(new java.awt.Color(255, 51, 51));
+        mainFramePanel.setToolTipText("");
+        mainFramePanel.setName(""); // NOI18N
+        mainFramePanel.setLayout(new java.awt.CardLayout());
 
         splashscreen.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -398,7 +420,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(349, Short.MAX_VALUE))
         );
 
-        LoginAndSignUpPanel.add(splashscreen, "card2");
+        mainFramePanel.add(splashscreen, "card2");
 
         loginPanel.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -544,7 +566,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(227, Short.MAX_VALUE))
         );
 
-        LoginAndSignUpPanel.add(loginPanel, "card2");
+        mainFramePanel.add(loginPanel, "card2");
 
         signUpForCustomerPanel.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -687,6 +709,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        signUpAsOwnerLink.setForeground(new java.awt.Color(255, 255, 255));
+        signUpAsOwnerLink.setText("Sign up as an owner ");
+        signUpAsOwnerLink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                signUpAsOwnerLinkMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout signUpForCustomerPanelLayout = new javax.swing.GroupLayout(signUpForCustomerPanel);
         signUpForCustomerPanel.setLayout(signUpForCustomerPanelLayout);
         signUpForCustomerPanelLayout.setHorizontalGroup(
@@ -726,7 +756,10 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(invalidLoginLabelForSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
                         .addGap(430, 430, 430)
-                        .addComponent(talabatLogoForSignUp)))
+                        .addComponent(talabatLogoForSignUp))
+                    .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
+                        .addGap(508, 508, 508)
+                        .addComponent(signUpAsOwnerLink)))
                 .addContainerGap(312, Short.MAX_VALUE))
         );
         signUpForCustomerPanelLayout.setVerticalGroup(
@@ -772,12 +805,240 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(signUpForCustomerPanelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(loginLinkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(214, 214, 214))
+                .addGap(18, 18, 18)
+                .addComponent(signUpAsOwnerLink)
+                .addGap(180, 180, 180))
         );
 
         mobileTextFieldForSignUp.getAccessibleContext().setAccessibleName("");
 
-        LoginAndSignUpPanel.add(signUpForCustomerPanel, "card2");
+        mainFramePanel.add(signUpForCustomerPanel, "card2");
+
+        signUpForOwnerPanel.setBackground(new java.awt.Color(254, 89, 2));
+
+        signUpUsernameTextField1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        signUpUsernameTextField1.setBorder(null);
+        signUpUsernameTextField1.setCaretColor(new java.awt.Color(255, 153, 0));
+        signUpUsernameTextField1.setDisabledTextColor(new java.awt.Color(102, 102, 255));
+        signUpUsernameTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                signUpUsernameTextField1MouseClicked(evt);
+            }
+        });
+        signUpUsernameTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signUpUsernameTextField1ActionPerformed(evt);
+            }
+        });
+
+        SignUpButtonForOwner.setBackground(new java.awt.Color(255, 198, 44));
+        SignUpButtonForOwner.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        SignUpButtonForOwner.setForeground(new java.awt.Color(255, 102, 0));
+        SignUpButtonForOwner.setText("Sign Up");
+        SignUpButtonForOwner.setBorder(null);
+        SignUpButtonForOwner.setBorderPainted(false);
+        SignUpButtonForOwner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SignUpButtonForOwnerActionPerformed(evt);
+            }
+        });
+
+        talabatLogoForSignUp1.setFont(new java.awt.Font("DialogInput", 1, 54)); // NOI18N
+        talabatLogoForSignUp1.setForeground(new java.awt.Color(255, 255, 255));
+        talabatLogoForSignUp1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/talabat2x.png"))); // NOI18N
+
+        passwordFieldForSignUp1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        passwordFieldForSignUp1.setBorder(null);
+        passwordFieldForSignUp1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                passwordFieldForSignUp1MouseClicked(evt);
+            }
+        });
+        passwordFieldForSignUp1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldForSignUp1ActionPerformed(evt);
+            }
+        });
+
+        showPasswordCheckBoxForSignUp1.setBackground(new java.awt.Color(255, 102, 0));
+        showPasswordCheckBoxForSignUp1.setForeground(new java.awt.Color(255, 255, 255));
+        showPasswordCheckBoxForSignUp1.setText("Show");
+        showPasswordCheckBoxForSignUp1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPasswordCheckBoxForSignUp1ActionPerformed(evt);
+            }
+        });
+
+        passwordLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        passwordLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        passwordLabel2.setText("Password");
+
+        usernameLabelForSignUp1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        usernameLabelForSignUp1.setForeground(new java.awt.Color(255, 255, 255));
+        usernameLabelForSignUp1.setText("Username");
+
+        confirmPasswordLabelForSignUp1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        confirmPasswordLabelForSignUp1.setForeground(new java.awt.Color(255, 255, 255));
+        confirmPasswordLabelForSignUp1.setText("Confirm password");
+
+        confirmPasswordFieldForSignUp1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        confirmPasswordFieldForSignUp1.setBorder(null);
+        confirmPasswordFieldForSignUp1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirmPasswordFieldForSignUp1MouseClicked(evt);
+            }
+        });
+        confirmPasswordFieldForSignUp1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmPasswordFieldForSignUp1ActionPerformed(evt);
+            }
+        });
+
+        restaurantNameLabelForSignUp1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        restaurantNameLabelForSignUp1.setForeground(new java.awt.Color(255, 255, 255));
+        restaurantNameLabelForSignUp1.setText("Restaurant name ");
+
+        restaurantNameTextFieldForSignUp1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        restaurantNameTextFieldForSignUp1.setBorder(null);
+        restaurantNameTextFieldForSignUp1.setCaretColor(new java.awt.Color(255, 153, 0));
+        restaurantNameTextFieldForSignUp1.setDisabledTextColor(new java.awt.Color(102, 102, 255));
+        restaurantNameTextFieldForSignUp1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                restaurantNameTextFieldForSignUp1MouseClicked(evt);
+            }
+        });
+        restaurantNameTextFieldForSignUp1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restaurantNameTextFieldForSignUp1ActionPerformed(evt);
+            }
+        });
+
+        jLabel81.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel81.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel81.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel81.setText("Already have an account?");
+
+        loginLinkButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        loginLinkButton1.setForeground(new java.awt.Color(255, 255, 255));
+        loginLinkButton1.setText("Login");
+        loginLinkButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginLinkButton1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                loginLinkButton1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                loginLinkButton1MouseExited(evt);
+            }
+        });
+
+        signUpAsCustomerLink.setForeground(new java.awt.Color(255, 255, 255));
+        signUpAsCustomerLink.setText("Sign up as a customer");
+        signUpAsCustomerLink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                signUpAsCustomerLinkMouseClicked(evt);
+            }
+        });
+
+        invalidLoginLabelForSignUp1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        invalidLoginLabelForSignUp1.setForeground(new java.awt.Color(255, 255, 102));
+
+        javax.swing.GroupLayout signUpForOwnerPanelLayout = new javax.swing.GroupLayout(signUpForOwnerPanel);
+        signUpForOwnerPanel.setLayout(signUpForOwnerPanelLayout);
+        signUpForOwnerPanelLayout.setHorizontalGroup(
+            signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addGap(435, 435, 435)
+                        .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(SignUpButtonForOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel81))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(loginLinkButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addGap(381, 381, 381)
+                        .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passwordLabel2)
+                            .addComponent(usernameLabelForSignUp1)
+                            .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(restaurantNameLabelForSignUp1)
+                                    .addComponent(confirmPasswordLabelForSignUp1))
+                                .addGap(39, 39, 39)
+                                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(restaurantNameTextFieldForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(confirmPasswordFieldForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                                .addGap(199, 199, 199)
+                                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(signUpUsernameTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                                        .addComponent(passwordFieldForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(showPasswordCheckBoxForSignUp1))))))
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addGap(430, 430, 430)
+                        .addComponent(talabatLogoForSignUp1))
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addGap(508, 508, 508)
+                        .addComponent(signUpAsCustomerLink)))
+                .addContainerGap(312, Short.MAX_VALUE))
+            .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                    .addGap(482, 482, 482)
+                    .addComponent(invalidLoginLabelForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(482, Short.MAX_VALUE)))
+        );
+        signUpForOwnerPanelLayout.setVerticalGroup(
+            signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                .addGap(140, 140, 140)
+                .addComponent(talabatLogoForSignUp1)
+                .addGap(118, 118, 118)
+                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(usernameLabelForSignUp1)
+                        .addGap(252, 252, 252))
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addComponent(signUpUsernameTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(passwordFieldForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(showPasswordCheckBoxForSignUp1))
+                                .addGap(22, 22, 22)
+                                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(confirmPasswordLabelForSignUp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(confirmPasswordFieldForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(25, 25, 25)
+                                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(restaurantNameLabelForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(restaurantNameTextFieldForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(106, 106, 106))
+                            .addComponent(passwordLabel2))))
+                .addComponent(SignUpButtonForOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel81))
+                    .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(loginLinkButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(signUpAsCustomerLink)
+                .addGap(180, 180, 180))
+            .addGroup(signUpForOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(signUpForOwnerPanelLayout.createSequentialGroup()
+                    .addGap(437, 437, 437)
+                    .addComponent(invalidLoginLabelForSignUp1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(437, Short.MAX_VALUE)))
+        );
+
+        mainFramePanel.add(signUpForOwnerPanel, "card2");
 
         homePanel.setBackground(new java.awt.Color(255, 255, 255));
         homePanel.setPreferredSize(new java.awt.Dimension(1170, 860));
@@ -1225,7 +1486,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(dwn_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        LoginAndSignUpPanel.add(homePanel, "card4");
+        mainFramePanel.add(homePanel, "card4");
 
         MyOrder.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1691,7 +1952,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
@@ -1701,7 +1962,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
+                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1108, Short.MAX_VALUE)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1740,7 +2001,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
         );
 
-        LoginAndSignUpPanel.add(MyOrder, "card6");
+        mainFramePanel.add(MyOrder, "card6");
 
         Basket.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2232,7 +2493,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(94, Short.MAX_VALUE))
         );
 
-        LoginAndSignUpPanel.add(Basket, "card6");
+        mainFramePanel.add(Basket, "card6");
 
         resturantPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2643,7 +2904,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
         meals_pan5Layout.setVerticalGroup(
             meals_pan5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2813,12 +3074,12 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
         meals_pan7Layout.setVerticalGroup(
             meals_pan7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_pan7Layout.createSequentialGroup()
-                .addGap(0, 5, Short.MAX_VALUE)
+                .addGap(0, 13, Short.MAX_VALUE)
                 .addComponent(Hot_deals6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(meals_pan7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -2875,7 +3136,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
         );
 
-        LoginAndSignUpPanel.add(resturantPanel, "card6");
+        mainFramePanel.add(resturantPanel, "card6");
 
         jTable1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -2918,12 +3179,12 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(allRestuarntsPanelLayout.createSequentialGroup()
                 .addGap(204, 204, 204)
                 .addGroup(allRestuarntsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(allRestuarntsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel113)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(645, Short.MAX_VALUE))
+                .addContainerGap(541, Short.MAX_VALUE))
         );
         allRestuarntsPanelLayout.setVerticalGroup(
             allRestuarntsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2937,29 +3198,29 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
-        LoginAndSignUpPanel.add(allRestuarntsPanel, "card9");
+        mainFramePanel.add(allRestuarntsPanel, "card9");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LoginAndSignUpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainFramePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(LoginAndSignUpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(mainFramePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 904, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void endSplashScreenAnimation() {
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
-        LoginAndSignUpPanel.add(loginPanel);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+        mainFramePanel.add(loginPanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }
 
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
@@ -2991,15 +3252,15 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         //remove
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
         // add sign up panel
-        LoginAndSignUpPanel.add(signUpForCustomerPanel);
+        mainFramePanel.add(signUpForCustomerPanel);
         loginLinkButton.setForeground(Color.WHITE);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_signUpLinkButtonMouseClicked
 
     private void signUpLinkButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpLinkButtonMouseEntered
@@ -3065,41 +3326,41 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (Talabat.login()) {
             System.out.println("gertg");
-            LoginAndSignUpPanel.removeAll();
-            LoginAndSignUpPanel.repaint();
-            LoginAndSignUpPanel.revalidate();
+            mainFramePanel.removeAll();
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
 
             // add sign up panel
-            LoginAndSignUpPanel.add(homePanel);
-            LoginAndSignUpPanel.repaint();
-            LoginAndSignUpPanel.revalidate();
+            mainFramePanel.add(homePanel);
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void SignUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonActionPerformed
         // TODO add your handling code here:
         if (Talabat.signUpForCustomer()) {
-            LoginAndSignUpPanel.removeAll();
-            LoginAndSignUpPanel.repaint();
-            LoginAndSignUpPanel.revalidate();
+            mainFramePanel.removeAll();
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
 
             // add sign up panel
-            LoginAndSignUpPanel.add(loginPanel);
-            LoginAndSignUpPanel.repaint();
-            LoginAndSignUpPanel.revalidate();
+            mainFramePanel.add(loginPanel);
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
         }
 
     }//GEN-LAST:event_SignUpButtonActionPerformed
 
     private void all_restaurantsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_restaurantsMouseClicked
         // TODO add your handling code here:
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
-        LoginAndSignUpPanel.add(allRestuarntsPanel);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.add(allRestuarntsPanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_all_restaurantsMouseClicked
     Meal_jframe meal = new Meal_jframe();
     private void meal1pic11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic11MouseClicked
@@ -3109,39 +3370,39 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
         // TODO add your handling code here:
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
         // add sign up panel
-        LoginAndSignUpPanel.add(MyOrder);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.add(MyOrder);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_my_ordersMouseClicked
 
     private void homeLogoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogoMousePressed
         // TODO add your handling code here:
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
         // add sign up panel
-        LoginAndSignUpPanel.add(homePanel);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.add(homePanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_homeLogoMousePressed
 
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (Talabat.login()) {
-                LoginAndSignUpPanel.removeAll();
-                LoginAndSignUpPanel.repaint();
-                LoginAndSignUpPanel.revalidate();
+                mainFramePanel.removeAll();
+                mainFramePanel.repaint();
+                mainFramePanel.revalidate();
 
-                LoginAndSignUpPanel.add(homePanel);
-                LoginAndSignUpPanel.repaint();
-                LoginAndSignUpPanel.revalidate();
+                mainFramePanel.add(homePanel);
+                mainFramePanel.repaint();
+                mainFramePanel.revalidate();
             }
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
@@ -3153,14 +3414,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
         // TODO add your handling code here:
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
         // add sign up panel
-        LoginAndSignUpPanel.add(homePanel);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.add(homePanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_homeLogo1MousePressed
 
     private void meal1pic25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic25MouseClicked
@@ -3177,40 +3438,40 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void basketMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMousePressed
         // TODO add your handling code here:
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
         // add sign up panel
-        LoginAndSignUpPanel.add(Basket);
+        mainFramePanel.add(Basket);
         //signUpLinkButton.setForeground(Color.WHITE);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
 
     }//GEN-LAST:event_basketMousePressed
 
     private void jLabel84MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel84MousePressed
 
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
-        LoginAndSignUpPanel.add(Basket);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+        mainFramePanel.add(Basket);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_jLabel84MousePressed
 
     private void loginLinkButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseClicked
         // TODO add your handling code here:
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
         // add sign up panel
-        LoginAndSignUpPanel.add(loginPanel);
+        mainFramePanel.add(loginPanel);
         signUpLinkButton.setForeground(Color.WHITE);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_loginLinkButtonMouseClicked
 
     private void loginLinkButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseEntered
@@ -3229,20 +3490,19 @@ public class MainFrame extends javax.swing.JFrame {
             int oldRow = jTable1.getSelectedRow();
             int newRow = sorter.convertRowIndexToModel(oldRow);
 
-
             resturantNameLabel.setText(list.get(newRow).name);
             resturantDescriptionLabel.setText(list.get(newRow).description);
             ImageIcon image = new ImageIcon(new ImageIcon(list.get(newRow).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
             resturantIcon.setIcon(image);
 
-            LoginAndSignUpPanel.removeAll();
-            LoginAndSignUpPanel.repaint();
-            LoginAndSignUpPanel.revalidate();
+            mainFramePanel.removeAll();
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
 
             // add sign up panel
-            LoginAndSignUpPanel.add(resturantPanel);
-            LoginAndSignUpPanel.repaint();
-            LoginAndSignUpPanel.revalidate();
+            mainFramePanel.add(resturantPanel);
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
         }
 
 
@@ -3250,15 +3510,105 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel39MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel39MouseClicked
         // TODO add your handling code here:
-        LoginAndSignUpPanel.removeAll();
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
 
         // add sign up panel
-        LoginAndSignUpPanel.add(homePanel);
-        LoginAndSignUpPanel.repaint();
-        LoginAndSignUpPanel.revalidate();
+        mainFramePanel.add(homePanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
     }//GEN-LAST:event_jLabel39MouseClicked
+
+    private void signUpUsernameTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpUsernameTextField1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signUpUsernameTextField1MouseClicked
+
+    private void signUpUsernameTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpUsernameTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signUpUsernameTextField1ActionPerformed
+
+    private void SignUpButtonForOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonForOwnerActionPerformed
+        // TODO add your handling code here:
+
+        if (Talabat.signUpForOwner()) {
+            mainFramePanel.removeAll();
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
+
+            // add sign up panel
+            mainFramePanel.add(loginPanel);
+            mainFramePanel.repaint();
+            mainFramePanel.revalidate();
+        }
+
+    }//GEN-LAST:event_SignUpButtonForOwnerActionPerformed
+
+    private void passwordFieldForSignUp1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordFieldForSignUp1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordFieldForSignUp1MouseClicked
+
+    private void passwordFieldForSignUp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldForSignUp1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordFieldForSignUp1ActionPerformed
+
+    private void showPasswordCheckBoxForSignUp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCheckBoxForSignUp1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showPasswordCheckBoxForSignUp1ActionPerformed
+
+    private void confirmPasswordFieldForSignUp1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmPasswordFieldForSignUp1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmPasswordFieldForSignUp1MouseClicked
+
+    private void confirmPasswordFieldForSignUp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmPasswordFieldForSignUp1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmPasswordFieldForSignUp1ActionPerformed
+
+    private void restaurantNameTextFieldForSignUp1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restaurantNameTextFieldForSignUp1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_restaurantNameTextFieldForSignUp1MouseClicked
+
+    private void restaurantNameTextFieldForSignUp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restaurantNameTextFieldForSignUp1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_restaurantNameTextFieldForSignUp1ActionPerformed
+
+    private void loginLinkButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginLinkButton1MouseClicked
+
+    private void loginLinkButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButton1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginLinkButton1MouseEntered
+
+    private void loginLinkButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButton1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginLinkButton1MouseExited
+
+    private void signUpAsCustomerLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpAsCustomerLinkMouseClicked
+        // TODO add your handling code here:
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+
+        // add sign up panel
+        mainFramePanel.add(signUpForCustomerPanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+
+
+    }//GEN-LAST:event_signUpAsCustomerLinkMouseClicked
+
+    private void signUpAsOwnerLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpAsOwnerLinkMouseClicked
+        // TODO add your handling code here:
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+
+        // add sign up panel
+        mainFramePanel.add(signUpForOwnerPanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+    }//GEN-LAST:event_signUpAsOwnerLinkMouseClicked
 
     /**
      * @param args the command line arguments
@@ -3303,12 +3653,12 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel Hot_deals;
     public javax.swing.JLabel Hot_deals5;
     public javax.swing.JLabel Hot_deals6;
-    public javax.swing.JPanel LoginAndSignUpPanel;
     public javax.swing.JPanel MyOrder;
     public javax.swing.JTextField Search;
     public javax.swing.JTextField SearchTextField;
     public javax.swing.JLabel Search_button;
     public javax.swing.JButton SignUpButton;
+    public javax.swing.JButton SignUpButtonForOwner;
     public javax.swing.JLabel Talabat_logo;
     public javax.swing.JPanel Up_panel;
     public javax.swing.JLabel about;
@@ -3318,7 +3668,9 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel all_restaurants;
     public javax.swing.JLabel basket;
     public javax.swing.JPasswordField confirmPasswordFieldForSignUp;
+    public javax.swing.JPasswordField confirmPasswordFieldForSignUp1;
     public javax.swing.JLabel confirmPasswordLabelForSignUp;
+    public javax.swing.JLabel confirmPasswordLabelForSignUp1;
     public javax.swing.JLabel dontHaveAccountLabel;
     public javax.swing.JPanel dwn_panel;
     public javax.swing.JLabel homeLogo;
@@ -3326,6 +3678,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPanel homePanel;
     public javax.swing.JLabel invalidLoginLabel;
     public javax.swing.JLabel invalidLoginLabelForSignUp;
+    public javax.swing.JLabel invalidLoginLabelForSignUp1;
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel10;
     public javax.swing.JLabel jLabel100;
@@ -3419,6 +3772,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel79;
     public javax.swing.JLabel jLabel8;
     public javax.swing.JLabel jLabel80;
+    public javax.swing.JLabel jLabel81;
     public javax.swing.JLabel jLabel83;
     public javax.swing.JLabel jLabel84;
     public javax.swing.JLabel jLabel85;
@@ -3482,7 +3836,9 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel label1;
     public javax.swing.JButton loginButton;
     public javax.swing.JLabel loginLinkButton;
+    public javax.swing.JLabel loginLinkButton1;
     public javax.swing.JPanel loginPanel;
+    public javax.swing.JPanel mainFramePanel;
     public javax.swing.JLabel meal1pic;
     public javax.swing.JLabel meal1pic1;
     public javax.swing.JLabel meal1pic10;
@@ -3517,9 +3873,13 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel my_orders;
     public javax.swing.JPasswordField passwordField;
     public javax.swing.JPasswordField passwordFieldForSignUp;
+    public javax.swing.JPasswordField passwordFieldForSignUp1;
     public javax.swing.JLabel passwordLabel;
     public javax.swing.JLabel passwordLabel1;
+    public javax.swing.JLabel passwordLabel2;
     public javax.swing.JPanel restau_pan;
+    public javax.swing.JLabel restaurantNameLabelForSignUp1;
+    public javax.swing.JTextField restaurantNameTextFieldForSignUp1;
     public javax.swing.JLabel resturantDescriptionLabel;
     public javax.swing.JLabel resturantIcon;
     public javax.swing.JLabel resturantNameLabel;
@@ -3530,18 +3890,25 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel retaurants4;
     public javax.swing.JCheckBox showPasswordCheckBox;
     public javax.swing.JCheckBox showPasswordCheckBoxForSignUp;
+    public javax.swing.JCheckBox showPasswordCheckBoxForSignUp1;
     public javax.swing.JLabel side_plate1;
     public javax.swing.JLabel side_plate2;
+    public javax.swing.JLabel signUpAsCustomerLink;
+    public javax.swing.JLabel signUpAsOwnerLink;
     public javax.swing.JPanel signUpForCustomerPanel;
+    public javax.swing.JPanel signUpForOwnerPanel;
     public javax.swing.JLabel signUpLinkButton;
     public javax.swing.JTextField signUpUsernameTextField;
+    public javax.swing.JTextField signUpUsernameTextField1;
     public javax.swing.JPanel splashscreen;
     public javax.swing.JLabel talabatLogo;
     public javax.swing.JLabel talabatLogoForSignUp;
+    public javax.swing.JLabel talabatLogoForSignUp1;
     public javax.swing.JLabel userPhoto;
     public javax.swing.JLabel username;
     public javax.swing.JLabel usernameLabel;
     public javax.swing.JLabel usernameLabelForSignUp;
+    public javax.swing.JLabel usernameLabelForSignUp1;
     public javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 }
