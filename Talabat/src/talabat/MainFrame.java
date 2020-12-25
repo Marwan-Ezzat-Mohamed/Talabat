@@ -109,7 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         new java.util.Timer().schedule(new java.util.TimerTask() {
             public void run() {
-                endanim();
+                 endSplashScreenAnimation();
             }
         }, 3000);
     }
@@ -2955,7 +2955,7 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void endanim() {
+    private void endSplashScreenAnimation() {
         LoginAndSignUpPanel.removeAll();
         LoginAndSignUpPanel.repaint();
         LoginAndSignUpPanel.revalidate();
@@ -3228,11 +3228,13 @@ public class MainFrame extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
+            int oldRow = jTable1.getSelectedRow();
+            int newRow = sorter.convertRowIndexToModel(oldRow);
 
-            int row = jTable1.getSelectedRow();
-            resturantNameLabel.setText(list.get(row).name);
-            resturantDescriptionLabel.setText(list.get(row).description);
-            ImageIcon image = new ImageIcon(new ImageIcon(list.get(row).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+
+            resturantNameLabel.setText(list.get(newRow).name);
+            resturantDescriptionLabel.setText(list.get(newRow).description);
+            ImageIcon image = new ImageIcon(new ImageIcon(list.get(newRow).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
             resturantIcon.setIcon(image);
 
             LoginAndSignUpPanel.removeAll();
