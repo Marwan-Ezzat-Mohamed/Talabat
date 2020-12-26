@@ -9,8 +9,11 @@ public class Restaurant {
     protected String name,description;
     public byte[] Image;
     
-
     public Restaurant() {
+    }
+    public Restaurant(String name, Meal m) {
+        this.name=name;
+        this.meals[mealCount++]=m;
     }
 
     public Restaurant(String name, byte[] Image,String description) {

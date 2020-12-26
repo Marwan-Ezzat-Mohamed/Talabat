@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class Talabat {
 
-    static MainFrame loginFrame;
+    public static MainFrame loginFrame;
     static Customer[] customers = new Customer[100];
     static Owner[] owners = new Owner[100];
 

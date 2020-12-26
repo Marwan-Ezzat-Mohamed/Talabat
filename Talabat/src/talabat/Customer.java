@@ -20,7 +20,7 @@ public class Customer extends User {
 
     public void orderCart() {
         Order o = new Order();
-        o.addOrder(cart);
+        o.addCart(cart);
 
         orders[ordersCount++] = o;
         cart.emptyCart();

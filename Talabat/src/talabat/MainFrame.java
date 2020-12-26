@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -46,6 +47,35 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    private TableRowSorter orderSorter;
+    static ArrayList<Order> orderList;
+    
+      public void myOrdersTable(String s) {
+        Database mq = new Database();
+        String[] columnName = {"","Meal", "Restaurant"};
+        orderList=mq.returnMyOrders(s);
+        Object[][] rows = new Object[list.size()][columnName.length];
+        for (int i = 0; i < orderList.size(); i++) {
+            rows[i][1] = orderList.get(i).ordererdMeals[0].name;
+            rows[i][2] = orderList.get(i).restaurantName;
+        }
+        DefaultTableModel orderModel = new DefaultTableModel(rows, columnName);
+        orderSorter = new TableRowSorter<>(orderModel);
+        myOrdersTable.setModel(orderModel);
+        myOrdersTable.setRowHeight(120);
+
+        myOrdersTable.getColumnModel().getColumn(0).setMaxWidth(80);
+        myOrdersTable.getColumnModel().getColumn(0).setMinWidth(80);
+
+        myOrdersTable.getColumnModel().getColumn(1).setMaxWidth(150);
+        myOrdersTable.getColumnModel().getColumn(1).setMinWidth(150);
+
+
+    }
+
+    
+    
+    
     private TableRowSorter sorter;
 
     static ArrayList<Restaurant> list;
@@ -84,6 +114,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         populateAllRestaurantsTable();
+        
+        //orderSorter.setSortable(0,false);
         sorter.setSortable(0, false);
         jTable1.setRowSorter(sorter);
         SearchTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -235,43 +267,9 @@ public class MainFrame extends javax.swing.JFrame {
         username = new javax.swing.JLabel();
         userPhoto = new javax.swing.JLabel();
         meals_pan8 = new javax.swing.JPanel();
-        jPanel35 = new javax.swing.JPanel();
-        meal1pic19 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
         jLabel89 = new javax.swing.JLabel();
-        jPanel36 = new javax.swing.JPanel();
-        meal1pic20 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
-        jPanel37 = new javax.swing.JPanel();
-        meal1pic21 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel38 = new javax.swing.JLabel();
-        jPanel38 = new javax.swing.JPanel();
-        meal1pic22 = new javax.swing.JLabel();
-        jLabel50 = new javax.swing.JLabel();
-        jLabel63 = new javax.swing.JLabel();
-        jLabel64 = new javax.swing.JLabel();
-        jLabel65 = new javax.swing.JLabel();
-        jPanel39 = new javax.swing.JPanel();
-        meal1pic23 = new javax.swing.JLabel();
-        jLabel66 = new javax.swing.JLabel();
-        jLabel67 = new javax.swing.JLabel();
-        jLabel68 = new javax.swing.JLabel();
-        jLabel69 = new javax.swing.JLabel();
-        jPanel40 = new javax.swing.JPanel();
-        meal1pic24 = new javax.swing.JLabel();
-        jLabel70 = new javax.swing.JLabel();
-        jLabel71 = new javax.swing.JLabel();
-        jLabel72 = new javax.swing.JLabel();
-        jLabel73 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        myOrdersTable = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
         Basket = new javax.swing.JPanel();
         jPanel41 = new javax.swing.JPanel();
@@ -1100,6 +1098,9 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 my_ordersMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                my_ordersMousePressed(evt);
+            }
         });
 
         Search_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (1).png"))); // NOI18N
@@ -1329,7 +1330,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         meals_panLayout.setVerticalGroup(
             meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1472,7 +1473,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout dwn_panelLayout = new javax.swing.GroupLayout(dwn_panel);
@@ -1646,303 +1647,23 @@ public class MainFrame extends javax.swing.JFrame {
         meals_pan8.setBackground(new java.awt.Color(255, 255, 255));
         meals_pan8.setPreferredSize(new java.awt.Dimension(700, 221));
 
-        jPanel35.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel35.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-        meal1pic19.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                meal1pic19MouseClicked(evt);
-            }
-        });
-
-        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel21.setText("Meal Name");
-
-        jLabel30.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel30.setText("Quantity");
-
-        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel31.setText("25 EGP");
-
-        jLabel32.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel32.setText("Date");
-
-        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
-        jPanel35.setLayout(jPanel35Layout);
-        jPanel35Layout.setHorizontalGroup(
-            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel35Layout.createSequentialGroup()
-                .addComponent(meal1pic19)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel30)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel31)
-                    .addComponent(jLabel32))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel35Layout.setVerticalGroup(
-            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel35Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel30)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel32)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel31)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
-                .addComponent(meal1pic19)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
         jLabel89.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
         jLabel89.setForeground(new java.awt.Color(230, 81, 0));
         jLabel89.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel89.setText("My Orders");
 
-        jPanel36.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel36.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel22.setText("Meal Name");
-
-        jLabel33.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel33.setText("Quantity");
-
-        jLabel34.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel34.setText("25 EGP");
-
-        jLabel35.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel35.setText("Date");
-
-        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
-        jPanel36.setLayout(jPanel36Layout);
-        jPanel36Layout.setHorizontalGroup(
-            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel36Layout.createSequentialGroup()
-                .addComponent(meal1pic20)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel33)
-                    .addComponent(jLabel22)
-                    .addComponent(jLabel34)
-                    .addComponent(jLabel35))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel36Layout.setVerticalGroup(
-            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel36Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel33)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel35)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel34)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
-                .addComponent(meal1pic20)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel37.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel37.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel23.setText("Meal Name");
-
-        jLabel36.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel36.setText("Quantity");
-
-        jLabel37.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel37.setText("25 EGP");
-
-        jLabel38.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel38.setText("Date");
-
-        javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
-        jPanel37.setLayout(jPanel37Layout);
-        jPanel37Layout.setHorizontalGroup(
-            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel37Layout.createSequentialGroup()
-                .addComponent(meal1pic21)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel36)
-                    .addComponent(jLabel23)
-                    .addComponent(jLabel37)
-                    .addComponent(jLabel38))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel37Layout.setVerticalGroup(
-            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel37Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel23)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel36)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel38)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel37)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel37Layout.createSequentialGroup()
-                .addComponent(meal1pic21)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel38.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel38.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel50.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel50.setText("Meal Name");
-
-        jLabel63.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel63.setText("Quantity");
-
-        jLabel64.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel64.setText("25 EGP");
-
-        jLabel65.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel65.setText("Date");
-
-        javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
-        jPanel38.setLayout(jPanel38Layout);
-        jPanel38Layout.setHorizontalGroup(
-            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel38Layout.createSequentialGroup()
-                .addComponent(meal1pic22)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel63)
-                    .addComponent(jLabel50)
-                    .addComponent(jLabel64)
-                    .addComponent(jLabel65))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel38Layout.setVerticalGroup(
-            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel38Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel50)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel63)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel65)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel64)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel38Layout.createSequentialGroup()
-                .addComponent(meal1pic22)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel39.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel39.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel66.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel66.setText("Meal Name");
-
-        jLabel67.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel67.setText("Quantity");
-
-        jLabel68.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel68.setText("25 EGP");
-
-        jLabel69.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel69.setText("Date");
-
-        javax.swing.GroupLayout jPanel39Layout = new javax.swing.GroupLayout(jPanel39);
-        jPanel39.setLayout(jPanel39Layout);
-        jPanel39Layout.setHorizontalGroup(
-            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel39Layout.createSequentialGroup()
-                .addComponent(meal1pic23)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel67)
-                    .addComponent(jLabel66)
-                    .addComponent(jLabel68)
-                    .addComponent(jLabel69))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel39Layout.setVerticalGroup(
-            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel39Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel66)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel67)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel69)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel68)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel39Layout.createSequentialGroup()
-                .addComponent(meal1pic23)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel40.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel40.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel70.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel70.setText("Meal Name");
-
-        jLabel71.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel71.setText("Quantity");
-
-        jLabel72.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel72.setText("25 EGP");
-
-        jLabel73.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel73.setText("Date");
-
-        javax.swing.GroupLayout jPanel40Layout = new javax.swing.GroupLayout(jPanel40);
-        jPanel40.setLayout(jPanel40Layout);
-        jPanel40Layout.setHorizontalGroup(
-            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel40Layout.createSequentialGroup()
-                .addComponent(meal1pic24)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel71)
-                    .addComponent(jLabel70)
-                    .addComponent(jLabel72)
-                    .addComponent(jLabel73))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel40Layout.setVerticalGroup(
-            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel40Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel70)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel71)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel73)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel72)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel40Layout.createSequentialGroup()
-                .addComponent(meal1pic24)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        myOrdersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(myOrdersTable);
 
         javax.swing.GroupLayout meals_pan8Layout = new javax.swing.GroupLayout(meals_pan8);
         meals_pan8.setLayout(meals_pan8Layout);
@@ -1951,19 +1672,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(meals_pan8Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(meals_pan8Layout.createSequentialGroup()
-                        .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel89, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(meals_pan8Layout.createSequentialGroup()
-                        .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel89, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         meals_pan8Layout.setVerticalGroup(
@@ -1971,17 +1681,9 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_pan8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel89)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
@@ -1998,7 +1700,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel33Layout.createSequentialGroup()
                                 .addGap(42, 42, 42)
                                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 98, Short.MAX_VALUE)))
+                        .addGap(0, 90, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel33Layout.setVerticalGroup(
@@ -3436,11 +3138,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
 
-    private void meal1pic19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic19MouseClicked
-        // TODO add your handling code here:
-        meal.show();
-    }//GEN-LAST:event_meal1pic19MouseClicked
-
     private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
         // TODO add your handling code here:
         mainFramePanel.removeAll();
@@ -3679,6 +3376,11 @@ public class MainFrame extends javax.swing.JFrame {
         mainFramePanel.revalidate();
     }//GEN-LAST:event_jLabel87MousePressed
 
+    private void my_ordersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMousePressed
+        // TODO add your handling code here:
+        myOrdersTable(usernameLabel.getText());
+    }//GEN-LAST:event_my_ordersMousePressed
+
     /**
      * @param args the command line arguments
      */
@@ -3775,9 +3477,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel19;
     public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel20;
-    public javax.swing.JLabel jLabel21;
-    public javax.swing.JLabel jLabel22;
-    public javax.swing.JLabel jLabel23;
     public javax.swing.JLabel jLabel24;
     public javax.swing.JLabel jLabel25;
     public javax.swing.JLabel jLabel26;
@@ -3785,15 +3484,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel28;
     public javax.swing.JLabel jLabel29;
     public javax.swing.JLabel jLabel3;
-    public javax.swing.JLabel jLabel30;
-    public javax.swing.JLabel jLabel31;
-    public javax.swing.JLabel jLabel32;
-    public javax.swing.JLabel jLabel33;
-    public javax.swing.JLabel jLabel34;
-    public javax.swing.JLabel jLabel35;
-    public javax.swing.JLabel jLabel36;
-    public javax.swing.JLabel jLabel37;
-    public javax.swing.JLabel jLabel38;
     public javax.swing.JLabel jLabel39;
     public javax.swing.JLabel jLabel4;
     public javax.swing.JLabel jLabel40;
@@ -3807,7 +3497,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel48;
     public javax.swing.JLabel jLabel49;
     public javax.swing.JLabel jLabel5;
-    public javax.swing.JLabel jLabel50;
     public javax.swing.JLabel jLabel51;
     public javax.swing.JLabel jLabel52;
     public javax.swing.JLabel jLabel53;
@@ -3821,18 +3510,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel60;
     public javax.swing.JLabel jLabel61;
     public javax.swing.JLabel jLabel62;
-    public javax.swing.JLabel jLabel63;
-    public javax.swing.JLabel jLabel64;
-    public javax.swing.JLabel jLabel65;
-    public javax.swing.JLabel jLabel66;
-    public javax.swing.JLabel jLabel67;
-    public javax.swing.JLabel jLabel68;
-    public javax.swing.JLabel jLabel69;
     public javax.swing.JLabel jLabel7;
-    public javax.swing.JLabel jLabel70;
-    public javax.swing.JLabel jLabel71;
-    public javax.swing.JLabel jLabel72;
-    public javax.swing.JLabel jLabel73;
     public javax.swing.JLabel jLabel74;
     public javax.swing.JLabel jLabel75;
     public javax.swing.JLabel jLabel76;
@@ -3877,12 +3555,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel32;
     public javax.swing.JPanel jPanel33;
     public javax.swing.JPanel jPanel34;
-    public javax.swing.JPanel jPanel35;
-    public javax.swing.JPanel jPanel36;
-    public javax.swing.JPanel jPanel37;
-    public javax.swing.JPanel jPanel38;
-    public javax.swing.JPanel jPanel39;
-    public javax.swing.JPanel jPanel40;
     public javax.swing.JPanel jPanel41;
     public javax.swing.JPanel jPanel44;
     public javax.swing.JPanel jPanel45;
@@ -3899,6 +3571,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JScrollPane jScrollPane4;
+    public javax.swing.JScrollPane jScrollPane5;
     public javax.swing.JSeparator jSeparator1;
     public javax.swing.JSeparator jSeparator2;
     public javax.swing.JSeparator jSeparator3;
@@ -3915,13 +3588,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel meal1pic11;
     public javax.swing.JLabel meal1pic13;
     public javax.swing.JLabel meal1pic14;
-    public javax.swing.JLabel meal1pic19;
     public javax.swing.JLabel meal1pic2;
-    public javax.swing.JLabel meal1pic20;
-    public javax.swing.JLabel meal1pic21;
-    public javax.swing.JLabel meal1pic22;
-    public javax.swing.JLabel meal1pic23;
-    public javax.swing.JLabel meal1pic24;
     public javax.swing.JLabel meal1pic25;
     public javax.swing.JLabel meal1pic26;
     public javax.swing.JLabel meal1pic27;
@@ -3940,6 +3607,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPanel meals_pan9;
     public javax.swing.JLabel mobileLabelForSignUp;
     public javax.swing.JTextField mobileTextFieldForSignUp;
+    public javax.swing.JTable myOrdersTable;
     public javax.swing.JLabel my_orders;
     public javax.swing.JPasswordField passwordField;
     public javax.swing.JPasswordField passwordFieldForSignUp;

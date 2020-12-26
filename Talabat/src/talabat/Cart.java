@@ -1,14 +1,21 @@
 package talabat;
 
+import java.util.Date;
+
 public class Cart {
 
     private final int maxMeals = 100;
     public Meal[] meals = new Meal[maxMeals];
     public float totalPrice = 0;
-    public int mealsQuantity;  //number of orders currently in the cart.
+    public int mealsQuantity; 
+    public Date orderDate;
+    public String notes,restaurnatName;
+//number of orders currently in the cart.
 
-    public void addMeal(Meal meal) {
-        meals[mealsQuantity++] = meal;
+    public void addMeal(Meal meal, int quantity) {
+        meals[mealsQuantity] = meal;
+        totalPrice+=meal.getPrice()*quantity;
+        mealsQuantity+=quantity;
     }
 
     public void removeMeal(int index) {
