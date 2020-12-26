@@ -60,7 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void restMealsTable(String s) {
         Database mq = new Database();
         mealList=mq.returnRestMeals(s);
-        String[] columnName = {"photo","Name","price", "description"};
+        String[] columnName = {"",""};
         System.out.println("size :"+ mealList.size());
         Object[][] rows = new Object[mealList.size()][columnName.length];
         for (int i = 0; i < mealList.size(); i++) {
@@ -73,23 +73,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
             
             rows[i][1] = mealList.get(i).name;
-            rows[i][2] = String.valueOf(mealList.get(i).mealPrice);
-            rows[i][3] = mealList.get(i).description;
+            
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
         mealSortter = new TableRowSorter<>(mealModel);
         mealsTable.setModel(mealModel);
-        mealsTable.setRowHeight(120);
+        mealsTable.setRowHeight(200);
 
-        mealsTable.getColumnModel().getColumn(0).setMaxWidth(80);
-        mealsTable.getColumnModel().getColumn(0).setMinWidth(80);
+        mealsTable.getColumnModel().getColumn(0).setMaxWidth(200);
+        mealsTable.getColumnModel().getColumn(0).setMinWidth(200);
 
-        mealsTable.getColumnModel().getColumn(1).setMaxWidth(150);
-        mealsTable.getColumnModel().getColumn(1).setMinWidth(150);
+        mealsTable.getColumnModel().getColumn(1).setMaxWidth(200);
+        mealsTable.getColumnModel().getColumn(1).setMinWidth(200);
         
-        mealsTable.getColumnModel().getColumn(2).setMaxWidth(150);
-        mealsTable.getColumnModel().getColumn(2).setMinWidth(150);
-        
+       
         mealSortter.setSortable(0, false);
         mealsTable.setRowSorter(mealSortter);
         searchMealsTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -2364,6 +2361,7 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        mealsTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
         mealsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mealsTableMouseClicked(evt);
@@ -2393,17 +2391,17 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGap(42, 42, 42)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel23Layout.createSequentialGroup()
-                        .addGap(380, 380, 380)
+                        .addGap(357, 357, 357)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel23Layout.createSequentialGroup()
+                        .addGap(384, 384, 384)
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchMealsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel23Layout.createSequentialGroup()
-                        .addGap(526, 526, 526)
-                        .addComponent(Hot_deals5))
-                    .addGroup(jPanel23Layout.createSequentialGroup()
-                        .addGap(264, 264, 264)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(523, 523, 523)
+                        .addComponent(Hot_deals5)))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2412,15 +2410,15 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Hot_deals5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(searchMealsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20))
-                .addGap(26, 26, 26)
+                .addComponent(Hot_deals5)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchMealsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantPanelLayout = new javax.swing.GroupLayout(resturantPanel);
@@ -2428,14 +2426,14 @@ public class MainFrame extends javax.swing.JFrame {
         resturantPanelLayout.setHorizontalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE)
+            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1179, Short.MAX_VALUE)
         );
         resturantPanelLayout.setVerticalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resturantPanelLayout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE))
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE))
         );
 
         mainFramePanel.add(resturantPanel, "card6");
@@ -2482,6 +2480,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTable1.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jTable1.setSelectionForeground(new java.awt.Color(0, 0, 0));
         jTable1.setShowHorizontalLines(false);
         jTable1.setShowVerticalLines(false);
