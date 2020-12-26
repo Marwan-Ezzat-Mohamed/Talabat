@@ -31,12 +31,14 @@ public class Database {
             myStmt = myConn.createStatement();
 
             // 3. Execute SQL query
-            myRs = myStmt.executeQuery("select * from restaurants_images");
+            myRs = myStmt.executeQuery("select * from Restaurant");
 
             // 4. Process the result set
             Restaurant r;
             while (myRs.next()) {
-                r = new Restaurant(myRs.getString("restaurant_name"), myRs.getBytes("image"),myRs.getString("r_description"));
+                r = new Restaurant(myRs.getString("name"), myRs.getBytes("photo"),myRs.getString("description"));
+               
+                
                 list.add(r);
             }
         } catch (Exception ex) {
@@ -62,6 +64,12 @@ public class Database {
             System.out.println(user);
             myRs = myStmt.executeQuery("select * from orders where username='"+user+"';");
             
+            
+            //meals rest_name orderDate total_price
+            
+            //meals agebo mn basket_id bta3 el user //kol meal leha id ageb mno el rest_name
+            //
+            
             // 4. Process the result set
             Order o;
             Cart c=new Cart();
@@ -69,12 +77,56 @@ public class Database {
            
             while (myRs.next()) {
                 o = new Order();
-                o.addCart(c);
+                
                 orderList.add(o);
             }
         } catch (Exception ex) {
             System.out.println("error 404");
         }
         return orderList;
+    }
+     
+     
+     
+     
+     public ArrayList<Meal> returnRestMeals(String s) {
+        String rest=s;
+        ArrayList<Meal> mealList = new ArrayList<Meal>();
+
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        try {
+            // get connection 
+            myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+            // 2. Create a statement
+            myStmt = myConn.createStatement();
+
+            // 3. Execute SQL query
+            
+            //select name,price,description from meal where meal_id in (select mealIDFK from has where restaurantName='mt3m');
+
+            System.out.println(rest);
+            myRs = myStmt.executeQuery("select name,price,description from meal where meal_id in (select mealIDFK from has where restaurantName='"+rest+"');");
+            
+            
+            //meals rest_name orderDate total_price
+            
+            //meals agebo mn basket_id bta3 el user //kol meal leha id ageb mno el rest_name
+            //
+            
+            // 4. Process the result set
+            Meal m;
+            while (myRs.next()) {
+                m= new Meal(myRs.getString("name"),myRs.getString("description"),Float.parseFloat(myRs.getString("price")));
+                System.out.println( myRs.getString("name"));
+                mealList.add(m);
+                
+               
+            }
+        } catch (Exception ex) {
+            System.out.println("error 404");
+        }
+        return mealList;
     }
 }

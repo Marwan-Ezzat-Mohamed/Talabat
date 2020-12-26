@@ -4,12 +4,15 @@ public class Meal {
 
     public String name, description;
 
+    
+    public float mealPrice;
+    public int orderCount;
+    
+    
     public Meal(String name, float mealPrice) {
         this.name = name;
         this.mealPrice = mealPrice;
     }
-    public float mealPrice;
-    public int orderCount;
 
     public Meal(String name, String description, float price) {
         this.name = name;

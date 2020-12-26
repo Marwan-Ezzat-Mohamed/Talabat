@@ -11,7 +11,7 @@ public class Talabat {
     public static MainFrame loginFrame;
     static Customer[] customers = new Customer[100];
     static Owner[] owners = new Owner[100];
-
+    public static String currentUser;
     public static boolean login() {
         int numberOfCustomers = Customer.numberOfCustomers;
         int numberOfOwners = Owner.numberOfOwners;
@@ -24,6 +24,7 @@ public class Talabat {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
                 loginFrame.username.setText(customers[i].username);
+                currentUser=customers[i].username;
                 //do some thing;
                 return true;
 
