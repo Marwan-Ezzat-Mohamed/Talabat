@@ -30,6 +30,9 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
+    
+    
+    
     public class Gradient extends JPanel {
 
         protected void paintComponent(Graphics g) {
@@ -48,6 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private TableRowSorter orderSorter;
+    private TableRowSorter mealSortter;
     static ArrayList<Order> orderList;
     static ArrayList<Meal> mealList;
     
@@ -56,17 +60,25 @@ public class MainFrame extends javax.swing.JFrame {
     public void restMealsTable(String s) {
         Database mq = new Database();
         mealList=mq.returnRestMeals(s);
-        String[] columnName = {"Meal name","price", "description"};
+        String[] columnName = {"photo","Name","price", "description"};
         System.out.println("size :"+ mealList.size());
         Object[][] rows = new Object[mealList.size()][columnName.length];
         for (int i = 0; i < mealList.size(); i++) {
-            rows[i][0] = mealList.get(i).name;
-            rows[i][1] = String.valueOf(mealList.get(i).mealPrice);
-            rows[i][2] = mealList.get(i).description;
+            
+            if (mealList.get(i).Image != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+                rows[i][0] = image;
+            } else {
+                rows[i][0] = null;
+            }
+            
+            rows[i][1] = mealList.get(i).name;
+            rows[i][2] = String.valueOf(mealList.get(i).mealPrice);
+            rows[i][3] = mealList.get(i).description;
         }
-        DefaultTableModel orderModel = new DefaultTableModel(rows, columnName);
-        orderSorter = new TableRowSorter<>(orderModel);
-        mealsTable.setModel(orderModel);
+        TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
+        mealSortter = new TableRowSorter<>(mealModel);
+        mealsTable.setModel(mealModel);
         mealsTable.setRowHeight(120);
 
         mealsTable.getColumnModel().getColumn(0).setMaxWidth(80);
@@ -77,6 +89,35 @@ public class MainFrame extends javax.swing.JFrame {
         
         mealsTable.getColumnModel().getColumn(2).setMaxWidth(150);
         mealsTable.getColumnModel().getColumn(2).setMinWidth(150);
+        
+        mealSortter.setSortable(0, false);
+        mealsTable.setRowSorter(mealSortter);
+        searchMealsTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                search(searchMealsTextField.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                search(searchMealsTextField.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+                search(searchMealsTextField.getText());
+            }
+
+            public void search(String str) {
+                if (str.length() == 0) {
+                    mealSortter.setRowFilter(null);
+                } else {
+                    mealSortter.setRowFilter(RowFilter.regexFilter(str, 1));
+                }
+            }
+
+        });
+        
 
 
     }
@@ -90,6 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
         orderList=mq.returnMyOrders(s);
         Object[][] rows = new Object[list.size()][columnName.length];
         for (int i = 0; i < orderList.size(); i++) {
+            
             rows[i][1] = orderList.get(i).ordererdMeals[0].name;
             rows[i][2] = orderList.get(i).restaurantName;
         }
@@ -344,6 +386,7 @@ public class MainFrame extends javax.swing.JFrame {
         Hot_deals5 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         mealsTable = new javax.swing.JTable();
+        searchMealsTextField = new javax.swing.JTextField();
         meals_pan7 = new javax.swing.JPanel();
         Hot_deals6 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
@@ -2358,7 +2401,18 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        mealsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mealsTableMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(mealsTable);
+
+        searchMealsTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchMealsTextFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout meals_pan5Layout = new javax.swing.GroupLayout(meals_pan5);
         meals_pan5.setLayout(meals_pan5Layout);
@@ -2368,16 +2422,19 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(meals_pan5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Hot_deals5))
+                    .addComponent(Hot_deals5)
+                    .addComponent(searchMealsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(454, Short.MAX_VALUE))
         );
         meals_pan5Layout.setVerticalGroup(
             meals_pan5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(meals_pan5Layout.createSequentialGroup()
                 .addComponent(Hot_deals5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(15, 15, 15)
+                .addComponent(searchMealsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(249, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
 
         meals_pan7.setBackground(new java.awt.Color(255, 255, 255));
@@ -3153,6 +3210,19 @@ public class MainFrame extends javax.swing.JFrame {
        
     }//GEN-LAST:event_my_ordersMousePressed
 
+    private void mealsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsTableMouseClicked
+        // TODO add your handling code here:
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_mealsTableMouseClicked
+
+    private void searchMealsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMealsTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchMealsTextFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3371,6 +3441,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel retaurants2;
     public javax.swing.JLabel retaurants3;
     public javax.swing.JLabel retaurants4;
+    public javax.swing.JTextField searchMealsTextField;
     public javax.swing.JCheckBox showPasswordCheckBox;
     public javax.swing.JCheckBox showPasswordCheckBoxForSignUp;
     public javax.swing.JCheckBox showPasswordCheckBoxForSignUp1;

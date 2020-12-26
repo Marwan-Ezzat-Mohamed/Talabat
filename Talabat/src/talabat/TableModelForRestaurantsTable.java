@@ -22,7 +22,7 @@ public class TableModelForRestaurantsTable extends AbstractTableModel {
         if (column == 0) {
             return Icon.class;
         } else {
-            return getValueAt(0, column).getClass();
+            return String.class;
         }
     }
 

@@ -107,7 +107,7 @@ public class Database {
             //select name,price,description from meal where meal_id in (select mealIDFK from has where restaurantName='mt3m');
 
             System.out.println(rest);
-            myRs = myStmt.executeQuery("select name,price,description from meal where meal_id in (select mealIDFK from has where restaurantName='"+rest+"');");
+            myRs = myStmt.executeQuery("select name,price,description,photo from meal where meal_id in (select mealIDFK from has where restaurantName='"+rest+"');");
             
             
             //meals rest_name orderDate total_price
@@ -118,8 +118,7 @@ public class Database {
             // 4. Process the result set
             Meal m;
             while (myRs.next()) {
-                m= new Meal(myRs.getString("name"),myRs.getString("description"),Float.parseFloat(myRs.getString("price")));
-                System.out.println( myRs.getString("name"));
+                m= new Meal(myRs.getString("name"),myRs.getString("description"),Float.parseFloat(myRs.getString("price")),myRs.getBytes("photo"));
                 mealList.add(m);
                 
                

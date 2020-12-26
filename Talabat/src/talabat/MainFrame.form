@@ -3593,7 +3593,8 @@
                                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jScrollPane6" min="-2" pref="596" max="-2" attributes="0"/>
-                                      <Component id="Hot_deals5" min="-2" max="-2" attributes="0"/>
+                                      <Component id="Hot_deals5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="searchMealsTextField" alignment="0" min="-2" pref="407" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace pref="454" max="32767" attributes="0"/>
                               </Group>
@@ -3603,9 +3604,11 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="Hot_deals5" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                  <Component id="searchMealsTextField" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jScrollPane6" min="-2" pref="202" max="-2" attributes="0"/>
-                                  <EmptySpace pref="249" max="32767" attributes="0"/>
+                                  <EmptySpace pref="204" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3637,9 +3640,17 @@
                                   </Table>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mealsTableMouseClicked"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
+                        <Component class="javax.swing.JTextField" name="searchMealsTextField">
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchMealsTextFieldActionPerformed"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="meals_pan7">

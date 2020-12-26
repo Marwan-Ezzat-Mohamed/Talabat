@@ -151,7 +151,7 @@ public class Meal_jframe extends javax.swing.JFrame {
                                 .add(total)
                                 .add(45, 45, 45)
                                 .add(orderPrice, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 109, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 40, Short.MAX_VALUE)
                                 .add(addtoBasket)))
                         .add(54, 54, 54))))
         );
@@ -240,7 +240,7 @@ public class Meal_jframe extends javax.swing.JFrame {
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -320,24 +320,24 @@ public class Meal_jframe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel addtoBasket;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel mealDescription;
-    private javax.swing.JLabel mealImage;
-    private javax.swing.JLabel mealName;
-    private javax.swing.JLabel minus;
-    private javax.swing.JLabel note;
-    private javax.swing.JTextArea noteTextarea;
-    private javax.swing.JLabel orderPrice;
-    private javax.swing.JLabel plus;
-    private javax.swing.JLabel quantity;
-    private javax.swing.JLabel quantityValue;
-    private javax.swing.JLabel size;
-    private javax.swing.JComboBox<String> sizeCheckbox;
-    private javax.swing.JLabel total;
+    public javax.swing.JLabel addtoBasket;
+    public javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel2;
+    public javax.swing.JPanel jPanel3;
+    public javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel mealDescription;
+    public javax.swing.JLabel mealImage;
+    public javax.swing.JLabel mealName;
+    public javax.swing.JLabel minus;
+    public javax.swing.JLabel note;
+    public javax.swing.JTextArea noteTextarea;
+    public javax.swing.JLabel orderPrice;
+    public javax.swing.JLabel plus;
+    public javax.swing.JLabel quantity;
+    public javax.swing.JLabel quantityValue;
+    public javax.swing.JLabel size;
+    public javax.swing.JComboBox<String> sizeCheckbox;
+    public javax.swing.JLabel total;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -181,9 +181,9 @@ public class Talabat {
 
         //Testing t = new Testing();
         // t.testingCart();
-        Meal y = new Meal("fsdfsd", "fsdf", 14F);
+       // Meal y = new Meal("fsdfsd", "fsdf", 14F);
         owners[0] = new Owner("joe", "123", "mac");
-        owners[0].addMeal(y);
+        //owners[0].addMeal(y);
 
         //jtabelFrame  j = new jtabelFrame();
         //j.show();
