@@ -30,9 +30,6 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
-    
-    
-    
     public class Gradient extends JPanel {
 
         protected void paintComponent(Graphics g) {
@@ -54,26 +51,71 @@ public class MainFrame extends javax.swing.JFrame {
     private TableRowSorter mealSortter;
     static ArrayList<Order> orderList;
     static ArrayList<Meal> mealList;
-    
-    
-    
-    public void restMealsTable(String s) {
-        Database mq = new Database();
-        mealList=mq.returnRestMeals(s);
-        String[] columnName = {"",""};
-        System.out.println("size :"+ mealList.size());
-        Object[][] rows = new Object[mealList.size()][columnName.length];
-        for (int i = 0; i < mealList.size(); i++) {
+    static int ownerIndex;
+
+    public void cartTable() {
+
+       
+        String[] columnName = {"picture", "meal name", "price", "quantity"};
+        Object[][] rows = new Object[Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals][columnName.length];
+        for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals; i++) {
+
+            boolean found = false;
+            for (int j = 0; j < Talabat.owners[ownerIndex].restaurant.mealCount; j++) {
+                if (Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name.equals(Talabat.owners[ownerIndex].restaurant.meals[j].name)) {
+                    
+                    if (Talabat.owners[ownerIndex].restaurant.meals[j].Image != null) {
+                        
+                        //System.out.println(Talabat.owners[ownerIndex].restaurant.name);
+                        ImageIcon image = new ImageIcon((Talabat.owners[ownerIndex].restaurant.meals[j].Image).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+                        rows[i][0] = image;
+
+                    } else {
+                        rows[i][0] = null;
+                    }
+                    break;
+
+                }
+                
+            }
+            rows[i][1] = Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name;
+                rows[i][2] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice);
+                rows[i][3] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart);
             
-            if (mealList.get(i).Image != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+            
+
+        }
+        TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
+
+        userCart.setModel(mealModel);
+        userCart.setRowHeight(200);
+
+        userCart.getColumnModel().getColumn(0).setMaxWidth(200);
+        userCart.getColumnModel().getColumn(0).setMinWidth(200);
+
+        userCart.getColumnModel().getColumn(1).setMaxWidth(200);
+        userCart.getColumnModel().getColumn(1).setMinWidth(200);
+
+    }
+
+    public void restMealsTable(String s) {
+
+        String[] columnName = {"", ""};
+        Object[][] rows = new Object[Talabat.owners[ownerIndex].restaurant.mealCount][columnName.length];
+        for (int i = 0; i < Talabat.owners[ownerIndex].restaurant.mealCount; i++) {
+
+            if (Talabat.owners[ownerIndex].restaurant.meals[i].Image != null) {
+
+                ImageIcon image = new ImageIcon((Talabat.owners[ownerIndex].restaurant.meals[i].Image).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+
                 rows[i][0] = image;
+
             } else {
                 rows[i][0] = null;
             }
-            
-            rows[i][1] = mealList.get(i).name;
-            
+            System.out.println(ownerIndex);
+            rows[i][1] = Talabat.owners[ownerIndex].restaurant.meals[i].name;
+
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
         mealSortter = new TableRowSorter<>(mealModel);
@@ -85,8 +127,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         mealsTable.getColumnModel().getColumn(1).setMaxWidth(200);
         mealsTable.getColumnModel().getColumn(1).setMinWidth(200);
-        
-       
+
         mealSortter.setSortable(0, false);
         mealsTable.setRowSorter(mealSortter);
         searchMealsTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -114,23 +155,36 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
         });
-        
-
 
     }
-    
-    
-    
-    
-      public void myOrdersTable(String s) {
-        Database mq = new Database();
-        String[] columnName = {"gdf","Meal", "Restaurant"};
-        orderList=mq.returnMyOrders(s);
-        Object[][] rows = new Object[list.size()][columnName.length];
-        for (int i = 0; i < orderList.size(); i++) {
-            
-            rows[i][1] = orderList.get(i).ordererdMeals[0].name;
-            rows[i][2] = orderList.get(i).restaurantName;
+
+    public void myOrdersTable(String s) {
+        
+        
+        int mx=-1;
+        for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].ordersCount; j++) {
+            mx = Integer.max(mx, Talabat.customers[Talabat.currentUserIndex].orders[j].numberOfMealsInCart);
+        }
+        
+        
+        
+        String[] columnName= new String[Talabat.customers[Talabat.currentUserIndex].ordersCount];
+        Object[][] rows = new Object[mx][Talabat.customers[Talabat.currentUserIndex].ordersCount];
+        
+        
+        
+        
+        
+        for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].ordersCount; j++) {
+
+            //rows[i][1] = Talabat.customers[Talabat.currentUserIndex].orders[i];
+            columnName[j]="order"+(j+1);
+            for(int i=0;i< Talabat.customers[Talabat.currentUserIndex].orders[j].numberOfMealsInCart;i++)
+            {
+                rows[i][j]=Talabat.customers[Talabat.currentUserIndex].orders[j].ordererdMeals[i].name;
+                
+            }
+            //rows[i][2] = orderList.get(i).restaurantName;
         }
         DefaultTableModel orderModel = new DefaultTableModel(rows, columnName);
         orderSorter = new TableRowSorter<>(orderModel);
@@ -140,15 +194,11 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.getColumnModel().getColumn(0).setMaxWidth(80);
         myOrdersTable.getColumnModel().getColumn(0).setMinWidth(80);
 
-        myOrdersTable.getColumnModel().getColumn(1).setMaxWidth(150);
-        myOrdersTable.getColumnModel().getColumn(1).setMinWidth(150);
-
+//        myOrdersTable.getColumnModel().getColumn(1).setMaxWidth(150);
+  //      myOrdersTable.getColumnModel().getColumn(1).setMinWidth(150);
 
     }
 
-    
-    
-    
     private TableRowSorter sorter;
 
     static ArrayList<Restaurant> list;
@@ -156,11 +206,11 @@ public class MainFrame extends javax.swing.JFrame {
     public void populateAllRestaurantsTable() {
         Database mq = new Database();
         list = mq.returnAllRestaurants();
-        String[] columnName = {"",""};
+        String[] columnName = {"", ""};
         Object[][] rows = new Object[list.size()][columnName.length];
         for (int i = 0; i < list.size(); i++) {
             rows[i][1] = list.get(i).name;
-            
+
             if (list.get(i).Image != null) {
                 ImageIcon image = new ImageIcon(new ImageIcon(list.get(i).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
                 rows[i][0] = image;
@@ -179,12 +229,10 @@ public class MainFrame extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(1).setMaxWidth(200);
         jTable1.getColumnModel().getColumn(1).setMinWidth(200);
 
-
     }
 
     public MainFrame() {
         initComponents();
-        
 
         new java.util.Timer().schedule(new java.util.TimerTask() {
             public void run() {
@@ -321,47 +369,14 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel92 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        meals_pan9 = new javax.swing.JPanel();
-        jPanel44 = new javax.swing.JPanel();
-        meal1pic25 = new javax.swing.JLabel();
-        jLabel74 = new javax.swing.JLabel();
-        jLabel75 = new javax.swing.JLabel();
-        jLabel76 = new javax.swing.JLabel();
-        jPanel45 = new javax.swing.JPanel();
-        meal1pic26 = new javax.swing.JLabel();
-        jLabel78 = new javax.swing.JLabel();
-        jLabel79 = new javax.swing.JLabel();
-        jLabel83 = new javax.swing.JLabel();
-        jPanel46 = new javax.swing.JPanel();
-        meal1pic27 = new javax.swing.JLabel();
-        jLabel77 = new javax.swing.JLabel();
-        jLabel94 = new javax.swing.JLabel();
-        jLabel95 = new javax.swing.JLabel();
-        jPanel47 = new javax.swing.JPanel();
-        meal1pic28 = new javax.swing.JLabel();
-        jLabel96 = new javax.swing.JLabel();
-        jLabel97 = new javax.swing.JLabel();
-        jLabel98 = new javax.swing.JLabel();
-        jPanel48 = new javax.swing.JPanel();
-        meal1pic29 = new javax.swing.JLabel();
-        jLabel99 = new javax.swing.JLabel();
-        jLabel100 = new javax.swing.JLabel();
-        jLabel101 = new javax.swing.JLabel();
-        jPanel49 = new javax.swing.JPanel();
-        meal1pic30 = new javax.swing.JLabel();
-        jLabel102 = new javax.swing.JLabel();
-        jLabel103 = new javax.swing.JLabel();
-        jLabel104 = new javax.swing.JLabel();
         jLabel93 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
-        jLabel105 = new javax.swing.JLabel();
-        jLabel106 = new javax.swing.JLabel();
         jLabel107 = new javax.swing.JLabel();
-        jLabel108 = new javax.swing.JLabel();
-        jLabel109 = new javax.swing.JLabel();
         jLabel110 = new javax.swing.JLabel();
         jLabel111 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        userCart = new javax.swing.JTable();
+        jLabel21 = new javax.swing.JLabel();
         resturantPanel = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
@@ -1121,6 +1136,9 @@ public class MainFrame extends javax.swing.JFrame {
         basket.setText("BASKET");
         basket.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         basket.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                basketMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 basketMousePressed(evt);
             }
@@ -1319,7 +1337,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         meals_panLayout.setVerticalGroup(
             meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1462,7 +1480,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout dwn_panelLayout = new javax.swing.GroupLayout(dwn_panel);
@@ -1678,7 +1696,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(myOrdersSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
@@ -1688,7 +1706,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1100, Short.MAX_VALUE)
+                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1108, Short.MAX_VALUE)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1814,344 +1832,49 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/Chkout.png"))); // NOI18N
         jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jScrollPane2.setBorder(null);
-
-        meals_pan9.setBackground(new java.awt.Color(255, 255, 255));
-        meals_pan9.setPreferredSize(new java.awt.Dimension(600, 800));
-
-        jPanel44.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel44.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-        meal1pic25.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                meal1pic25MouseClicked(evt);
+                jLabel11MouseClicked(evt);
             }
         });
-
-        jLabel74.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel74.setText("Meal Name");
-
-        jLabel75.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel75.setText("Quantity");
-
-        jLabel76.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel76.setText("25 EGP");
-
-        javax.swing.GroupLayout jPanel44Layout = new javax.swing.GroupLayout(jPanel44);
-        jPanel44.setLayout(jPanel44Layout);
-        jPanel44Layout.setHorizontalGroup(
-            jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel44Layout.createSequentialGroup()
-                .addComponent(meal1pic25)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel75)
-                    .addComponent(jLabel74)
-                    .addComponent(jLabel76))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel44Layout.setVerticalGroup(
-            jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel44Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel74)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel75)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel76)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel44Layout.createSequentialGroup()
-                .addComponent(meal1pic25)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel45.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel45.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel78.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel78.setText("Meal Name");
-
-        jLabel79.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel79.setText("Quantity");
-
-        jLabel83.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel83.setText("25 EGP");
-
-        javax.swing.GroupLayout jPanel45Layout = new javax.swing.GroupLayout(jPanel45);
-        jPanel45.setLayout(jPanel45Layout);
-        jPanel45Layout.setHorizontalGroup(
-            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel45Layout.createSequentialGroup()
-                .addComponent(meal1pic26)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel79)
-                    .addComponent(jLabel78)
-                    .addComponent(jLabel83))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel45Layout.setVerticalGroup(
-            jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel45Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel78)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel79)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel83)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel45Layout.createSequentialGroup()
-                .addComponent(meal1pic26)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel46.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel46.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-        meal1pic27.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                meal1pic27MouseClicked(evt);
-            }
-        });
-
-        jLabel77.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel77.setText("Meal Name");
-
-        jLabel94.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel94.setText("Quantity");
-
-        jLabel95.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel95.setText("25 EGP");
-
-        javax.swing.GroupLayout jPanel46Layout = new javax.swing.GroupLayout(jPanel46);
-        jPanel46.setLayout(jPanel46Layout);
-        jPanel46Layout.setHorizontalGroup(
-            jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel46Layout.createSequentialGroup()
-                .addComponent(meal1pic27)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel94)
-                    .addComponent(jLabel77)
-                    .addComponent(jLabel95))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel46Layout.setVerticalGroup(
-            jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel46Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel77)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel94)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel95)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel46Layout.createSequentialGroup()
-                .addComponent(meal1pic27)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel47.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel47.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel96.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel96.setText("Meal Name");
-
-        jLabel97.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel97.setText("Quantity");
-
-        jLabel98.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel98.setText("25 EGP");
-
-        javax.swing.GroupLayout jPanel47Layout = new javax.swing.GroupLayout(jPanel47);
-        jPanel47.setLayout(jPanel47Layout);
-        jPanel47Layout.setHorizontalGroup(
-            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel47Layout.createSequentialGroup()
-                .addComponent(meal1pic28)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel97)
-                    .addComponent(jLabel96)
-                    .addComponent(jLabel98))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel47Layout.setVerticalGroup(
-            jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel47Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel96)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel97)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel98)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel47Layout.createSequentialGroup()
-                .addComponent(meal1pic28)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel48.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel48.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-
-        jLabel99.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel99.setText("Meal Name");
-
-        jLabel100.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel100.setText("Quantity");
-
-        jLabel101.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel101.setText("25 EGP");
-
-        javax.swing.GroupLayout jPanel48Layout = new javax.swing.GroupLayout(jPanel48);
-        jPanel48.setLayout(jPanel48Layout);
-        jPanel48Layout.setHorizontalGroup(
-            jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel48Layout.createSequentialGroup()
-                .addComponent(meal1pic29)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel100)
-                    .addComponent(jLabel99)
-                    .addComponent(jLabel101))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel48Layout.setVerticalGroup(
-            jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel48Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel99)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel100)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel101)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel48Layout.createSequentialGroup()
-                .addComponent(meal1pic29)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel49.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel49.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        meal1pic30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
-        meal1pic30.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                meal1pic30MouseClicked(evt);
-            }
-        });
-
-        jLabel102.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel102.setText("Meal Name");
-
-        jLabel103.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel103.setText("Quantity");
-
-        jLabel104.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel104.setText("25 EGP");
-
-        javax.swing.GroupLayout jPanel49Layout = new javax.swing.GroupLayout(jPanel49);
-        jPanel49.setLayout(jPanel49Layout);
-        jPanel49Layout.setHorizontalGroup(
-            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel49Layout.createSequentialGroup()
-                .addComponent(meal1pic30)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel103)
-                    .addComponent(jLabel102)
-                    .addComponent(jLabel104))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel49Layout.setVerticalGroup(
-            jPanel49Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel49Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel102)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel103)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel104)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel49Layout.createSequentialGroup()
-                .addComponent(meal1pic30)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout meals_pan9Layout = new javax.swing.GroupLayout(meals_pan9);
-        meals_pan9.setLayout(meals_pan9Layout);
-        meals_pan9Layout.setHorizontalGroup(
-            meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(meals_pan9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(meals_pan9Layout.createSequentialGroup()
-                        .addComponent(jPanel44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(meals_pan9Layout.createSequentialGroup()
-                        .addComponent(jPanel46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(meals_pan9Layout.createSequentialGroup()
-                        .addComponent(jPanel49, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        meals_pan9Layout.setVerticalGroup(
-            meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(meals_pan9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel49, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(268, Short.MAX_VALUE))
-        );
-
-        jScrollPane2.setViewportView(meals_pan9);
 
         jLabel93.setFont(new java.awt.Font("Verdana", 1, 40)); // NOI18N
         jLabel93.setForeground(new java.awt.Color(230, 81, 0));
         jLabel93.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel93.setText("Basket");
 
-        jLabel105.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel105.setText("55 EGP");
-
-        jLabel106.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel106.setText("VAT");
-
         jLabel107.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel107.setText("Total");
-
-        jLabel108.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel108.setText("Subtotal");
-
-        jLabel109.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel109.setText("55 EGP");
 
         jLabel110.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel110.setText("55 EGP");
 
         jLabel111.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/bskt3x.png"))); // NOI18N
+
+        userCart.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(userCart);
+
+        jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel21.setText("remove meal");
+        jLabel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel21MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel21MouseEntered(evt);
+            }
+        });
 
         javax.swing.GroupLayout BasketLayout = new javax.swing.GroupLayout(Basket);
         Basket.setLayout(BasketLayout);
@@ -2169,19 +1892,16 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 922, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(118, 118, 118))
             .addGroup(BasketLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(90, 90, 90)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94)
+                .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel107)
-                    .addComponent(jLabel106)
-                    .addComponent(jLabel108)
-                    .addComponent(jLabel18))
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(58, 58, 58)
                 .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel109, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel110, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel105, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -2197,26 +1917,20 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(BasketLayout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(52, 52, 52)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(BasketLayout.createSequentialGroup()
-                        .addGap(184, 184, 184)
-                        .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel108)
-                            .addComponent(jLabel105))
-                        .addGap(18, 18, 18)
-                        .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel109)
-                            .addComponent(jLabel106))
-                        .addGap(18, 18, 18)
+                        .addGap(270, 270, 270)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel107)
                             .addComponent(jLabel110))
                         .addGap(39, 39, 39)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel18))))
-                .addContainerGap(94, Short.MAX_VALUE))
+                            .addComponent(jLabel18))
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         mainFramePanel.add(Basket, "card6");
@@ -2426,14 +2140,14 @@ public class MainFrame extends javax.swing.JFrame {
         resturantPanelLayout.setHorizontalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1179, Short.MAX_VALUE)
+            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1182, Short.MAX_VALUE)
         );
         resturantPanelLayout.setVerticalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resturantPanelLayout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE))
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
         );
 
         mainFramePanel.add(resturantPanel, "card6");
@@ -2527,7 +2241,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SearchTextField))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantPanel1Layout = new javax.swing.GroupLayout(resturantPanel1);
@@ -2793,10 +2507,8 @@ public class MainFrame extends javax.swing.JFrame {
         mainFramePanel.add(allRestuarnts);
         mainFramePanel.repaint();
         mainFramePanel.revalidate();
-        
-        populateAllRestaurantsTable();
-        
 
+        populateAllRestaurantsTable();
 
         sorter.setSortable(0, false);
         jTable1.setRowSorter(sorter);
@@ -2825,9 +2537,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
         });
-        
-        
-        
+
+
     }//GEN-LAST:event_all_restaurantsMouseClicked
     Meal_jframe meal = new Meal_jframe();
     private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
@@ -2869,40 +2580,8 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
 
-    private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
-        // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
-
-        // add sign up panel
-        mainFramePanel.add(homePanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
-    }//GEN-LAST:event_homeLogo1MousePressed
-
-    private void meal1pic25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic25MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_meal1pic25MouseClicked
-
-    private void meal1pic27MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic27MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_meal1pic27MouseClicked
-
-    private void meal1pic30MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meal1pic30MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_meal1pic30MouseClicked
-
     private void basketMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMousePressed
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
-
-        // add sign up panel
-        mainFramePanel.add(Basket);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
 
 
     }//GEN-LAST:event_basketMousePressed
@@ -2946,6 +2625,12 @@ public class MainFrame extends javax.swing.JFrame {
             int oldRow = jTable1.getSelectedRow();
             int newRow = sorter.convertRowIndexToModel(oldRow);
 
+            for (int i = 0; i < Owner.numberOfOwners; i++) {
+                if (Talabat.owners[i].restaurantName.equals(list.get(newRow).name)) {
+                    ownerIndex = i;
+                    break;
+                }
+            }
             resturantNameLabel.setText(list.get(newRow).name);
             resturantDescriptionLabel.setText(list.get(newRow).description);
             if (list.get(newRow).Image != null) {
@@ -2955,7 +2640,6 @@ public class MainFrame extends javax.swing.JFrame {
                 resturantIcon.setIcon(null);
             }
             //ImageIcon image = new ImageIcon(new ImageIcon(list.get(newRow).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
-            
 
             mainFramePanel.removeAll();
             mainFramePanel.repaint();
@@ -2965,7 +2649,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainFramePanel.add(resturantPanel);
             mainFramePanel.repaint();
             mainFramePanel.revalidate();
-            
+
             restMealsTable(list.get(newRow).name);
         }
 
@@ -3048,7 +2732,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void signUpAsOwnerLink1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpAsOwnerLink1MouseClicked
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_signUpAsOwnerLink1MouseClicked
 
     private void signUpAsOwnerLinkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpAsOwnerLinkMouseEntered
@@ -3097,7 +2781,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void showPasswordCheckBoxForSignUp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCheckBoxForSignUp1ActionPerformed
         // TODO add your handling code here:
-         if (showPasswordCheckBoxForSignUp1.isSelected()) {
+        if (showPasswordCheckBoxForSignUp1.isSelected()) {
             passwordFieldForSignUp1.setEchoChar((char) 0);
         } else {
             passwordFieldForSignUp1.setEchoChar('•');
@@ -3118,23 +2802,95 @@ public class MainFrame extends javax.swing.JFrame {
     private void my_ordersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMousePressed
         // TODO add your handling code here:
         myOrdersTable(Talabat.currentUser);
-        
-        
-       
+
+
     }//GEN-LAST:event_my_ordersMousePressed
 
     private void mealsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsTableMouseClicked
         // TODO add your handling code here:
-        
-        
-        
-        
-        
+
+        if (evt.getClickCount() == 2) {
+            Meal_jframe mealFrame = new Meal_jframe();
+
+            int oldRow = mealsTable.getSelectedRow();
+            int newRow = oldRow;
+
+            if (Talabat.owners[ownerIndex].restaurant.meals[newRow].Image != null) {
+
+                ImageIcon image = new ImageIcon((Talabat.owners[ownerIndex].restaurant.meals[newRow].Image).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+
+                mealFrame.mealImage.setIcon(image);
+
+            } else {
+                mealFrame.mealImage.setIcon(null);
+            }
+
+            mealFrame.mealName.setText(Talabat.owners[ownerIndex].restaurant.meals[newRow].name);
+
+            mealFrame.mealDescription.setText(Talabat.owners[ownerIndex].restaurant.meals[newRow].description);
+
+            mealFrame.orderPrice.setText(String.valueOf(Talabat.owners[ownerIndex].restaurant.meals[newRow].mealPrice) + "EGP");
+            mealFrame.mealPriceFloat = Talabat.owners[ownerIndex].restaurant.meals[newRow].mealPrice;
+
+            mealFrame.mealIndex = newRow;
+            mealFrame.ownerIndex=ownerIndex;
+            mealFrame.show();
+
+        }
+
+
     }//GEN-LAST:event_mealsTableMouseClicked
 
     private void searchMealsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMealsTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchMealsTextFieldActionPerformed
+
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+        // TODO add your handling code here:
+        Talabat.customers[Talabat.currentUserIndex].orderCart();
+
+
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
+        // TODO add your handling code here:
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+
+        // add sign up panel
+        mainFramePanel.add(homePanel);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+    }//GEN-LAST:event_homeLogo1MousePressed
+
+    private void basketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseClicked
+        // TODO add your handling code here:
+        cartTable();
+        mainFramePanel.removeAll();
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+
+        // add sign up panel
+        mainFramePanel.add(Basket);
+        mainFramePanel.repaint();
+        mainFramePanel.revalidate();
+    }//GEN-LAST:event_basketMouseClicked
+
+    private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
+        // TODO add your handling code here:
+        int index = userCart.getSelectedRow();
+        System.out.println("meal to ve removed is  :" + index );
+
+        Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
+                Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
+        cartTable();
+
+    }//GEN-LAST:event_jLabel21MouseClicked
+
+    private void jLabel21MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel21MouseEntered
 
     /**
      * @param args the command line arguments
@@ -3204,16 +2960,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel invalidLoginLabelForSignUp1;
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel10;
-    public javax.swing.JLabel jLabel100;
-    public javax.swing.JLabel jLabel101;
-    public javax.swing.JLabel jLabel102;
-    public javax.swing.JLabel jLabel103;
-    public javax.swing.JLabel jLabel104;
-    public javax.swing.JLabel jLabel105;
-    public javax.swing.JLabel jLabel106;
     public javax.swing.JLabel jLabel107;
-    public javax.swing.JLabel jLabel108;
-    public javax.swing.JLabel jLabel109;
     public javax.swing.JLabel jLabel11;
     public javax.swing.JLabel jLabel110;
     public javax.swing.JLabel jLabel111;
@@ -3230,6 +2977,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel19;
     public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel20;
+    public javax.swing.JLabel jLabel21;
     public javax.swing.JLabel jLabel3;
     public javax.swing.JLabel jLabel39;
     public javax.swing.JLabel jLabel4;
@@ -3243,17 +2991,10 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel50;
     public javax.swing.JLabel jLabel6;
     public javax.swing.JLabel jLabel7;
-    public javax.swing.JLabel jLabel74;
-    public javax.swing.JLabel jLabel75;
-    public javax.swing.JLabel jLabel76;
-    public javax.swing.JLabel jLabel77;
-    public javax.swing.JLabel jLabel78;
-    public javax.swing.JLabel jLabel79;
     public javax.swing.JLabel jLabel8;
     public javax.swing.JLabel jLabel80;
     public javax.swing.JLabel jLabel81;
     public javax.swing.JLabel jLabel82;
-    public javax.swing.JLabel jLabel83;
     public javax.swing.JLabel jLabel84;
     public javax.swing.JLabel jLabel85;
     public javax.swing.JLabel jLabel86;
@@ -3265,12 +3006,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel91;
     public javax.swing.JLabel jLabel92;
     public javax.swing.JLabel jLabel93;
-    public javax.swing.JLabel jLabel94;
-    public javax.swing.JLabel jLabel95;
-    public javax.swing.JLabel jLabel96;
-    public javax.swing.JLabel jLabel97;
-    public javax.swing.JLabel jLabel98;
-    public javax.swing.JLabel jLabel99;
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel18;
     public javax.swing.JPanel jPanel2;
@@ -3283,16 +3018,10 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel33;
     public javax.swing.JPanel jPanel34;
     public javax.swing.JPanel jPanel41;
-    public javax.swing.JPanel jPanel44;
-    public javax.swing.JPanel jPanel45;
-    public javax.swing.JPanel jPanel46;
-    public javax.swing.JPanel jPanel47;
-    public javax.swing.JPanel jPanel48;
-    public javax.swing.JPanel jPanel49;
     public javax.swing.JPanel jPanel5;
     public javax.swing.JPanel jPanel6;
     public javax.swing.JPanel jPanel7;
-    public javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JScrollPane jScrollPane4;
     public javax.swing.JScrollPane jScrollPane5;
@@ -3311,16 +3040,9 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel meal1pic;
     public javax.swing.JLabel meal1pic1;
     public javax.swing.JLabel meal1pic2;
-    public javax.swing.JLabel meal1pic25;
-    public javax.swing.JLabel meal1pic26;
-    public javax.swing.JLabel meal1pic27;
-    public javax.swing.JLabel meal1pic28;
-    public javax.swing.JLabel meal1pic29;
-    public javax.swing.JLabel meal1pic30;
     public javax.swing.JTable mealsTable;
     public javax.swing.JPanel meals_pan;
     public javax.swing.JPanel meals_pan8;
-    public javax.swing.JPanel meals_pan9;
     public javax.swing.JLabel mobileLabelForSignUp;
     public javax.swing.JTextField mobileTextFieldForSignUp;
     public javax.swing.JTextField myOrdersSearchTextField;
@@ -3362,6 +3084,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel talabatLogo;
     public javax.swing.JLabel talabatLogoForSignUp;
     public javax.swing.JLabel talabatLogoForSignUp1;
+    public javax.swing.JTable userCart;
     public javax.swing.JLabel userPhoto;
     public javax.swing.JLabel username;
     public javax.swing.JLabel usernameLabel;

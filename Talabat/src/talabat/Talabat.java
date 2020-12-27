@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 public class Talabat {
 
@@ -12,6 +13,8 @@ public class Talabat {
     static Customer[] customers = new Customer[100];
     static Owner[] owners = new Owner[100];
     public static String currentUser;
+    public static int currentUserIndex;
+   
     public static boolean login() {
         int numberOfCustomers = Customer.numberOfCustomers;
         int numberOfOwners = Owner.numberOfOwners;
@@ -25,6 +28,7 @@ public class Talabat {
                 loginFrame.invalidLoginLabel.setText("");
                 loginFrame.username.setText(customers[i].username);
                 currentUser=customers[i].username;
+                currentUserIndex=i;
                 //do some thing;
                 return true;
 
@@ -133,7 +137,9 @@ public class Talabat {
             try {
                 myConn1 = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
                 myStmt1 = myConn1.createStatement();
-                String st = "INSERT INTO owners Values( '" + inputUsername + "','" + inputPassword + "','" + restaurantName + ");";
+                String st = "INSERT INTO owners Values( '" + inputUsername + "','" + inputPassword + "','" + restaurantName + "');";
+                String st2="insert into Restaurant values ('"+restaurantName+"',"+null+","+null+");";
+                myStmt1.executeUpdate(st2);
                 myStmt1.executeUpdate(st);
                 owners[Owner.numberOfOwners] = new Owner(inputUsername, inputPassword, restaurantName);
             } catch (SQLException ex) {
@@ -172,30 +178,55 @@ public class Talabat {
         
         return newCustomers;
     }
+    
+    
+    public static Owner[] updateOwner() {
+        Owner newOwners[] = new Owner[100];
+        
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        
+        try {
+            // get connection 
+            myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+            // 2. Create a statement
+            myStmt = myConn.createStatement();
+            myRs = myStmt.executeQuery("select * from owners");
+
+            // 4. Process the result set
+            int i = 0;
+            while (myRs.next()) {
+                newOwners[i] = new Owner(myRs.getString("username"), myRs.getString("password"), myRs.getString("restaurantName"));
+                i++;
+            }
+        } catch (Exception ex) {
+            System.out.println("Error 404");
+        }
+        
+        return newOwners;
+    }
 
     public static void main(String[] args) {
 
         customers = updateCustomers();
-        // System.out.println(customers[0].username);
-        // System.out.println(customers[0].password);
-
-        //Testing t = new Testing();
-        // t.testingCart();
-       // Meal y = new Meal("fsdfsd", "fsdf", 14F);
-        owners[0] = new Owner("joe", "123", "mac");
-        //owners[0].addMeal(y);
-
-        //jtabelFrame  j = new jtabelFrame();
-        //j.show();
+        owners = updateOwner();
+                
         loginFrame = new MainFrame();
         loginFrame.show();
-        //Home min = new Home();
-        //min.show();
+        
+        ImageIcon i = new ImageIcon(ImageIcon.class.getResource("/pics/burger.jpg"));
+        
+        Meal burger= new Meal("beef burger","burger gamed", 90F,i);
+        Meal chickenBurger= new Meal("chicken burger", 70F);
+        Meal chickenzft= new Meal("chicken zft", 1F);
 
-        //Meal_jframe m = new Meal_jframe();
-        //m.show();
-        //loginFrame.loginButton.addActionListener((e) -> login());
-        //loginFrame.SignUpButton.addActionListener((e) -> signUpForCustomer());
+        owners[0].addMeal(burger);
+        owners[0].addMeal(chickenBurger);
+        owners[0].addMeal(chickenzft);
+        
+            
+        
     }
 
 }

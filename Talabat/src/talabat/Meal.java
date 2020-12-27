@@ -1,24 +1,30 @@
 package talabat;
 
+import javax.swing.ImageIcon;
+
 public class Meal {
 
     public String name, description;
 
     
     public float mealPrice;
-    public int orderCount;
+    public int orderCount,mealId;
+    public int mealsQuantityInCart; 
     
-    public byte[] Image;
+    public ImageIcon Image=null;
     public Meal(String name, float mealPrice) {
         this.name = name;
         this.mealPrice = mealPrice;
+        this.Image=null;
     }
 
-    public Meal(String name, String description, float price,byte []image) {
+    public Meal(String name, String description, float price,ImageIcon image) {
         this.name = name;
         this.description = description;
         this.mealPrice = price;
         this.Image=image;
+
+        
     }
 
     public void displayInfo() {
