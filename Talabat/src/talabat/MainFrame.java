@@ -27,6 +27,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import static talabat.Talabat.owners;
 
 /**
  *
@@ -71,7 +72,6 @@ public class MainFrame extends javax.swing.JFrame {
 
             for (int j = 0; j < Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].numberOfMealsInCart; j++) {
 
-                
                 rows[row][1] = Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].name;
                 rows[row][2] = String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].mealPrice);
                 rows[row][3] = String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].mealsQuantityInCart);
@@ -111,7 +111,7 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 rows[i][0] = null;
             }
-             
+
             rows[i][1] = Talabat.owners[ownerIdx].restaurant.meals[i].name;
             rows[i][2] = Talabat.owners[ownerIdx].restaurant.meals[i].description;
             rows[i][3] = String.valueOf(Talabat.owners[ownerIdx].restaurant.meals[i].mealPrice);
@@ -3149,11 +3149,23 @@ public class MainFrame extends javax.swing.JFrame {
             mainFramePanel.repaint();
             mainFramePanel.revalidate();
 
+
+                   // System.out.println(owners[i].restaurantName);
+                    resturantNameLabel1.setText(owners[i].restaurant.name);
+                    resturantDescriptionLabel1.setText(owners[i].restaurant.description);
+                    if (owners[i].restaurant.Image != null) {
+                        ImageIcon image = new ImageIcon(new ImageIcon(owners[i].restaurant.Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+                        resturantIcon1.setIcon(image);
+                    } else {
+                        resturantIcon1.setIcon(null);
+                    }
+            
             // add sign up panel
             mainFramePanel.add(resturantOwnerPanel);
             mainFramePanel.repaint();
             mainFramePanel.revalidate();
             restMealsTableForOwners();
+
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
@@ -3585,11 +3597,10 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel41MouseClicked
 
-
+    EditMeal edit = new EditMeal();
     private void mealsOfResturantForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerMouseClicked
         // TODO add your handling code here:
         int i = mealsOfResturantForOwner.getSelectedRow();
-        EditMeal edit = new EditMeal();
         edit.mealNameTextField.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].name);
         edit.priceTextField.setText(String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].mealPrice));
         edit.descriptionTextField.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].description);
@@ -3605,7 +3616,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         }
 
-        edit.show();
+        if (!add.isShowing()) {
+            edit.show();
+        }
 
 
     }//GEN-LAST:event_mealsOfResturantForOwnerMouseClicked
@@ -3618,11 +3631,13 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         restMealsTableForOwners();
     }//GEN-LAST:event_refreshButtonMouseClicked
-
+    AddMeal add = new AddMeal();
     private void addMealButoonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMealButoonMouseClicked
         // TODO add your handling code here:
-        AddMeal add = new AddMeal();
-        add.show();
+
+        if (!edit.isShowing()) {
+            add.show();
+        }
     }//GEN-LAST:event_addMealButoonMouseClicked
 
     private void homeLogo2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo2MousePressed
@@ -3665,11 +3680,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_signOutFromOwnerMouseClicked
 
     private void ordersForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwnerMouseClicked
-         
+
         myOrdersTableForOwner1();
         mainFramePanel.removeAll();
-         
-         
+
         mainFramePanel.repaint();
         mainFramePanel.revalidate();
 

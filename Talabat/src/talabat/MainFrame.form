@@ -2191,7 +2191,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="meals_pan8" alignment="1" pref="1117" max="32767" attributes="0"/>
+                                  <Component id="meals_pan8" alignment="1" pref="1109" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="jPanel34" alignment="0" max="32767" attributes="0"/>
@@ -2316,7 +2316,7 @@
                                   <Component id="myOrdersSearchTextField" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                                  <EmptySpace pref="40" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2690,9 +2690,6 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="18" style="1"/>
                 </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="0" red="0" type="rgb"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="remove meal"/>
               </Properties>
               <Events>
@@ -2718,7 +2715,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel18" max="32767" attributes="0"/>
-                  <Component id="jPanel23" alignment="0" pref="1182" max="32767" attributes="0"/>
+                  <Component id="jPanel23" alignment="0" pref="1188" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -2726,7 +2723,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel18" min="-2" pref="85" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel23" pref="813" max="32767" attributes="0"/>
+                      <Component id="jPanel23" pref="812" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3191,7 +3188,7 @@
                                   <Component id="SearchTextField" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jScrollPane4" pref="578" max="32767" attributes="0"/>
+                              <Component id="jScrollPane4" pref="577" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3440,7 +3437,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel19" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel25" alignment="0" pref="1182" max="32767" attributes="0"/>
+                  <Component id="jPanel25" alignment="0" pref="1188" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -3448,7 +3445,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel19" min="-2" pref="85" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel25" pref="813" max="32767" attributes="0"/>
+                      <Component id="jPanel25" pref="812" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -3822,9 +3819,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="refreshButton">
                   <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="0" red="0" type="rgb"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Refresh Table"/>
                   </Properties>
                   <Events>
@@ -3835,9 +3829,6 @@
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="18" style="1"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="0" red="0" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Add meal"/>
                   </Properties>
@@ -4089,7 +4080,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="meals_pan9" alignment="1" pref="1117" max="32767" attributes="0"/>
+                                  <Component id="meals_pan9" alignment="1" pref="1109" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="jPanel37" alignment="0" max="32767" attributes="0"/>
@@ -4214,7 +4205,7 @@
                                   <Component id="myOrdersSearchTextField1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jScrollPane9" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                                  <EmptySpace pref="40" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>

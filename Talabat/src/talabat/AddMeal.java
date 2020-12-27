@@ -105,6 +105,10 @@ public class AddMeal extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addMealLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,10 +121,6 @@ public class AddMeal extends javax.swing.JFrame {
                     .addComponent(addMealNameTextBox)
                     .addComponent(addMealPriceTextBox))
                 .addGap(0, 163, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addMealLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +139,7 @@ public class AddMeal extends javax.swing.JFrame {
                     .addComponent(addMealPriceTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(addMealLabel)
-                .addGap(35, 35, 35))
+                .addGap(36, 36, 36))
         );
 
         jPanel2.setBackground(new java.awt.Color(230, 81, 0));
@@ -172,7 +172,7 @@ public class AddMeal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mealName)
                     .addComponent(mealDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 176, Short.MAX_VALUE))
+                .addGap(0, 170, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +205,7 @@ public class AddMeal extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -265,11 +265,9 @@ public class AddMeal extends javax.swing.JFrame {
         float price = Float.parseFloat(addMealPriceTextBox.getText());
         ImageIcon image = new ImageIcon(((ImageIcon) addMealImage.getIcon()).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
         Meal m = new Meal(name, description, price, image);
-        System.out.println("no of meals before is : " + Talabat.owners[Talabat.currentOwnerIndex].restaurant.mealCount);
         Talabat.owners[Talabat.currentOwnerIndex].addMeal(m);
-        System.out.println("no of meals after is : " + Talabat.owners[Talabat.currentOwnerIndex].restaurant.mealCount);
+        addMealLabel.setEnabled(false);
         
-
     }//GEN-LAST:event_addMealLabelMouseClicked
 
     /**

@@ -24,7 +24,6 @@ public class EditMeal extends javax.swing.JFrame {
         initComponents();
     }
     int mealIndex;
-    boolean removed = false;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,8 +51,8 @@ public class EditMeal extends javax.swing.JFrame {
         descriptionTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         priceTextField = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        applyChangesbutton = new javax.swing.JLabel();
+        removeMealbutton = new javax.swing.JLabel();
         confirmationLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         mealNameLabel = new javax.swing.JLabel();
@@ -97,19 +96,19 @@ public class EditMeal extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setText("Apply changes");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        applyChangesbutton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        applyChangesbutton.setText("Apply changes");
+        applyChangesbutton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                applyChangesbuttonMouseClicked(evt);
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel5.setText("Remove Meal");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        removeMealbutton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        removeMealbutton.setText("Remove Meal");
+        removeMealbutton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                removeMealbuttonMouseClicked(evt);
             }
         });
 
@@ -123,9 +122,9 @@ public class EditMeal extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(removeMealbutton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
+                        .addComponent(applyChangesbutton)
                         .addGap(26, 26, 26))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +138,7 @@ public class EditMeal extends javax.swing.JFrame {
                             .addComponent(descriptionTextField, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(99, Short.MAX_VALUE)
                 .addComponent(confirmationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(93, 93, 93))
         );
@@ -160,8 +159,8 @@ public class EditMeal extends javax.swing.JFrame {
                     .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(applyChangesbutton)
+                    .addComponent(removeMealbutton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(confirmationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -188,7 +187,7 @@ public class EditMeal extends javax.swing.JFrame {
 
         priceLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         priceLabel.setForeground(new java.awt.Color(255, 255, 255));
-        priceLabel.setText("123");
+        priceLabel.setText("Price");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -268,13 +267,9 @@ public class EditMeal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_descriptionTextFieldActionPerformed
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void applyChangesbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyChangesbuttonMouseClicked
         // TODO add your handling code here:
-        if (!removed) {
-            confirmationLabel.setText("Meal edited successfully");
-        }
-
-        Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].name = mealNameTextField.getText();
+       Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].name = mealNameTextField.getText();
         Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].description = descriptionTextField.getText();
         Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].mealPrice = Float.parseFloat(priceTextField.getText());
 
@@ -292,15 +287,14 @@ public class EditMeal extends javax.swing.JFrame {
         } else {
             Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].Image = null;
         }
+        
 
 
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_applyChangesbuttonMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void removeMealbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeMealbuttonMouseClicked
         // TODO add your handling code here:
-        confirmationLabel.setText("Meal removed successfully");
         Talabat.owners[Talabat.currentOwnerIndex].removeMeal(mealIndex);
-        removed = true;
 
         mealNameTextField.setText(null);
         priceTextField.setText(null);
@@ -314,8 +308,7 @@ public class EditMeal extends javax.swing.JFrame {
         priceTextField.setEditable(false);
         descriptionTextField.setEditable(false);
 
-
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_removeMealbuttonMouseClicked
 
 
     private void mealImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealImageMouseClicked
@@ -373,12 +366,11 @@ public class EditMeal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JLabel applyChangesbutton;
     public javax.swing.JLabel confirmationLabel;
     public javax.swing.JTextField descriptionTextField;
     public javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel2;
-    public javax.swing.JLabel jLabel4;
-    public javax.swing.JLabel jLabel5;
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
@@ -389,5 +381,6 @@ public class EditMeal extends javax.swing.JFrame {
     public javax.swing.JTextField mealNameTextField;
     public javax.swing.JLabel priceLabel;
     public javax.swing.JTextField priceTextField;
+    public javax.swing.JLabel removeMealbutton;
     // End of variables declaration//GEN-END:variables
 }
