@@ -1,5 +1,6 @@
 package talabat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import jdk.nashorn.internal.ir.ContinueNode;
 
@@ -9,7 +10,7 @@ public class Cart {
     public Meal[] meals = new Meal[maxMeals];
     public float totalPrice = 0;
     public int numberOfMeals;
-    public Date orderDate;
+    public LocalDateTime orderDate;
     public String notes, restaurnatName;
 //number of orders currently in the cart.
 

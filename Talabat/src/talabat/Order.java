@@ -19,6 +19,7 @@ public class Order {
         this.numberOfMealsInCart = cart.numberOfMeals;
         for (int i = 0; i < numberOfMealsInCart; i++) {
             ordererdMeals[i] = cart.meals[i];
+            
         }
 
     }

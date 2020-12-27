@@ -14,8 +14,10 @@ public class Talabat {
     static Owner[] owners = new Owner[100];
     public static String currentUser;
     public static int currentUserIndex;
+    public static String currentOwner;
+    public static int currentOwnerIndex;
    
-    public static boolean login() {
+    public static int login() {
         int numberOfCustomers = Customer.numberOfCustomers;
         int numberOfOwners = Owner.numberOfOwners;
 
@@ -30,7 +32,7 @@ public class Talabat {
                 currentUser=customers[i].username;
                 currentUserIndex=i;
                 //do some thing;
-                return true;
+                return 1;
 
             }
         }
@@ -39,8 +41,10 @@ public class Talabat {
             if (owners[i].username.equals(inputUsername) && owners[i].password.equals(inputPassword)) {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
+                currentOwner=owners[i].username;
+                currentOwnerIndex=i;
                 //do some thing;
-                return true;
+                return 2;
 
             }
             //System.out.println("Login successful");
@@ -48,7 +52,7 @@ public class Talabat {
 
         }
         loginFrame.invalidLoginLabel.setText("Invalid username or password");
-        return false;
+        return 0;
     }
 
     public static boolean signUpForCustomer() {

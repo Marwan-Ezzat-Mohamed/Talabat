@@ -14,6 +14,10 @@ public class Owner extends User {
         restaurant.name = this.restaurantName;
         this.accountType = 1;
         numberOfOwners++;
+        for(int i=0;i<100;i++)
+        {
+            this.restaurant.orders[i]=new Order();
+        }
     }
 
     public void addMeal(Meal m) {
@@ -22,7 +26,7 @@ public class Owner extends User {
 
     public void removeMeal(int index) {
         restaurant.mealCount--;
-        index--;
+        
         Meal[] newMeals = new Meal[100];
         int j = 0;
         for (int i = 0; i < 100; i++) {
@@ -41,12 +45,11 @@ public class Owner extends User {
         //restaurant.meals[i].price /// = textbox text
     }
 
-    //waiting for orders class
     public void viewOrders() {
-//        for (int i = 0; i < restaurant.mealCount; i++) {
-//
-//            restaurant.orders[i].displayInfo();
-//        }
+       for (int i = 0; i < restaurant.mealCount; i++) {
+
+            restaurant.orders[i].displayOrder();
+        }
     }
 
     public void viewMeals() {
