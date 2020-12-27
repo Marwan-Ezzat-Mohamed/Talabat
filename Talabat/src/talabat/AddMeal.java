@@ -266,7 +266,7 @@ public class AddMeal extends javax.swing.JFrame {
         ImageIcon image = new ImageIcon(((ImageIcon) addMealImage.getIcon()).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
         Meal m = new Meal(name, description, price, image);
         Talabat.owners[Talabat.currentOwnerIndex].addMeal(m);
-        addMealLabel.setEnabled(false);
+        this.dispose();
         
     }//GEN-LAST:event_addMealLabelMouseClicked
 

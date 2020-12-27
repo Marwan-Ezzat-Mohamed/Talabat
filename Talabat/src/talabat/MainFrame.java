@@ -167,6 +167,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void cartTable() {
 
+        float totalPrice = 0;
         String[] columnName = {"picture", "meal name", "price", "quantity"};
         Object[][] rows = new Object[Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals][columnName.length];
         for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals; i++) {
@@ -191,8 +192,10 @@ public class MainFrame extends javax.swing.JFrame {
             rows[i][1] = Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name;
             rows[i][2] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice);
             rows[i][3] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart);
+            totalPrice+=Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice*Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart;
 
         }
+        totalPriceLabel.setText(String.valueOf(totalPrice));
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
 
         userCart.setModel(mealModel);
@@ -485,7 +488,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel93 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel107 = new javax.swing.JLabel();
-        jLabel110 = new javax.swing.JLabel();
+        totalPriceLabel = new javax.swing.JLabel();
         jLabel111 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         userCart = new javax.swing.JTable();
@@ -1877,7 +1880,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE)
+                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1123, Short.MAX_VALUE)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2017,8 +2020,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel107.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel107.setText("Total");
 
-        jLabel110.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel110.setText("55 EGP");
+        totalPriceLabel.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        totalPriceLabel.setText("55 EGP");
 
         jLabel111.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/bskt3x.png"))); // NOI18N
 
@@ -2036,7 +2039,6 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(userCart);
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(0, 0, 0));
         jLabel21.setText("remove meal");
         jLabel21.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2072,7 +2074,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(58, 58, 58)
                 .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel110, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(totalPriceLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -2094,7 +2096,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(270, 270, 270)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel107)
-                            .addComponent(jLabel110))
+                            .addComponent(totalPriceLabel))
                         .addGap(39, 39, 39)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
@@ -2311,7 +2313,7 @@ public class MainFrame extends javax.swing.JFrame {
         resturantPanelLayout.setHorizontalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1182, Short.MAX_VALUE)
+            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
         );
         resturantPanelLayout.setVerticalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2678,7 +2680,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/search.png"))); // NOI18N
 
-        refreshButton.setForeground(new java.awt.Color(0, 0, 0));
         refreshButton.setText("Refresh Table");
         refreshButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2687,7 +2688,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         addMealButoon.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        addMealButoon.setForeground(new java.awt.Color(0, 0, 0));
         addMealButoon.setText("Add meal");
         addMealButoon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2757,7 +2757,7 @@ public class MainFrame extends javax.swing.JFrame {
         resturantOwnerPanelLayout.setHorizontalGroup(
             resturantOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 1182, Short.MAX_VALUE)
+            .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
         );
         resturantOwnerPanelLayout.setVerticalGroup(
             resturantOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2970,7 +2970,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel36Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE)
+                    .addComponent(meals_pan9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1123, Short.MAX_VALUE)
                     .addGroup(jPanel36Layout.createSequentialGroup()
                         .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel37, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3019,7 +3019,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainFramePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(mainFramePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 904, Short.MAX_VALUE)
         );
 
         pack();
@@ -3149,17 +3149,16 @@ public class MainFrame extends javax.swing.JFrame {
             mainFramePanel.repaint();
             mainFramePanel.revalidate();
 
+            // System.out.println(owners[i].restaurantName);
+            resturantNameLabel1.setText(owners[Talabat.currentOwnerIndex].restaurant.name);
+            resturantDescriptionLabel1.setText(owners[Talabat.currentOwnerIndex].restaurant.description);
+            if (owners[Talabat.currentOwnerIndex].restaurant.Image != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(owners[Talabat.currentOwnerIndex].restaurant.Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+                resturantIcon1.setIcon(image);
+            } else {
+                resturantIcon1.setIcon(null);
+            }
 
-                   // System.out.println(owners[i].restaurantName);
-                    resturantNameLabel1.setText(owners[i].restaurant.name);
-                    resturantDescriptionLabel1.setText(owners[i].restaurant.description);
-                    if (owners[i].restaurant.Image != null) {
-                        ImageIcon image = new ImageIcon(new ImageIcon(owners[i].restaurant.Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
-                        resturantIcon1.setIcon(image);
-                    } else {
-                        resturantIcon1.setIcon(null);
-                    }
-            
             // add sign up panel
             mainFramePanel.add(resturantOwnerPanel);
             mainFramePanel.repaint();
@@ -3508,7 +3507,7 @@ public class MainFrame extends javax.swing.JFrame {
             Meal_jframe mealFrame = new Meal_jframe();
 
             int oldRow = mealsTable.getSelectedRow();
-            int newRow = oldRow;
+            int newRow = mealSortter.convertRowIndexToModel(oldRow);
 
             if (Talabat.owners[ownerIndex].restaurant.meals[newRow].Image != null) {
 
@@ -3771,7 +3770,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel10;
     public javax.swing.JLabel jLabel107;
     public javax.swing.JLabel jLabel11;
-    public javax.swing.JLabel jLabel110;
     public javax.swing.JLabel jLabel111;
     public javax.swing.JLabel jLabel112;
     public javax.swing.JLabel jLabel114;
@@ -3927,6 +3925,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel talabatLogo;
     public javax.swing.JLabel talabatLogoForSignUp;
     public javax.swing.JLabel talabatLogoForSignUp1;
+    public javax.swing.JLabel totalPriceLabel;
     public javax.swing.JTable userCart;
     public javax.swing.JLabel userPhoto;
     public javax.swing.JLabel userPhoto1;

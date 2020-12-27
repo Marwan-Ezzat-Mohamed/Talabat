@@ -288,6 +288,8 @@ public class EditMeal extends javax.swing.JFrame {
             Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].Image = null;
         }
         
+        this.dispose();
+        
 
 
     }//GEN-LAST:event_applyChangesbuttonMouseClicked
@@ -307,6 +309,7 @@ public class EditMeal extends javax.swing.JFrame {
         mealNameTextField.setEditable(false);
         priceTextField.setEditable(false);
         descriptionTextField.setEditable(false);
+        this.dispose();
 
     }//GEN-LAST:event_removeMealbuttonMouseClicked
 
