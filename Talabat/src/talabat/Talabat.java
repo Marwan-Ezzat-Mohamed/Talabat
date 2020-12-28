@@ -42,6 +42,7 @@ public class Talabat {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
                 currentOwner=owners[i].username;
+                
                 currentOwnerIndex=i;
                 //do some thing;
                 return 2;

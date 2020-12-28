@@ -11,11 +11,11 @@ public class Meal {
     public int orderCount,mealId;
     public int mealsQuantityInCart; 
     
-    public ImageIcon Image=null;
+    public ImageIcon Image=new ImageIcon(ImageIcon.class.getResource("/pics/addphoto.png"));
     public Meal(String name, float mealPrice) {
         this.name = name;
         this.mealPrice = mealPrice;
-        this.Image=null;
+       
     }
 
     public Meal(String name, String description, float price,ImageIcon image) {

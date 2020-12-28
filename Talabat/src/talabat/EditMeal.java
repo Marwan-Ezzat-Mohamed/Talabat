@@ -72,6 +72,7 @@ public class EditMeal extends javax.swing.JFrame {
         mealName1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         mealName1.setText("Edit Meal name");
 
+        mealNameTextField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         mealNameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mealNameTextFieldActionPerformed(evt);
@@ -81,6 +82,7 @@ public class EditMeal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Edit Description");
 
+        descriptionTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         descriptionTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 descriptionTextFieldActionPerformed(evt);
@@ -90,6 +92,7 @@ public class EditMeal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Edit Price");
 
+        priceTextField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         priceTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 priceTextFieldActionPerformed(evt);
@@ -97,7 +100,7 @@ public class EditMeal extends javax.swing.JFrame {
         });
 
         applyChangesbutton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        applyChangesbutton.setText("Apply changes");
+        applyChangesbutton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/apply.png"))); // NOI18N
         applyChangesbutton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 applyChangesbuttonMouseClicked(evt);
@@ -105,7 +108,7 @@ public class EditMeal extends javax.swing.JFrame {
         });
 
         removeMealbutton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        removeMealbutton.setText("Remove Meal");
+        removeMealbutton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/remove.png"))); // NOI18N
         removeMealbutton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 removeMealbuttonMouseClicked(evt);
@@ -121,22 +124,17 @@ public class EditMeal extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(removeMealbutton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(applyChangesbutton)
-                        .addGap(26, 26, 26))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mealName1)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(55, 55, 55)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(mealNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(priceTextField)
-                            .addComponent(descriptionTextField, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(mealName1)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(removeMealbutton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(mealNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .addComponent(descriptionTextField)
+                    .addComponent(priceTextField)
+                    .addComponent(applyChangesbutton, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(48, 48, 48))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(99, Short.MAX_VALUE)
                 .addComponent(confirmationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -145,23 +143,23 @@ public class EditMeal extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mealName1)
                     .addComponent(mealNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58)
+                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(applyChangesbutton)
-                    .addComponent(removeMealbutton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(54, 54, 54)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(removeMealbutton)
+                    .addComponent(applyChangesbutton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(confirmationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -173,19 +171,19 @@ public class EditMeal extends javax.swing.JFrame {
         mealNameLabel.setForeground(new java.awt.Color(255, 255, 255));
         mealNameLabel.setText("Meal name");
 
-        mealDescriptionLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        mealDescriptionLabel.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         mealDescriptionLabel.setForeground(new java.awt.Color(255, 255, 255));
         mealDescriptionLabel.setText("Description");
 
         mealImage.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        mealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        mealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         mealImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mealImageMouseClicked(evt);
             }
         });
 
-        priceLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        priceLabel.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         priceLabel.setForeground(new java.awt.Color(255, 255, 255));
         priceLabel.setText("Price");
 

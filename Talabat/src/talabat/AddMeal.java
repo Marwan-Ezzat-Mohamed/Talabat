@@ -35,7 +35,7 @@ public class AddMeal extends javax.swing.JFrame {
     public ImageIcon ResizeImage(String ImagePath) {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
-        Image newImg = img.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        Image newImg = img.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(newImg);
         return image;
     }
@@ -69,6 +69,7 @@ public class AddMeal extends javax.swing.JFrame {
         mealName1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         mealName1.setText("Meal name");
 
+        addMealNameTextBox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         addMealNameTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addMealNameTextBoxActionPerformed(evt);
@@ -78,6 +79,7 @@ public class AddMeal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Description");
 
+        addMealDescriptionTextBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         addMealDescriptionTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addMealDescriptionTextBoxActionPerformed(evt);
@@ -87,6 +89,7 @@ public class AddMeal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Price");
 
+        addMealPriceTextBox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         addMealPriceTextBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addMealPriceTextBoxActionPerformed(evt);
@@ -94,7 +97,7 @@ public class AddMeal extends javax.swing.JFrame {
         });
 
         addMealLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        addMealLabel.setText("Add Meal");
+        addMealLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/admeal.png"))); // NOI18N
         addMealLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addMealLabelMouseClicked(evt);
@@ -105,41 +108,41 @@ public class AddMeal extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addMealLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(mealName1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(addMealDescriptionTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addComponent(addMealDescriptionTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                     .addComponent(addMealNameTextBox)
                     .addComponent(addMealPriceTextBox))
-                .addGap(0, 163, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(144, 144, 144)
+                .addComponent(addMealLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mealName1)
                     .addComponent(addMealNameTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(addMealDescriptionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
+                    .addComponent(addMealDescriptionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(addMealPriceTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
                 .addComponent(addMealLabel)
-                .addGap(36, 36, 36))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(230, 81, 0));
@@ -149,12 +152,12 @@ public class AddMeal extends javax.swing.JFrame {
         mealName.setForeground(new java.awt.Color(255, 255, 255));
         mealName.setText("Meal name");
 
-        mealDescription.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        mealDescription.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         mealDescription.setForeground(new java.awt.Color(255, 255, 255));
         mealDescription.setText("Description");
 
         addMealImage.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        addMealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        addMealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         addMealImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addMealImageMouseClicked(evt);
@@ -263,7 +266,7 @@ public class AddMeal extends javax.swing.JFrame {
         String name = addMealNameTextBox.getText();
         String description = addMealDescriptionTextBox.getText();
         float price = Float.parseFloat(addMealPriceTextBox.getText());
-        ImageIcon image = new ImageIcon(((ImageIcon) addMealImage.getIcon()).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
+        ImageIcon image = new ImageIcon(((ImageIcon) addMealImage.getIcon()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
         Meal m = new Meal(name, description, price, image);
         Talabat.owners[Talabat.currentOwnerIndex].addMeal(m);
         this.dispose();
