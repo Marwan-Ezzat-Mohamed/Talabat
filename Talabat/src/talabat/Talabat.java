@@ -92,7 +92,7 @@ public class Talabat {
         } else {
 
             try {
-                myConn1 = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+                myConn1 = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY","UIY691h8aY");
                 myStmt1 = myConn1.createStatement();
                 String st = "INSERT INTO customers Values( '" + inputUsername + "','" + inputPassword + "','" + mobile + "','" + address + "');";
                 myStmt1.executeUpdate(st);
@@ -140,10 +140,10 @@ public class Talabat {
         } else {
 
             try {
-                myConn1 = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+                myConn1 = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
                 myStmt1 = myConn1.createStatement();
                 String st = "INSERT INTO owners Values( '" + inputUsername + "','" + inputPassword + "','" + restaurantName + "');";
-                String st2="insert into Restaurant values ('"+restaurantName+"',"+null+","+null+");";
+                String st2="insert into restaurants values ('"+restaurantName+"',"+null+","+null+");";
                 myStmt1.executeUpdate(st2);
                 myStmt1.executeUpdate(st);
                 owners[Owner.numberOfOwners] = new Owner(inputUsername, inputPassword, restaurantName);
@@ -163,7 +163,7 @@ public class Talabat {
         ResultSet myRs = null;
         try {
             // get connection 
-            myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
 
             System.out.println(myConn);
             
@@ -194,7 +194,7 @@ public class Talabat {
         
         try {
             // get connection 
-            myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
             // 2. Create a statement
             myStmt = myConn.createStatement();
             myRs = myStmt.executeQuery("select * from owners");
@@ -202,7 +202,7 @@ public class Talabat {
             // 4. Process the result set
             int i = 0;
             while (myRs.next()) {
-                newOwners[i] = new Owner(myRs.getString("username"), myRs.getString("password"), myRs.getString("restaurantName"));
+                newOwners[i] = new Owner(myRs.getString("username"), myRs.getString("pass"), myRs.getString("restaurantName"));
                 i++;
             }
         } catch (Exception ex) {
@@ -216,7 +216,8 @@ public class Talabat {
 
         customers = updateCustomers();
         owners = updateOwner();
-                
+        //customers[0]= new Customer("123", "1233","marwan" ,"123" );
+               
         loginFrame = new MainFrame();
         loginFrame.show();
         
@@ -225,10 +226,16 @@ public class Talabat {
         Meal burger= new Meal("beef burger","burger gamed", 90F,i);
         Meal chickenBurger= new Meal("chicken burger", 70F);
         Meal chickenzft= new Meal("chicken zft", 1F);
+        
+       // owners[0]= new Owner("joe", "123", "macOs");
+       // owners[1]= new Owner("joe", "123", "burger king");
+       // owners[2]= new Owner("joe", "123", "m4 lazm");
+       // owners[3]= new Owner("joe", "123", "fakes");
+        //owners[4]= new Owner("joe", "123", "fakesss");
 
-        owners[0].addMeal(burger);
-        owners[0].addMeal(chickenBurger);
-        owners[0].addMeal(chickenzft);
+//        owners[0].addMeal(burger);
+       // owners[0].addMeal(chickenBurger);
+       // owners[0].addMeal(chickenzft);
         
             
         

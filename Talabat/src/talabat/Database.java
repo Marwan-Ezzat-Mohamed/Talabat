@@ -59,17 +59,17 @@ public class Database {
         ResultSet myRs = null;
         try {
             // get connection 
-            myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
+             myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
             // 2. Create a statement
             myStmt = myConn.createStatement();
 
             // 3. Execute SQL query
-            myRs = myStmt.executeQuery("select * from Restaurant");
+            myRs = myStmt.executeQuery("select * from restaurants");
 
             // 4. Process the result set
             Restaurant r;
             while (myRs.next()) {
-                r = new Restaurant(myRs.getString("name"), myRs.getBytes("photo"), myRs.getString("description"));
+                r = new Restaurant(myRs.getString("name"), myRs.getBytes("image"), myRs.getString("description"));
 
                 list.add(r);
             }
