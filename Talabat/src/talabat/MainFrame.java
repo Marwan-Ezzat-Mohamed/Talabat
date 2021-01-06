@@ -6,33 +6,39 @@
 package talabat;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import static talabat.Talabat.owners;
 
 /**
@@ -68,16 +74,17 @@ public class MainFrame extends javax.swing.JFrame {
     static ArrayList<Meal> mealList;
     static int ownerIndex;
 
+    boolean allResturantsIsSorted = false;
+
     public void myOrdersTableForOwner1() {
 
-        System.out.println("...........hdfhdfdfdf.........");
-        String[] columnName = {"Order No.","", "Meal Name", "Price", "Quantity", "Date"};
+        String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
         Object[][] rows = new Object[Talabat.owners[Talabat.currentOwnerIndex].restaurant.numberOfOrders][columnName.length];
         int row = 0;
         for (int i = 0; i < Talabat.owners[Talabat.currentOwnerIndex].restaurant.numberOfOrders; i++) {
-            rows[row][0]=i+1;
+            rows[row][0] = i + 1;
             for (int j = 0; j < Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].numberOfMealsInCart; j++) {
-                
+
                 rows[row][2] = Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].name;
                 rows[row][3] = String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].mealPrice);
                 rows[row][4] = String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].mealsQuantityInCart);
@@ -98,16 +105,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         myOrdersTableForOwner.getColumnModel().getColumn(1).setMaxWidth(160);
         myOrdersTableForOwner.getColumnModel().getColumn(1).setMinWidth(160);
-        
+
         myOrdersTableForOwner.getColumnModel().getColumn(2).setMaxWidth(200);
         myOrdersTableForOwner.getColumnModel().getColumn(2).setMinWidth(200);
 
         myOrdersTableForOwner.getColumnModel().getColumn(3).setMaxWidth(100);
         myOrdersTableForOwner.getColumnModel().getColumn(3).setMinWidth(100);
-        
+
         myOrdersTableForOwner.getColumnModel().getColumn(4).setMaxWidth(100);
         myOrdersTableForOwner.getColumnModel().getColumn(4).setMinWidth(100);
-        
+
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMaxWidth(160);
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMinWidth(160);
 
@@ -115,24 +122,26 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void restMealsTableForOwners() {
 
-        int ownerIdx = Talabat.currentOwnerIndex;
-        String[] columnName = {"", " Meal Name", "Description", "Price"};
-        Object[][] rows = new Object[Talabat.owners[ownerIdx].restaurant.mealCount][columnName.length];
-        for (int i = 0; i < Talabat.owners[ownerIdx].restaurant.mealCount; i++) {
+        Database db = new Database();
+        mealList = db.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
 
-            if (Talabat.owners[ownerIdx].restaurant.meals[i].Image != null) {
+        String[] columnName = {"", "Meal Name", "Description", "Price"};
+        Object[][] rows = new Object[mealList.size()][columnName.length];
+        for (int i = 0; i < mealList.size(); i++) {
 
-                ImageIcon image = new ImageIcon((Talabat.owners[ownerIdx].restaurant.meals[i].Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+            if (mealList.get(i).databaseImage != null) {
+
+                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 rows[i][0] = image;
 
             } else {
                 rows[i][0] = null;
             }
-
-            rows[i][1] = Talabat.owners[ownerIdx].restaurant.meals[i].name;
-            rows[i][2] = Talabat.owners[ownerIdx].restaurant.meals[i].description;
-            rows[i][3] = String.valueOf(Talabat.owners[ownerIdx].restaurant.meals[i].mealPrice);
+            System.out.println(ownerIndex);
+            rows[i][1] = mealList.get(i).name;
+            rows[i][2] = mealList.get(i).description;
+            rows[i][3] = mealList.get(i).mealPrice;
 
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
@@ -210,7 +219,7 @@ public class MainFrame extends javax.swing.JFrame {
             rows[i][1] = Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name;
             rows[i][2] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice);
             rows[i][3] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart);
-            totalPrice+=Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice*Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart;
+            totalPrice += Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice * Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart;
 
         }
         totalPriceLabel.setText(String.valueOf(totalPrice));
@@ -227,15 +236,18 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void restMealsTable(String s) {
+    public void restaurantMealsTable(String s) {
 
-        String[] columnName = {"", "Meal Name","Description","Price"};
-        Object[][] rows = new Object[Talabat.owners[ownerIndex].restaurant.mealCount][columnName.length];
-        for (int i = 0; i < Talabat.owners[ownerIndex].restaurant.mealCount; i++) {
+        Database db = new Database();
+        mealList = db.getRestaurantMeals(s);
 
-            if (Talabat.owners[ownerIndex].restaurant.meals[i].Image != null) {
+        String[] columnName = {"", "Meal Name", "Description", "Price"};
+        Object[][] rows = new Object[mealList.size()][columnName.length];
+        for (int i = 0; i < mealList.size(); i++) {
 
-                ImageIcon image = new ImageIcon((Talabat.owners[ownerIndex].restaurant.meals[i].Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+            if (mealList.get(i).databaseImage != null) {
+
+                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 rows[i][0] = image;
 
@@ -243,11 +255,9 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][0] = null;
             }
             System.out.println(ownerIndex);
-            rows[i][1] = Talabat.owners[ownerIndex].restaurant.meals[i].name;
-            rows[i][2] = Talabat.owners[ownerIndex].restaurant.meals[i].description ;
-            rows[i][3] = Talabat.owners[ownerIndex].restaurant.meals[i].mealPrice;
-            
-            
+            rows[i][1] = mealList.get(i).name;
+            rows[i][2] = mealList.get(i).description;
+            rows[i][3] = mealList.get(i).mealPrice;
 
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
@@ -260,14 +270,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         mealsTable.getColumnModel().getColumn(1).setMaxWidth(200);
         mealsTable.getColumnModel().getColumn(1).setMinWidth(200);
-        
+
         mealsTable.getColumnModel().getColumn(2).setMaxWidth(200);
         mealsTable.getColumnModel().getColumn(2).setMinWidth(200);
-        
+
         mealsTable.getColumnModel().getColumn(3).setMaxWidth(150);
         mealsTable.getColumnModel().getColumn(3).setMinWidth(150);
-        
-        
+
         mealSortter.setSortable(0, false);
         mealsTable.setRowSorter(mealSortter);
         searchMealsTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -323,7 +332,7 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[row][2] = Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].name;
                 rows[row][3] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].mealPrice);
                 rows[row][4] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].mealsQuantityInCart);
-                rows[row][5] =Talabat.customers[Talabat.currentUserIndex].cart.orderDate ;
+                rows[row][5] = Talabat.customers[Talabat.currentUserIndex].cart.orderDate;
 
                 row++;
 
@@ -340,16 +349,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         myOrdersTable.getColumnModel().getColumn(1).setMaxWidth(160);
         myOrdersTable.getColumnModel().getColumn(1).setMinWidth(160);
-        
+
         myOrdersTable.getColumnModel().getColumn(2).setMaxWidth(200);
         myOrdersTable.getColumnModel().getColumn(2).setMinWidth(200);
 
         myOrdersTable.getColumnModel().getColumn(3).setMaxWidth(100);
         myOrdersTable.getColumnModel().getColumn(3).setMinWidth(100);
-        
+
         myOrdersTable.getColumnModel().getColumn(4).setMaxWidth(100);
         myOrdersTable.getColumnModel().getColumn(4).setMinWidth(100);
-        
+
         myOrdersTable.getColumnModel().getColumn(5).setMaxWidth(160);
         myOrdersTable.getColumnModel().getColumn(5).setMinWidth(160);
 
@@ -357,65 +366,172 @@ public class MainFrame extends javax.swing.JFrame {
 
     private TableRowSorter sorter;
 
-    static ArrayList<Restaurant> list;
+    static ArrayList<Restaurant> allRestaurantsArrayList;
+    private Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
 
-    public void populateAllRestaurantsTable() {
-        Database mq = new Database();
-        list = mq.returnAllRestaurants();
-        String[] columnName = {"", "","","","",""};
-        Object[][] rows = new Object[list.size()][columnName.length];
-        
-        
-        /*int m=0;
-        for (int i = 0; i < list.size()/3; i++) {
-            for (int k = 0; k < 5; k += 2) {
+    String[] nameList = new String[100];
+    int sz;
 
-                if (m == list.size()) {
-                    break;
-                }
-                rows[i][k + 1] = list.get(m).name;
+    Map<String, Restaurant> map = new HashMap<>();
 
-                if (list.get(m).Image != null) {
-                    ImageIcon image = new ImageIcon(new ImageIcon(list.get(m).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
-                    rows[i][k] = image;
-                } else {
-                    rows[i][k] = null;
-                }
-                m++;
+    private void createImageMap() {
 
-            }
+        Database d = new Database();
+        allRestaurantsArrayList = d.returnAllRestaurants();
+        sz = allRestaurantsArrayList.size();
 
-        }*/
-        
-        for (int i = 0; i < list.size(); i++) {
-           
+        for (int i = 0; i < sz; i++) {
 
-                
-                rows[i][1] = list.get(i).name;
-
-                if (list.get(i).Image != null) {
-                    ImageIcon image = new ImageIcon(new ImageIcon(list.get(i).Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
-                    rows[i][0] = image;
-                } else {
-                    rows[i][0] = null;
-                }
-
-
-            
+            allRestaurantsImageMap.put(allRestaurantsArrayList.get(i).name, allRestaurantsArrayList.get(i));
+            nameList[i] = allRestaurantsArrayList.get(i).name;
 
         }
+
+        //3mlt array gded 34an el size yb2a mazbot 34an lw 5leto 100 msln el scroll ely fl grid hyb2a byscroll f page fadya
+        String[] s = new String[sz];
+
+        //copy name list to s for loop can be used instead 
+        System.arraycopy(nameList, 0, s, 0, sz);
         
-        TableModelForRestaurantsTable model = new TableModelForRestaurantsTable(rows, columnName);
-        sorter = new TableRowSorter<>(model);
-        jTable1.setModel(model);
-        jTable1.setRowHeight(160);
+        allRestaurantsjList.setBorder(new EmptyBorder(10, 10, 10, 10));
+        allRestaurantsjList.setFixedCellWidth(220);
+        allRestaurantsjList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = s;
 
-        jTable1.getColumnModel().getColumn(0).setMaxWidth(160);
-        jTable1.getColumnModel().getColumn(0).setMinWidth(160);
+            @Override
+            public int getSize() {
+                return strings.length;
+            }
 
-        jTable1.getColumnModel().getColumn(1).setMaxWidth(200);
-        jTable1.getColumnModel().getColumn(1).setMinWidth(200);
+            @Override
+            public String getElementAt(int i) {
+                return strings[i];
+            }
+        });
 
+    }
+
+    public class allRestaurantsListRenderModel extends DefaultListCellRenderer {
+
+        Font font = new Font("helvitica", Font.BOLD, 20);
+
+        @Override
+        public Component getListCellRendererComponent(
+                JList list, Object value, int index,
+                boolean isSelected, boolean cellHasFocus) {
+
+            JLabel label = (JLabel) super.getListCellRendererComponent(
+                    list, value, index, isSelected, cellHasFocus);
+
+            if (allRestaurantsImageMap.get((String) value).Image != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get((String) value).Image).getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH));
+                label.setIcon(image);
+
+            }
+            Restaurant r = allRestaurantsImageMap.get((String) value);
+
+            String labelText = "<html> <div style='text-align: center;'>" + r.name + "<br>" + r.description + "</div></html>";
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            label.setVerticalAlignment(SwingConstants.CENTER);
+            label.setText(labelText);
+
+            label.setHorizontalTextPosition(JLabel.CENTER);
+            label.setVerticalTextPosition(JLabel.BOTTOM);
+            label.setFont(font);
+
+            //setHorizontalAlignment(JLabel.CENTER);
+            return label;
+        }
+
+    }
+
+    public void populateAllRestaurantsTable() {
+
+        createImageMap();
+
+        allRestaurantsjList.setCellRenderer(new allRestaurantsListRenderModel());
+        allRestaurantsjList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        allRestaurantsjList.setVisibleRowCount(0);
+
+        SearchTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+
+            private void filter() {
+                String filter = SearchTextField.getText();
+                String[] nList = new String[6];
+                int i = 0;
+                for (String s : nameList) {
+                    if (s != null) {
+                        if (s.contains(filter)) {
+                            nList[i] = s;
+                            i++;
+                        }
+                    }
+
+                }
+
+                allRestaurantsjList.setModel(new javax.swing.AbstractListModel<String>() {
+                    String[] strings = nList;
+
+                    @Override
+                    public int getSize() {
+                        return strings.length;
+                    }
+
+                    @Override
+                    public String getElementAt(int i) {
+                        return strings[i];
+                    }
+                });
+
+            }
+        });
+
+    }
+
+    public ImageIcon ResizeImage(String ImagePath) {
+        ImageIcon MyImage = new ImageIcon(ImagePath);
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+    }
+
+    public void openFileChooserForRestImageEditing() throws FileNotFoundException {
+        JFileChooser file = new JFileChooser();
+        file.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+        //filter the files
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png");
+        file.addChoosableFileFilter(filter);
+        int result = file.showSaveDialog(null);
+
+        //if the user click on save in Jfilechooser
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = file.getSelectedFile();
+            String path = selectedFile.getAbsolutePath();
+            ImageIcon img = ResizeImage(path);
+
+            InputStream is = new FileInputStream(selectedFile);
+            Database db = new Database();
+            db.updateRestaurantImage(is);
+            resturantIcon1.setIcon(img);
+        } //if the user click on save in Jfilechooser
+        else if (result == JFileChooser.CANCEL_OPTION) {
+            System.out.println("No File Selected");
+        }
     }
 
     public MainFrame() {
@@ -437,7 +553,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainFramePanel = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
         splashscreen = new javax.swing.JPanel();
         jLabel112 = new javax.swing.JLabel();
         loginPanel = new Gradient();
@@ -588,9 +704,9 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel116 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         SearchTextField = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        allRestaurantsjList = new javax.swing.JList<>();
         jPanel21 = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
@@ -608,9 +724,9 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel25 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
         resturantNameLabel1 = new javax.swing.JLabel();
-        resturantDescriptionLabel1 = new javax.swing.JLabel();
         resturantIcon1 = new javax.swing.JLabel();
         addMealButoon = new javax.swing.JLabel();
+        descriptionTextField = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         Hot_deals6 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
@@ -640,10 +756,10 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("Talabat App");
         setResizable(false);
 
-        mainFramePanel.setBackground(new java.awt.Color(255, 51, 51));
-        mainFramePanel.setToolTipText("");
-        mainFramePanel.setName(""); // NOI18N
-        mainFramePanel.setLayout(new java.awt.CardLayout());
+        mainPanel.setBackground(new java.awt.Color(255, 51, 51));
+        mainPanel.setToolTipText("");
+        mainPanel.setName(""); // NOI18N
+        mainPanel.setLayout(new java.awt.CardLayout());
 
         splashscreen.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -666,7 +782,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(382, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(splashscreen, "card2");
+        mainPanel.add(splashscreen, "card2");
 
         loginPanel.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -804,7 +920,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(203, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(loginPanel, "card2");
+        mainPanel.add(loginPanel, "card2");
 
         signUpForCustomerPanel.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -1067,7 +1183,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         mobileTextFieldForSignUp.getAccessibleContext().setAccessibleName("");
 
-        mainFramePanel.add(signUpForCustomerPanel, "card2");
+        mainPanel.add(signUpForCustomerPanel, "card2");
 
         signUpForOwnerPanel.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -1292,7 +1408,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(230, 230, 230))
         );
 
-        mainFramePanel.add(signUpForOwnerPanel, "card2");
+        mainPanel.add(signUpForOwnerPanel, "card2");
 
         homePanel.setBackground(new java.awt.Color(255, 255, 255));
         homePanel.setPreferredSize(new java.awt.Dimension(1170, 860));
@@ -1764,7 +1880,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(dwn_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(homePanel, "card4");
+        mainPanel.add(homePanel, "card4");
 
         MyOrder.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1950,7 +2066,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1139, Short.MAX_VALUE)
+                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1969,7 +2085,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(meals_pan8, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MyOrderLayout = new javax.swing.GroupLayout(MyOrder);
@@ -1988,7 +2104,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(MyOrder, "card6");
+        mainPanel.add(MyOrder, "card6");
 
         Basket.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2176,7 +2292,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(66, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(Basket, "card6");
+        mainPanel.add(Basket, "card6");
 
         resturantPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2396,10 +2512,10 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(resturantPanelLayout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE))
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(resturantPanel, "card6");
+        mainPanel.add(resturantPanel, "card6");
 
         allRestuarnts.setBackground(new java.awt.Color(255, 255, 255));
         allRestuarnts.setToolTipText("");
@@ -2422,38 +2538,17 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 90, 0));
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/search.png"))); // NOI18N
 
-        jTable1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
+        allRestaurantsjList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "mac", "pizza king", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
         });
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTable1.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setShowHorizontalLines(false);
-        jTable1.setShowVerticalLines(false);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        allRestaurantsjList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                allRestaurantsjListMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(jTable1);
+        jScrollPane2.setViewportView(allRestaurantsjList);
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
@@ -2464,19 +2559,18 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(412, 412, 412))
+                .addGap(438, 438, 438))
             .addGroup(jPanel24Layout.createSequentialGroup()
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel24Layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 930, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addGap(379, 379, 379)
                         .addComponent(jLabel116))
                     .addGroup(jPanel24Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGap(103, 103, 103)
+                        .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))))
+                .addGap(88, 88, 88))
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2488,20 +2582,26 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SearchTextField))
+                    .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantPanel1Layout = new javax.swing.GroupLayout(resturantPanel1);
         resturantPanel1.setLayout(resturantPanel1Layout);
         resturantPanel1Layout.setHorizontalGroup(
             resturantPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE)
+            .addGroup(resturantPanel1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, 1121, Short.MAX_VALUE)
+                .addContainerGap())
         );
         resturantPanel1Layout.setVerticalGroup(
             resturantPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, 835, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(resturantPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, 835, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel21.setBackground(new java.awt.Color(255, 90, 0));
@@ -2558,7 +2658,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabel114)
                 .addGap(39, 39, 39)
                 .addComponent(jLabel49)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2593,7 +2693,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        mainFramePanel.add(allRestuarnts, "card11");
+        mainPanel.add(allRestuarnts, "card11");
 
         resturantOwnerPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2694,19 +2794,29 @@ public class MainFrame extends javax.swing.JFrame {
         resturantNameLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         resturantNameLabel1.setText("McDonald's");
 
-        resturantDescriptionLabel1.setBackground(new java.awt.Color(230, 81, 0));
-        resturantDescriptionLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        resturantDescriptionLabel1.setForeground(new java.awt.Color(230, 81, 0));
-        resturantDescriptionLabel1.setText("Burgers, Fast Food, Breakfast");
-        resturantDescriptionLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-
-        resturantIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (3).png"))); // NOI18N
+        resturantIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        resturantIcon1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resturantIcon1MouseClicked(evt);
+            }
+        });
 
         addMealButoon.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         addMealButoon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/admeal.png"))); // NOI18N
         addMealButoon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addMealButoonMouseClicked(evt);
+            }
+        });
+
+        descriptionTextField.setBackground(new java.awt.Color(255, 255, 255));
+        descriptionTextField.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        descriptionTextField.setForeground(new java.awt.Color(0, 0, 0));
+        descriptionTextField.setText("No description");
+        descriptionTextField.setBorder(null);
+        descriptionTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descriptionTextFieldActionPerformed(evt);
             }
         });
 
@@ -2717,31 +2827,32 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(resturantIcon1)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel31Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(resturantNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(resturantDescriptionLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
+                        .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addMealButoon)
-                        .addContainerGap())))
+                        .addComponent(addMealButoon))
+                    .addGroup(jPanel31Layout.createSequentialGroup()
+                        .addComponent(resturantNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 707, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel31Layout.createSequentialGroup()
                         .addComponent(resturantNameLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(resturantDescriptionLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
+                            .addGroup(jPanel31Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(addMealButoon))))
+                                .addComponent(addMealButoon))
+                            .addGroup(jPanel31Layout.createSequentialGroup()
+                                .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(resturantIcon1))
                 .addGap(0, 15, Short.MAX_VALUE))
         );
@@ -2847,10 +2958,10 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(resturantOwnerPanelLayout.createSequentialGroup()
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE))
+                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(resturantOwnerPanel, "card6");
+        mainPanel.add(resturantOwnerPanel, "card6");
 
         MyOrderForOwner.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -3040,7 +3151,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel36Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1139, Short.MAX_VALUE)
+                    .addComponent(meals_pan9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
                     .addGroup(jPanel36Layout.createSequentialGroup()
                         .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel37, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3059,7 +3170,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(meals_pan9, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MyOrderForOwnerLayout = new javax.swing.GroupLayout(MyOrderForOwner);
@@ -3078,29 +3189,29 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        mainFramePanel.add(MyOrderForOwner, "card6");
+        mainPanel.add(MyOrderForOwner, "card6");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainFramePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainFramePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 904, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void endSplashScreenAnimation() {
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
-        mainFramePanel.add(loginPanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+        mainPanel.add(loginPanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }
 
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
@@ -3132,15 +3243,15 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         //remove
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(signUpForCustomerPanel);
+        mainPanel.add(signUpForCustomerPanel);
         loginLinkButton.setForeground(Color.WHITE);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_signUpLinkButtonMouseClicked
 
     private void signUpLinkButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpLinkButtonMouseEntered
@@ -3204,90 +3315,60 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void all_restaurantsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_restaurantsMouseClicked
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
-        mainFramePanel.add(allRestuarnts);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
-
-        populateAllRestaurantsTable();
-
-        sorter.setSortable(0, false);
-        jTable1.setRowSorter(sorter);
-        SearchTextField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                search(SearchTextField.getText());
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent de) {
-                search(SearchTextField.getText());
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent de) {
-                search(SearchTextField.getText());
-            }
-
-            public void search(String str) {
-                if (str.length() == 0) {
-                    sorter.setRowFilter(null);
-                } else {
-                    sorter.setRowFilter(RowFilter.regexFilter(str, 1));
-                }
-            }
-
-        });
+        mainPanel.add(allRestuarnts);
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
 
     }//GEN-LAST:event_all_restaurantsMouseClicked
     Meal_jframe meal = new Meal_jframe();
     private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(MyOrder);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(MyOrder);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_my_ordersMouseClicked
 
     private void homeLogoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogoMousePressed
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(homePanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(homePanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_homeLogoMousePressed
 
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (Talabat.login() == 1) {
-                mainFramePanel.removeAll();
-                mainFramePanel.repaint();
-                mainFramePanel.revalidate();
+                mainPanel.removeAll();
+                mainPanel.repaint();
+                mainPanel.revalidate();
 
-                mainFramePanel.add(homePanel);
-                mainFramePanel.repaint();
-                mainFramePanel.revalidate();
+                mainPanel.add(homePanel);
+                mainPanel.repaint();
+                mainPanel.revalidate();
             } else if (Talabat.login() == 2) {
-                mainFramePanel.removeAll();
-                mainFramePanel.repaint();
-                mainFramePanel.revalidate();
+                mainPanel.removeAll();
+                mainPanel.repaint();
+                mainPanel.revalidate();
 
-                mainFramePanel.add(resturantOwnerPanel);
-                mainFramePanel.repaint();
-                mainFramePanel.revalidate();
+                mainPanel.add(resturantOwnerPanel);
+                mainPanel.repaint();
+                mainPanel.revalidate();
                 restMealsTableForOwners();
             }
         }
@@ -3301,25 +3382,25 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel84MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel84MousePressed
 
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
-        mainFramePanel.add(Basket);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+        mainPanel.add(Basket);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_jLabel84MousePressed
 
     private void loginLinkButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseClicked
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(loginPanel);
+        mainPanel.add(loginPanel);
         signUpLinkButton.setForeground(Color.WHITE);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_loginLinkButtonMouseClicked
 
     private void loginLinkButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButtonMouseEntered
@@ -3332,53 +3413,16 @@ public class MainFrame extends javax.swing.JFrame {
         loginLinkButton.setForeground(Color.WHITE);
     }//GEN-LAST:event_loginLinkButtonMouseExited
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            int oldRow = jTable1.getSelectedRow();
-            int newRow = sorter.convertRowIndexToModel(oldRow);
-
-            for (int i = 0; i < Owner.numberOfOwners; i++) {
-                if (Talabat.owners[i].restaurantName.equals(list.get(newRow).name)) {
-                    ownerIndex = i;
-                    break;
-                }
-            }
-            resturantNameLabel.setText(list.get(newRow).name);
-            resturantDescriptionLabel.setText(list.get(newRow).description);
-            if (list.get(newRow).Image != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(list.get(newRow).Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
-                resturantIcon.setIcon(image);
-            } else {
-                resturantIcon.setIcon(null);
-            }
-            //ImageIcon image = new ImageIcon(new ImageIcon(list.get(newRow).Image).getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
-
-            mainFramePanel.removeAll();
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
-
-            // add sign up panel
-            mainFramePanel.add(resturantPanel);
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
-
-            restMealsTable(list.get(newRow).name);
-        }
-
-
-    }//GEN-LAST:event_jTable1MouseClicked
-
     private void jLabel39MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel39MouseClicked
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(homePanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(homePanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_jLabel39MouseClicked
 
     private void signUpUsernameTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpUsernameTextField1MouseClicked
@@ -3415,15 +3459,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void loginLinkButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButton1MouseClicked
         // TODO add your handling code here:
-         mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(loginPanel);
+        mainPanel.add(loginPanel);
         signUpLinkButton.setForeground(Color.WHITE);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_loginLinkButton1MouseClicked
 
     private void loginLinkButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkButton1MouseEntered
@@ -3463,26 +3507,26 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void signUpAsOwnerLinkMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpAsOwnerLinkMousePressed
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(signUpForOwnerPanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(signUpForOwnerPanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_signUpAsOwnerLinkMousePressed
 
     private void signUpAsCustomerLinkMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpAsCustomerLinkMousePressed
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(signUpForCustomerPanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(signUpForCustomerPanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_signUpAsCustomerLinkMousePressed
 
     private void showPasswordCheckBoxForSignUp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCheckBoxForSignUp1ActionPerformed
@@ -3496,13 +3540,13 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel87MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel87MousePressed
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
-        mainFramePanel.add(allRestuarnts);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(allRestuarnts);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_jLabel87MousePressed
 
     private void my_ordersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMousePressed
@@ -3521,9 +3565,9 @@ public class MainFrame extends javax.swing.JFrame {
             int oldRow = mealsTable.getSelectedRow();
             int newRow = mealSortter.convertRowIndexToModel(oldRow);
 
-            if (Talabat.owners[ownerIndex].restaurant.meals[newRow].Image != null) {
+            if (mealList.get(newRow).databaseImage != null) {
 
-                ImageIcon image = new ImageIcon((Talabat.owners[ownerIndex].restaurant.meals[newRow].Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(newRow).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 mealFrame.mealImage.setIcon(image);
 
@@ -3531,15 +3575,16 @@ public class MainFrame extends javax.swing.JFrame {
                 mealFrame.mealImage.setIcon(null);
             }
 
-            mealFrame.mealName.setText(Talabat.owners[ownerIndex].restaurant.meals[newRow].name);
+            mealFrame.mealName.setText(mealList.get(newRow).name);
 
-            mealFrame.mealDescription.setText(Talabat.owners[ownerIndex].restaurant.meals[newRow].description);
+            mealFrame.mealDescription.setText(mealList.get(newRow).description);
 
-            mealFrame.orderPrice.setText(String.valueOf(Talabat.owners[ownerIndex].restaurant.meals[newRow].mealPrice) + "EGP");
-            mealFrame.mealPriceFloat = Talabat.owners[ownerIndex].restaurant.meals[newRow].mealPrice;
+            mealFrame.orderPrice.setText(String.valueOf(mealList.get(newRow).mealPrice) + "EGP");
+            mealFrame.mealPriceFloat = mealList.get(newRow).mealPrice;
 
             mealFrame.mealIndex = newRow;
             mealFrame.ownerIndex = ownerIndex;
+
             mealFrame.show();
 
         }
@@ -3556,6 +3601,8 @@ public class MainFrame extends javax.swing.JFrame {
         LocalDate orderDateTime = LocalDate.now();
         Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
 
+        Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
+        System.out.println(Talabat.owners[ownerIndex].restaurant.numberOfOrders);
         Talabat.owners[ownerIndex].restaurant.orders[Talabat.owners[ownerIndex].restaurant.numberOfOrders].addCart(Talabat.customers[Talabat.currentUserIndex].cart);
         Talabat.owners[ownerIndex].restaurant.numberOfOrders++;
         Talabat.customers[Talabat.currentUserIndex].orderCart();
@@ -3566,33 +3613,32 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(homePanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(homePanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_homeLogo1MousePressed
 
     private void basketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseClicked
         // TODO add your handling code here:
         cartTable();
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(Basket);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(Basket);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_basketMouseClicked
 
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
         // TODO add your handling code here:
         int index = userCart.getSelectedRow();
-        System.out.println("meal to ve removed is  :" + index);
 
         Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
         Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
@@ -3607,17 +3653,21 @@ public class MainFrame extends javax.swing.JFrame {
     EditMeal edit = new EditMeal();
     private void mealsOfResturantForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerMouseClicked
         // TODO add your handling code here:
-        int i = mealsOfResturantForOwner.getSelectedRow();
-        edit.mealNameTextField.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].name);
-        edit.priceTextField.setText(String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].mealPrice));
-        edit.descriptionTextField.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].description);
-        edit.mealDescriptionLabel.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].description);
-        edit.mealNameLabel.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].name);
-        edit.priceLabel.setText(String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].mealPrice));
-        edit.mealIndex = i;
 
-        if (Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].Image != null) {
-            ImageIcon image = new ImageIcon((Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[i].Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+        int ii = mealsOfResturantForOwner.getSelectedRow();
+        int i = restMealsTableSorter.convertRowIndexToModel(ii);
+        edit.mealNameTextField.setText(mealList.get(i).name);
+        edit.priceTextField.setText(String.valueOf(mealList.get(i).mealPrice));
+        edit.descriptionTextField.setText(mealList.get(i).description);
+        edit.mealDescriptionLabel.setText(mealList.get(i).description);
+        edit.mealNameLabel.setText(mealList.get(i).name);
+        edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
+        edit.mealIndex = i;
+        Database db = new Database();
+        int id = db.getMealId(mealList.get(i).name);
+        edit.mealId = id;
+        if (mealList.get(i).databaseImage != null) {
+            ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
             edit.mealImage.setIcon(image);
 
@@ -3649,62 +3699,66 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void signOutLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signOutLabelMouseClicked
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(loginPanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(loginPanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
 
     }//GEN-LAST:event_signOutLabelMouseClicked
 
     private void signOutFromOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signOutFromOwnerMouseClicked
         // TODO add your handling code here:
-        mainFramePanel.removeAll();
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(loginPanel);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(loginPanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
     }//GEN-LAST:event_signOutFromOwnerMouseClicked
 
     private void jLabel22MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MousePressed
-        // TODO add your handling code here:
-         // TODO add your handling code here:
+
         if (Talabat.login() == 1) {
-            mainFramePanel.removeAll();
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
 
             // add sign up panel
-            mainFramePanel.add(homePanel);
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+            mainPanel.add(homePanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+            populateAllRestaurantsTable();
         } else if (Talabat.login() == 2) {
-            mainFramePanel.removeAll();
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
 
             // System.out.println(owners[i].restaurantName);
             resturantNameLabel1.setText(owners[Talabat.currentOwnerIndex].restaurant.name);
-            resturantDescriptionLabel1.setText(owners[Talabat.currentOwnerIndex].restaurant.description);
+
+            if (owners[Talabat.currentOwnerIndex].restaurant.description != null) {
+
+                resturantDescriptionLabel.setText(owners[Talabat.currentOwnerIndex].restaurant.description);
+            }
             if (owners[Talabat.currentOwnerIndex].restaurant.Image != null) {
                 ImageIcon image = new ImageIcon(new ImageIcon(owners[Talabat.currentOwnerIndex].restaurant.Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                 resturantIcon1.setIcon(image);
-            } else {
-                resturantIcon1.setIcon(null);
             }
 
+            restaurantMealsTable(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
+
             // add sign up panel
-            mainFramePanel.add(resturantOwnerPanel);
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+            mainPanel.add(resturantOwnerPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
             restMealsTableForOwners();
 
         }
@@ -3712,44 +3766,44 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel23MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel23MousePressed
         // TODO add your handling code here:
-         if (Talabat.signUpForCustomer()) {
-            mainFramePanel.removeAll();
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+        if (Talabat.signUpForCustomer()) {
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
 
             // add sign up panel
-            mainFramePanel.add(loginPanel);
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+            mainPanel.add(loginPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
         }
     }//GEN-LAST:event_jLabel23MousePressed
 
     private void jLabel24MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel24MousePressed
         // TODO add your handling code here:
-          if (Talabat.signUpForOwner()) {
-            mainFramePanel.removeAll();
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+        if (Talabat.signUpForOwner()) {
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
 
             // add sign up panel
-            mainFramePanel.add(loginPanel);
-            mainFramePanel.repaint();
-            mainFramePanel.revalidate();
+            mainPanel.add(loginPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
         }
     }//GEN-LAST:event_jLabel24MousePressed
 
     private void ordersForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwnerMouseClicked
 
         myOrdersTableForOwner1();
-        mainFramePanel.removeAll();
+        mainPanel.removeAll();
 
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.repaint();
+        mainPanel.revalidate();
 
         // add sign up panel
-        mainFramePanel.add(MyOrderForOwner);
-        mainFramePanel.repaint();
-        mainFramePanel.revalidate();
+        mainPanel.add(MyOrderForOwner);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_ordersForOwnerMouseClicked
 
     private void jLabel41MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel41MouseClicked
@@ -3763,6 +3817,65 @@ public class MainFrame extends javax.swing.JFrame {
     private void ordersForOwner1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwner1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_ordersForOwner1MouseClicked
+
+    private void allRestaurantsjListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allRestaurantsjListMouseClicked
+
+        if (evt.getClickCount() == 2) {
+            String selectedRestaurantName = allRestaurantsjList.getSelectedValue();
+
+            Owner[] ownersArray = new Owner[Owner.numberOfOwners];
+            ownersArray = Talabat.owners;
+
+            for (int i = 0; i < Owner.numberOfOwners; i++) {
+                if (ownersArray[i].restaurantName.equals(selectedRestaurantName)) {
+                    //owner index used to get restaurant information
+                    ownerIndex = i;
+                    break;
+                }
+            }
+            String restaurantDescripion = ownersArray[ownerIndex].restaurant.description;
+
+            resturantNameLabel.setText(selectedRestaurantName);
+            resturantDescriptionLabel.setText(restaurantDescripion);
+
+            //get image of resturant directly from the map
+            if (allRestaurantsImageMap.get(selectedRestaurantName).Image != null) {
+                //get image from map
+                ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(selectedRestaurantName).Image).getImage());
+
+                //convert image to icon of size 160*160
+                ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+
+                resturantIcon.setIcon(image);
+            } else {
+                resturantIcon.setIcon(null);
+            }
+
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            mainPanel.add(resturantPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            System.out.println("selected restaurant is : " + selectedRestaurantName);
+            restaurantMealsTable(selectedRestaurantName);
+        }
+    }//GEN-LAST:event_allRestaurantsjListMouseClicked
+
+    private void resturantIcon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resturantIcon1MouseClicked
+        try {
+            // TODO add your handling code here:
+            openFileChooserForRestImageEditing();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_resturantIcon1MouseClicked
+
+    private void descriptionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descriptionTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3816,6 +3929,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel addMealButoon;
     public javax.swing.JLabel addressLabelForSignUp;
     public javax.swing.JTextField addressTextFieldForSignUp;
+    public javax.swing.JList<String> allRestaurantsjList;
     public javax.swing.JPanel allRestuarnts;
     public javax.swing.JLabel all_restaurants;
     public javax.swing.JLabel basket;
@@ -3823,6 +3937,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPasswordField confirmPasswordFieldForSignUp1;
     public javax.swing.JLabel confirmPasswordLabelForSignUp;
     public javax.swing.JLabel confirmPasswordLabelForSignUp1;
+    public javax.swing.JTextField descriptionTextField;
     public javax.swing.JLabel dontHaveAccountLabel;
     public javax.swing.JPanel dwn_panel;
     public javax.swing.JLabel homeLogo;
@@ -3914,7 +4029,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel6;
     public javax.swing.JPanel jPanel7;
     public javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JScrollPane jScrollPane4;
+    public javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JScrollPane jScrollPane5;
     public javax.swing.JScrollPane jScrollPane6;
     public javax.swing.JScrollPane jScrollPane7;
@@ -3925,13 +4040,12 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JSeparator jSeparator4;
     public javax.swing.JSeparator jSeparator5;
     public javax.swing.JSeparator jSeparator6;
-    public javax.swing.JTable jTable1;
     public javax.swing.JLabel label1;
     public javax.swing.JLabel label2;
     public javax.swing.JLabel loginLinkButton;
     public javax.swing.JLabel loginLinkButton1;
     public javax.swing.JPanel loginPanel;
-    public javax.swing.JPanel mainFramePanel;
+    public javax.swing.JPanel mainPanel;
     public javax.swing.JLabel meal1pic;
     public javax.swing.JLabel meal1pic1;
     public javax.swing.JLabel meal1pic2;
@@ -3958,7 +4072,6 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel restaurantNameLabelForSignUp1;
     public javax.swing.JTextField restaurantNameTextFieldForSignUp1;
     public javax.swing.JLabel resturantDescriptionLabel;
-    public javax.swing.JLabel resturantDescriptionLabel1;
     public javax.swing.JLabel resturantIcon;
     public javax.swing.JLabel resturantIcon1;
     public javax.swing.JLabel resturantNameLabel;
