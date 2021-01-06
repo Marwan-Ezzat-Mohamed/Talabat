@@ -16,7 +16,7 @@ public class Talabat {
     public static int currentUserIndex;
     public static String currentOwner;
     public static int currentOwnerIndex;
-   
+
     public static int login() {
         int numberOfCustomers = Customer.numberOfCustomers;
         int numberOfOwners = Owner.numberOfOwners;
@@ -29,8 +29,8 @@ public class Talabat {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
                 loginFrame.username.setText(customers[i].username);
-                currentUser=customers[i].username;
-                currentUserIndex=i;
+                currentUser = customers[i].username;
+                currentUserIndex = i;
                 //do some thing;
                 return 1;
 
@@ -41,9 +41,10 @@ public class Talabat {
             if (owners[i].username.equals(inputUsername) && owners[i].password.equals(inputPassword)) {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
-                currentOwner=owners[i].username;
+                currentOwner = owners[i].username;
+
                 
-                currentOwnerIndex=i;
+                currentOwnerIndex = i;
                 //do some thing;
                 return 2;
 
@@ -92,7 +93,7 @@ public class Talabat {
         } else {
 
             try {
-                myConn1 = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY","UIY691h8aY");
+                myConn1 = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
                 myStmt1 = myConn1.createStatement();
                 String st = "INSERT INTO customers Values( '" + inputUsername + "','" + inputPassword + "','" + mobile + "','" + address + "');";
                 myStmt1.executeUpdate(st);
@@ -143,7 +144,7 @@ public class Talabat {
                 myConn1 = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
                 myStmt1 = myConn1.createStatement();
                 String st = "INSERT INTO owners Values( '" + inputUsername + "','" + inputPassword + "','" + restaurantName + "');";
-                String st2="insert into restaurants values ('"+restaurantName+"',"+null+","+null+");";
+                String st2 = "insert into restaurants values ('" + restaurantName + "'," + null + "," + null + ");";
                 myStmt1.executeUpdate(st2);
                 myStmt1.executeUpdate(st);
                 owners[Owner.numberOfOwners] = new Owner(inputUsername, inputPassword, restaurantName);
@@ -166,7 +167,7 @@ public class Talabat {
             myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
 
             System.out.println(myConn);
-            
+
             // 2. Create a statement
             myStmt = myConn.createStatement();
             myRs = myStmt.executeQuery("select * from customers");
@@ -180,35 +181,49 @@ public class Talabat {
         } catch (Exception ex) {
             System.out.println("2313");
         }
-        
+
         return newCustomers;
     }
-    
-    
+
     public static Owner[] updateOwner() {
         Owner newOwners[] = new Owner[100];
-        
+
         Connection myConn = null;
-        Statement myStmt = null;
-        ResultSet myRs = null;
-        
+        Statement myStmt, myStmt2 = null;
+        ResultSet myRs, myRs2 = null;
+
         try {
             // get connection 
             myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
             // 2. Create a statement
             myStmt = myConn.createStatement();
+            myStmt2= myConn.createStatement();
             myRs = myStmt.executeQuery("select * from owners");
 
             // 4. Process the result set
             int i = 0;
             while (myRs.next()) {
+                myRs2 = myStmt2.executeQuery("select * from restaurants where name='" + myRs.getString("restaurantName") + "';");
+                Restaurant r = null;
                 newOwners[i] = new Owner(myRs.getString("username"), myRs.getString("pass"), myRs.getString("restaurantName"));
+
+                //get resturant information from database
+                while (myRs2.next()) {
+                    
+                    String rName = myRs2.getString("name");
+                    String rDescription = myRs2.getString("description");
+                    byte[] Iimage = myRs2.getBytes("image");
+                    
+                    r = new Restaurant(rName, Iimage, rDescription);
+                    
+                }
+                newOwners[i].restaurant=r;
                 i++;
             }
-        } catch (Exception ex) {
-            System.out.println("Error 404");
+        } catch (SQLException ex) { 
+            Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return newOwners;
     }
 
@@ -217,28 +232,24 @@ public class Talabat {
         customers = updateCustomers();
         owners = updateOwner();
         //customers[0]= new Customer("123", "1233","marwan" ,"123" );
-               
+
         loginFrame = new MainFrame();
         loginFrame.show();
-        
-        ImageIcon i = new ImageIcon(ImageIcon.class.getResource("/pics/burger.jpg"));
-        
-        Meal burger= new Meal("beef burger","burger gamed", 90F,i);
-        Meal chickenBurger= new Meal("chicken burger", 70F);
-        Meal chickenzft= new Meal("chicken zft", 1F);
-        
-       // owners[0]= new Owner("joe", "123", "macOs");
-       // owners[1]= new Owner("joe", "123", "burger king");
-       // owners[2]= new Owner("joe", "123", "m4 lazm");
-       // owners[3]= new Owner("joe", "123", "fakes");
-        //owners[4]= new Owner("joe", "123", "fakesss");
 
+        //ImageIcon i = new ImageIcon(ImageIcon.class.getResource("/pics/burger.jpg"));
+
+        //Meal burger = new Meal("beef burger", "burger gamed", 90F, i);
+        //Meal chickenBurger = new Meal("chicken burger", 70F);
+        //Meal chickenzft = new Meal("chicken zft", 1F);
+
+        // owners[0]= new Owner("joe", "123", "macOs");
+        // owners[1]= new Owner("joe", "123", "burger king");
+        // owners[2]= new Owner("joe", "123", "m4 lazm");
+        // owners[3]= new Owner("joe", "123", "fakes");
+        //owners[4]= new Owner("joe", "123", "fakesss");
 //        owners[0].addMeal(burger);
-       // owners[0].addMeal(chickenBurger);
-       // owners[0].addMeal(chickenzft);
-        
-            
-        
+        // owners[0].addMeal(chickenBurger);
+        // owners[0].addMeal(chickenzft);
     }
 
 }

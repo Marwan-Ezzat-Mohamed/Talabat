@@ -7,10 +7,15 @@ package talabat;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import static talabat.MainFrame.list;
+import static talabat.MainFrame.allRestaurantsArrayList;
 
 /**
  *
@@ -241,6 +246,7 @@ public class AddMeal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addMealPriceTextBoxActionPerformed
 
+    File selectedFile;
     private void addMealImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMealImageMouseClicked
         // TODO add your handling code here:
 
@@ -252,7 +258,7 @@ public class AddMeal extends javax.swing.JFrame {
         int result = file.showSaveDialog(null);
         //if the user click on save in Jfilechooser
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = file.getSelectedFile();
+            selectedFile = file.getSelectedFile();
             String path = selectedFile.getAbsolutePath();
             addMealImage.setIcon(ResizeImage(path));
         } //if the user click on save in Jfilechooser
@@ -262,15 +268,31 @@ public class AddMeal extends javax.swing.JFrame {
     }//GEN-LAST:event_addMealImageMouseClicked
 
     private void addMealLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMealLabelMouseClicked
-        // TODO add your handling code here:
+        
         String name = addMealNameTextBox.getText();
         String description = addMealDescriptionTextBox.getText();
         float price = Float.parseFloat(addMealPriceTextBox.getText());
         ImageIcon image = new ImageIcon(((ImageIcon) addMealImage.getIcon()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
         Meal m = new Meal(name, description, price, image);
-        Talabat.owners[Talabat.currentOwnerIndex].addMeal(m);
-        this.dispose();
+       
+
         
+        if (selectedFile != null) {
+
+            try {
+                Talabat.owners[Talabat.currentOwnerIndex].addMeal(m,new FileInputStream(selectedFile));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(AddMeal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        else{
+            Talabat.owners[Talabat.currentOwnerIndex].addMeal(m,null);
+        }
+
+        
+        this.dispose();
+
     }//GEN-LAST:event_addMealLabelMouseClicked
 
     /**

@@ -14,15 +14,30 @@ public class Restaurant {
     public byte[] Image;
     
     public Restaurant() {
+        for(int i=0;i<100;i++)
+        {
+            orders[i]=new Order();
+        }
+        
+        for(int i=0;i<100;i++)
+        {
+            meals[i]=new Meal();
+        }
         numberOfRestaurants++;
     }
     public Restaurant(String name, Meal m) {
+        //call the main constructor
+        this();
+        
         this.name=name;
         this.meals[mealCount++]=m;
         numberOfRestaurants++;
     }
 
     public Restaurant(String name, byte[] Image,String description) {
+        //call the main constructor
+        this();
+        
         this.name = name;
         this.description = description;
         this.Image = Image;

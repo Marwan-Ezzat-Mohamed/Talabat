@@ -307,7 +307,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         System.out.println(Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals);
 
         for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals; i++) {
-            if (Talabat.owners[ownerIndex].restaurant.meals[mealIndex].name.equals(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name)) {
+            if (MainFrame.mealList.get(mealIndex).name.equals(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name)) {
                 
                 Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart += value;
                 break;

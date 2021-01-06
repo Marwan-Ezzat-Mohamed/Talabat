@@ -2,6 +2,11 @@ package talabat;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -23,7 +28,8 @@ public class EditMeal extends javax.swing.JFrame {
     public EditMeal() {
         initComponents();
     }
-    int mealIndex;
+    int mealIndex, mealId;
+    File selectedFile;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -267,35 +273,49 @@ public class EditMeal extends javax.swing.JFrame {
 
     private void applyChangesbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyChangesbuttonMouseClicked
         // TODO add your handling code here:
-       Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].name = mealNameTextField.getText();
-        Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].description = descriptionTextField.getText();
-        Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].mealPrice = Float.parseFloat(priceTextField.getText());
+        MainFrame.mealList.get(mealIndex).name = mealNameTextField.getText();
+        MainFrame.mealList.get(mealIndex).description = descriptionTextField.getText();
+        MainFrame.mealList.get(mealIndex).mealPrice = Float.parseFloat(priceTextField.getText());
 
-        mealNameTextField.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].name);
-        priceTextField.setText(String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].mealPrice));
-        descriptionTextField.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].description);
-        mealDescriptionLabel.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].description);
-        mealNameLabel.setText(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].name);
-        priceLabel.setText(String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].mealPrice));
+        Meal m = new Meal(mealNameTextField.getText(), descriptionTextField.getText(), Float.parseFloat(priceTextField.getText()));
+        Database db = new Database();
+        InputStream is = null;
+
+        if (selectedFile != null) {
+            try {
+                is = new FileInputStream(selectedFile);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(EditMeal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            db.updateMeal(m, is, mealId);
+        }
+
+        mealNameTextField.setText(MainFrame.mealList.get(mealIndex).name);
+        priceTextField.setText(String.valueOf(MainFrame.mealList.get(mealIndex).mealPrice));
+        descriptionTextField.setText(MainFrame.mealList.get(mealIndex).description);
+        mealDescriptionLabel.setText(MainFrame.mealList.get(mealIndex).description);
+        mealNameLabel.setText(MainFrame.mealList.get(mealIndex).name);
+        priceLabel.setText(String.valueOf(MainFrame.mealList.get(mealIndex).mealPrice));
 
         if (mealImage != null) {
 
-            Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].Image = (ImageIcon) mealImage.getIcon();
+            MainFrame.mealList.get(mealIndex).Image = (ImageIcon) mealImage.getIcon();
 
         } else {
-            Talabat.owners[Talabat.currentOwnerIndex].restaurant.meals[mealIndex].Image = null;
+            MainFrame.mealList.get(mealIndex).Image = null;
         }
-        
+
         this.dispose();
-        
 
 
     }//GEN-LAST:event_applyChangesbuttonMouseClicked
 
     private void removeMealbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeMealbuttonMouseClicked
         // TODO add your handling code here:
-        Talabat.owners[Talabat.currentOwnerIndex].removeMeal(mealIndex);
+        String mealName= MainFrame.mealList.get(mealIndex).name;
+        Talabat.owners[Talabat.currentOwnerIndex].removeMeal(mealName);
 
+       
         mealNameTextField.setText(null);
         priceTextField.setText(null);
         descriptionTextField.setText(null);
@@ -322,7 +342,7 @@ public class EditMeal extends javax.swing.JFrame {
         int result = file.showSaveDialog(null);
         //if the user click on save in Jfilechooser
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = file.getSelectedFile();
+            selectedFile = file.getSelectedFile();
             String path = selectedFile.getAbsolutePath();
             mealImage.setIcon(ResizeImage(path));
         } //if the user click on save in Jfilechooser
