@@ -16,24 +16,26 @@ public class Cart {
 //number of orders currently in the cart.
 
     public void addMeal(Meal meal, int quantity) {
-        if (isMealFound(meal)) {
+        int index=isMealFound(meal);
+        if (index!=-1) {
             totalPrice += meal.getPrice() * quantity;
-            meals[numberOfMeals] = meal;
-            System.out.println("FOUND");
+            meals[index] = meal;
+            meals[index].mealsQuantityInCart+=quantity;
             return;
         }
         meals[numberOfMeals] = meal;
+        meals[numberOfMeals].mealsQuantityInCart+=quantity;
         totalPrice += meal.getPrice() * quantity;
         numberOfMeals++;
     }
 
-    public boolean isMealFound(Meal m) {
+    public int isMealFound(Meal m) {
         for (int i = 0; i < numberOfMeals; i++) {
             if (m.name.equals(meals[i].name)) {
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     public void removeMeal(int index) {

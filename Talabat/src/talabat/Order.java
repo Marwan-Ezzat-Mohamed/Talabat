@@ -19,9 +19,17 @@ public class Order {
         this.numberOfMealsInCart = cart.numberOfMeals;
         for (int i = 0; i < numberOfMealsInCart; i++) {
             ordererdMeals[i] = cart.meals[i];
-            
+
         }
 
+    }
+
+    public void addMeal(Meal m,int q,int numberInOrder) {
+
+        ordererdMeals[numberOfMealsInCart] = m;
+        ordererdMeals[numberOfMealsInCart].mealsQuantityInCart=q;
+        ordererdMeals[numberOfMealsInCart].numberInOrder=numberInOrder;
+        numberOfMealsInCart++;
     }
 
     public void displayOrder() {

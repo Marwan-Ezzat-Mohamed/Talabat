@@ -193,34 +193,31 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
+    Cart cart;
     public void cartTable() {
 
+        Database db = new Database();
+        cart = db.returnCart(Talabat.currentUser);
         float totalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
-        Object[][] rows = new Object[Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals][columnName.length];
-        for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals; i++) {
+        Object[][] rows = new Object[cart.numberOfMeals][columnName.length];
 
-            for (int j = 0; j < Talabat.owners[ownerIndex].restaurant.mealCount; j++) {
-                if (Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name.equals(Talabat.owners[ownerIndex].restaurant.meals[j].name)) {
+        for (int i = 0; i < cart.numberOfMeals; i++) {
 
-                    if (Talabat.owners[ownerIndex].restaurant.meals[j].Image != null) {
+            if (cart.meals[i].databaseImage != null) {
 
-                        //System.out.println(Talabat.owners[ownerIndex].restaurant.name);
-                        ImageIcon image = new ImageIcon((Talabat.owners[ownerIndex].restaurant.meals[j].Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
-                        rows[i][0] = image;
+                System.out.println("image in cart is not null");
+                ImageIcon image = new ImageIcon(new ImageIcon(cart.meals[i].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                rows[i][0] = image;
 
-                    } else {
-                        rows[i][0] = null;
-                    }
-                    break;
-
-                }
-
+            } else {
+                rows[i][0] = null;
             }
-            rows[i][1] = Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name;
-            rows[i][2] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice);
-            rows[i][3] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart);
-            totalPrice += Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealPrice * Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart;
+           
+            rows[i][1] = cart.meals[i].name;
+            rows[i][2] = String.valueOf(cart.meals[i].mealPrice);
+            rows[i][3] = String.valueOf(cart.meals[i].mealsQuantityInCart);
+            totalPrice += cart.meals[i].mealPrice * cart.meals[i].mealsQuantityInCart;
 
         }
         totalPriceLabel.setText(String.valueOf(totalPrice));
@@ -308,32 +305,35 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void myOrdersTable(String s) {
-
+    public void myOrdersTable() {
+        Database db= new Database();
+        Order[] orders = db.returnOrderOfcustomers(Talabat.currentUser);
+        
+        
         int mx = 0;
         for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].ordersCount; j++) {
             mx += Talabat.customers[Talabat.currentUserIndex].orders[j].numberOfMealsInCart;
         }
 
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
-        Object[][] rows = new Object[mx][columnName.length];
+        Object[][] rows = new Object[100][columnName.length];
         int row = 0;
-        for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].ordersCount; i++) {
+        System.out.println("order lENGHTG" + orders.length);
+        for (int i = 1; i < orders.length; i++) {
 
-            for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].orders[i].numberOfMealsInCart; j++) {
-                rows[row][0] = (i + 1);
+            for (int j = 0; j < orders[i].numberOfMealsInCart; j++) {
+                rows[row][0] = (i);
 
-                if (Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].Image != null) {
-                    System.out.println("iamge is not null");
-                    ImageIcon image = new ImageIcon((Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                if (orders[i].ordererdMeals[j].databaseImage != null) {
+                    ImageIcon image = new ImageIcon(new ImageIcon(orders[i].ordererdMeals[j].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                     rows[row][1] = image;
                 } else {
                     rows[row][1] = null;
                 }
-                rows[row][2] = Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].name;
-                rows[row][3] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].mealPrice);
-                rows[row][4] = String.valueOf(Talabat.customers[Talabat.currentUserIndex].orders[i].ordererdMeals[j].mealsQuantityInCart);
-                rows[row][5] = Talabat.customers[Talabat.currentUserIndex].cart.orderDate;
+                rows[row][2] = orders[i].ordererdMeals[j].name;
+                rows[row][3] = String.valueOf(orders[i].ordererdMeals[j].mealPrice);
+                rows[row][4] = String.valueOf(orders[i].ordererdMeals[j].mealsQuantityInCart);
+                rows[row][5] = orders[i].Date;
 
                 row++;
 
@@ -365,14 +365,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-   
     static ArrayList<Restaurant> allRestaurantsArrayList;
     Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
 
     String[] nameList = new String[100];
     int sz;
-
-    
 
     private void createImageMap() {
 
@@ -431,22 +428,17 @@ public class MainFrame extends javax.swing.JFrame {
                     label.setIcon(image);
 
                 }
-                String labelText = null ;
-                if(r.description==null)
-                {
-                    labelText = "<html> <div style='text-align: center;'>" + r.name +"</div></html>";
-                }
-                else 
-                {
-                     labelText = "<html> <div style='text-align: center;'>" + r.name + "<br>" + r.description + "</div></html>";
+                String labelText = null;
+                if (r.description == null) {
+                    labelText = "<html> <div style='text-align: center;'>" + r.name + "</div></html>";
+                } else {
+                    labelText = "<html> <div style='text-align: center;'>" + r.name + "<br>" + r.description + "</div></html>";
                 }
                 label.setText(labelText);
             }
 
-            
             label.setHorizontalAlignment(SwingConstants.CENTER);
             label.setVerticalAlignment(SwingConstants.CENTER);
-            
 
             label.setHorizontalTextPosition(JLabel.CENTER);
             label.setVerticalTextPosition(JLabel.BOTTOM);
@@ -1487,9 +1479,6 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 basketMouseClicked(evt);
             }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                basketMousePressed(evt);
-            }
         });
 
         signOutLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1718,7 +1707,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         meals_panLayout.setVerticalGroup(
             meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1877,7 +1866,7 @@ public class MainFrame extends javax.swing.JFrame {
         dwn_panelLayout.setVerticalGroup(
             dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dwn_panelLayout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(restau_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2250,9 +2239,6 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel21.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel21MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel21MouseEntered(evt);
             }
         });
 
@@ -3218,7 +3204,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
         );
 
         pack();
@@ -3347,6 +3333,7 @@ public class MainFrame extends javax.swing.JFrame {
     Meal_jframe meal = new Meal_jframe();
     private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
         // TODO add your handling code here:
+        myOrdersTable();
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3392,12 +3379,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
-
-    private void basketMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMousePressed
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_basketMousePressed
 
     private void jLabel84MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel84MousePressed
 
@@ -3570,7 +3551,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void my_ordersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMousePressed
         // TODO add your handling code here:
-        myOrdersTable(Talabat.currentUser);
+        myOrdersTable();
 
 
     }//GEN-LAST:event_my_ordersMousePressed
@@ -3627,7 +3608,7 @@ public class MainFrame extends javax.swing.JFrame {
         System.out.println(Talabat.owners[ownerIndex].restaurant.numberOfOrders);
         Talabat.owners[ownerIndex].restaurant.orders[Talabat.owners[ownerIndex].restaurant.numberOfOrders].addCart(Talabat.customers[Talabat.currentUserIndex].cart);
         Talabat.owners[ownerIndex].restaurant.numberOfOrders++;
-        Talabat.customers[Talabat.currentUserIndex].orderCart();
+        //Talabat.customers[Talabat.currentUserIndex].orderCart();
         cartTable();
 
 
@@ -3662,15 +3643,16 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = userCart.getSelectedRow();
 
-        Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
-        Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
+        Database db=new Database();
+        
+        int mealId=cart.meals[index].mealId;
+        System.out.println("meal id is : " +mealId);
+        db.removeMeal(mealId, Talabat.currentUser);
+        //Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
+        //Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
         cartTable();
 
     }//GEN-LAST:event_jLabel21MouseClicked
-
-    private void jLabel21MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel21MouseEntered
 
     EditMeal edit = new EditMeal();
     private void mealsOfResturantForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerMouseClicked

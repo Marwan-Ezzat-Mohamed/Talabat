@@ -15,6 +15,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -284,18 +286,15 @@ public class Database {
 
             myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
 
-            
             myStmt = myConn.createStatement();
             //get max number of order for a specific customer
             myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
-            int maxOrderNumber=0;
-            if(myRs.next())
-            {
-                maxOrderNumber=myRs.getInt(1);
+            int maxOrderNumber = 0;
+            if (myRs.next()) {
+                maxOrderNumber = myRs.getInt(1);
             }
             maxOrderNumber++;
-            
-            
+
             PreparedStatement ps1 = myConn.prepareStatement("update cart set orderNumber=? , orderDate=? where cartOwner=? and orderNumber=0;");
             ps1.setInt(1, maxOrderNumber);
             ps1.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
@@ -310,4 +309,114 @@ public class Database {
 
     }
 
+    public Cart returnCart(String username) {
+
+        Cart cart = new Cart();
+
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        try {
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+
+            myStmt = myConn.createStatement();
+
+            myRs = myStmt.executeQuery("select * from cart where cartOwner = '" + username + "' and orderNumber=0; ");
+
+            while (myRs.next()) {
+
+                cart.addMeal((returnMealFromId(myRs.getInt("mealId"))), myRs.getInt("quantity"));
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cart;
+    }
+
+    public Meal returnMealFromId(int id) {
+
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        Meal m = null;
+        try {
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+
+            myStmt = myConn.createStatement();
+
+            myRs = myStmt.executeQuery("select * from meals where id =" + id + ";");
+
+            if (myRs.next()) {
+                m = new Meal(myRs.getString("name"), myRs.getString("description"), myRs.getFloat("price"), myRs.getBytes("image"), id);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return m;
+    }
+
+    public void removeMeal(int mealid, String username) {
+
+        Connection myConn;
+        Statement myStmt = null;
+        ResultSet myRs;
+        try {
+
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+
+            myStmt = myConn.createStatement();
+            //get max number of order for a specific customer
+            myStmt.executeUpdate("delete from cart where cartOwner='" + username + "' and mealId=" + mealid + ";");
+
+            JOptionPane.showMessageDialog(null, "Meal deleted");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error please try again");
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public Order[] returnOrderOfcustomers(String username) {
+
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        Order[] orders = null;
+        try {
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+
+            myStmt = myConn.createStatement();
+
+            myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
+            int maxOrderNumber = 0;
+            if (myRs.next()) {
+                maxOrderNumber = myRs.getInt(1);
+            }
+            myRs = null;
+            myRs = myStmt.executeQuery("select * from cart where cartOwner = '" + username + "' and orderNumber<>0; ");
+
+            orders = new Order[maxOrderNumber+1];
+            
+            for(int i=0;i<maxOrderNumber+1;i++)
+            {
+                orders[i]= new Order();
+            }
+
+            System.out.println("max order number = "+maxOrderNumber );
+            while (myRs.next()) {
+
+                int mealId=myRs.getInt("mealID");
+                int mealOrderNumber=myRs.getInt("orderNumber");
+                int quantity=myRs.getInt("quantity");
+                Date d= myRs.getTimestamp("orderDate");
+                orders[mealOrderNumber].Date=d;
+                orders[mealOrderNumber].addMeal(returnMealFromId(mealId),quantity ,mealOrderNumber );
+
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return orders;
+    }
 }

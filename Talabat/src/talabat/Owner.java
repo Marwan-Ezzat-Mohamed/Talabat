@@ -30,6 +30,9 @@ public class Owner extends User {
     }
 
     public void addMeal(Meal m, InputStream s) {
+        
+        
+        
         Connection myConn = null;
         Statement myStmt = null;
         try {
