@@ -365,15 +365,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    private TableRowSorter sorter;
-
+   
     static ArrayList<Restaurant> allRestaurantsArrayList;
-    private Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
+    Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
 
     String[] nameList = new String[100];
     int sz;
 
-    Map<String, Restaurant> map = new HashMap<>();
+    
 
     private void createImageMap() {
 
@@ -393,7 +392,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         //copy name list to s for loop can be used instead 
         System.arraycopy(nameList, 0, s, 0, sz);
-        
+
         allRestaurantsjList.setBorder(new EmptyBorder(10, 10, 10, 10));
         allRestaurantsjList.setFixedCellWidth(220);
         allRestaurantsjList.setModel(new javax.swing.AbstractListModel<String>() {
@@ -424,17 +423,30 @@ public class MainFrame extends javax.swing.JFrame {
             JLabel label = (JLabel) super.getListCellRendererComponent(
                     list, value, index, isSelected, cellHasFocus);
 
-            if (allRestaurantsImageMap.get((String) value).Image != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get((String) value).Image).getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH));
-                label.setIcon(image);
-
-            }
             Restaurant r = allRestaurantsImageMap.get((String) value);
 
-            String labelText = "<html> <div style='text-align: center;'>" + r.name + "<br>" + r.description + "</div></html>";
+            if (r != null) {
+                if (allRestaurantsImageMap.get((String) value).Image != null) {
+                    ImageIcon image = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get((String) value).Image).getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH));
+                    label.setIcon(image);
+
+                }
+                String labelText = null ;
+                if(r.description==null)
+                {
+                    labelText = "<html> <div style='text-align: center;'>" + r.name +"</div></html>";
+                }
+                else 
+                {
+                     labelText = "<html> <div style='text-align: center;'>" + r.name + "<br>" + r.description + "</div></html>";
+                }
+                label.setText(labelText);
+            }
+
+            
             label.setHorizontalAlignment(SwingConstants.CENTER);
             label.setVerticalAlignment(SwingConstants.CENTER);
-            label.setText(labelText);
+            
 
             label.setHorizontalTextPosition(JLabel.CENTER);
             label.setVerticalTextPosition(JLabel.BOTTOM);
@@ -448,6 +460,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void populateAllRestaurantsTable() {
 
+        System.out.println("what is this");
         createImageMap();
 
         allRestaurantsjList.setCellRenderer(new allRestaurantsListRenderModel());
@@ -471,7 +484,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             private void filter() {
                 String filter = SearchTextField.getText();
-                String[] nList = new String[6];
+                String[] nList = new String[sz];
                 int i = 0;
                 for (String s : nameList) {
                     if (s != null) {
@@ -540,10 +553,11 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
 
         new java.util.Timer().schedule(new java.util.TimerTask() {
+            @Override
             public void run() {
+
                 populateAllRestaurantsTable();
-                
-                
+
                 endSplashScreenAnimation();
             }
         }, 1);
@@ -3604,8 +3618,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
         // TODO add your handling code here:
         LocalDate orderDateTime = LocalDate.now();
-        
-        
+
         Database db = new Database();
         db.orderCart(Talabat.currentUser);
         Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
@@ -3673,7 +3686,7 @@ public class MainFrame extends javax.swing.JFrame {
         edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
         edit.mealIndex = i;
         Database db = new Database();
-        int id = db.getMealId(mealList.get(i).name,Talabat.currentOwnerRestaurantName);
+        int id = db.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
         edit.mealId = id;
         if (mealList.get(i).databaseImage != null) {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
@@ -3744,7 +3757,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.add(homePanel);
             mainPanel.repaint();
             mainPanel.revalidate();
-            
+
         } else if (Talabat.login() == 2) {
             mainPanel.removeAll();
             mainPanel.repaint();
