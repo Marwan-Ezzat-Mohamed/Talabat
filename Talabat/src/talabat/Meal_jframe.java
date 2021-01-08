@@ -300,19 +300,26 @@ public class Meal_jframe extends javax.swing.JFrame {
     private void addtoBasketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtoBasketMouseClicked
         // TODO add your handling code here:
 
+        boolean found=false;
+        for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals; i++) {
+            if (MainFrame.mealList.get(mealIndex).name.equals(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name)) {
+                found=true;
+                Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart += value;
+                break;
+            }
+        }
         Meal m = new Meal(mealName.getText(), mealPriceFloat);
         Talabat.customers[Talabat.currentUserIndex].cart.addMeal(m, value);
         System.out.println(m.name);
         System.out.println("mealindex " + mealIndex);
         System.out.println(Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals);
 
-        for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals; i++) {
-            if (MainFrame.mealList.get(mealIndex).name.equals(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name)) {
-                
-                Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart += value;
-                break;
-            }
-        }
+        
+        
+       
+            Database db= new Database();
+            db.insertMealIntoCart(db.getMealId(MainFrame.mealList.get(mealIndex).name, Talabat.owners[ownerIndex].restaurantName), value, Talabat.currentUser);
+        
 
 
     }//GEN-LAST:event_addtoBasketMouseClicked

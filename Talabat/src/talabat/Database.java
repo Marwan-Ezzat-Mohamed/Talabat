@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -194,7 +196,7 @@ public class Database {
         return mealList;
     }
 
-    public int getMealId(String mealName) {
+    public int getMealId(String mealName, String restaurantName) {
 
         int id = -1;
         Connection myConn;
@@ -206,7 +208,7 @@ public class Database {
 
             myStmt = myConn.createStatement();
 
-            myRs = myStmt.executeQuery("select id from meals where name ='" + mealName + "';");
+            myRs = myStmt.executeQuery("select id from meals where name ='" + mealName + "'and restaurantName='" + restaurantName + "';");
 
             while (myRs.next()) {
                 id = myRs.getInt("id");
@@ -244,6 +246,68 @@ public class Database {
 
     }
 
-    
+    public void insertMealIntoCart(int mealId, int quantity, String username) {
+
+        Connection myConn;
+        Statement myStmt;
+        ResultSet myRs;
+        try {
+
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+
+            PreparedStatement ps = myConn.prepareStatement("insert ignore into cart (cartOwner,mealId) values(?,?);");
+            ps.setString(1, username);
+            ps.setInt(2, mealId);
+
+            ps.executeUpdate();
+
+            PreparedStatement ps1 = myConn.prepareStatement("update cart set quantity=quantity + ? where mealId=? and cartOwner=? and orderNumber=0;");
+            ps1.setInt(1, quantity);
+            ps1.setInt(2, mealId);
+            ps1.setString(3, username);
+            ps1.execute();
+
+            JOptionPane.showMessageDialog(null, "Meal added to cart");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error please try again");
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void orderCart(String username) {
+
+        Connection myConn;
+        Statement myStmt = null;
+        ResultSet myRs;
+        try {
+
+            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+
+            
+            myStmt = myConn.createStatement();
+            //get max number of order for a specific customer
+            myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
+            int maxOrderNumber=0;
+            if(myRs.next())
+            {
+                maxOrderNumber=myRs.getInt(1);
+            }
+            maxOrderNumber++;
+            
+            
+            PreparedStatement ps1 = myConn.prepareStatement("update cart set orderNumber=? , orderDate=? where cartOwner=? and orderNumber=0;");
+            ps1.setInt(1, maxOrderNumber);
+            ps1.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            ps1.setString(3, username);
+            ps1.execute();
+
+            JOptionPane.showMessageDialog(null, "checkout success");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error please try again");
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
 }

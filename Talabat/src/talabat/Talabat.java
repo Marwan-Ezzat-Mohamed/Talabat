@@ -15,6 +15,7 @@ public class Talabat {
     public static String currentUser;
     public static int currentUserIndex;
     public static String currentOwner;
+    public static String currentOwnerRestaurantName;
     public static int currentOwnerIndex;
 
     public static int login() {
@@ -42,6 +43,7 @@ public class Talabat {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
                 currentOwner = owners[i].username;
+                currentOwnerRestaurantName=owners[i].restaurantName;
 
                 
                 currentOwnerIndex = i;
@@ -235,6 +237,9 @@ public class Talabat {
 
         loginFrame = new MainFrame();
         loginFrame.show();
+        
+        
+        
 
         //ImageIcon i = new ImageIcon(ImageIcon.class.getResource("/pics/burger.jpg"));
 

@@ -60,7 +60,7 @@ public class Owner extends User {
 
         //remove from database
         Database db = new Database();
-        int id = db.getMealId(mealName);
+        int id = db.getMealId(mealName,restaurantName);
         Connection myConn;
 
         try {

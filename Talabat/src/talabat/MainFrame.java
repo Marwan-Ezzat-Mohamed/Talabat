@@ -27,6 +27,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -498,6 +499,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             }
         });
+        System.out.println("done loading");
 
     }
 
@@ -539,9 +541,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         new java.util.Timer().schedule(new java.util.TimerTask() {
             public void run() {
+                populateAllRestaurantsTable();
+                
+                
                 endSplashScreenAnimation();
             }
-        }, 3000);
+        }, 1);
     }
 
     /**
@@ -3599,6 +3604,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
         // TODO add your handling code here:
         LocalDate orderDateTime = LocalDate.now();
+        
+        
+        Database db = new Database();
+        db.orderCart(Talabat.currentUser);
         Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
 
         Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
@@ -3664,7 +3673,7 @@ public class MainFrame extends javax.swing.JFrame {
         edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
         edit.mealIndex = i;
         Database db = new Database();
-        int id = db.getMealId(mealList.get(i).name);
+        int id = db.getMealId(mealList.get(i).name,Talabat.currentOwnerRestaurantName);
         edit.mealId = id;
         if (mealList.get(i).databaseImage != null) {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
@@ -3735,7 +3744,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.add(homePanel);
             mainPanel.repaint();
             mainPanel.revalidate();
-            populateAllRestaurantsTable();
+            
         } else if (Talabat.login() == 2) {
             mainPanel.removeAll();
             mainPanel.repaint();
