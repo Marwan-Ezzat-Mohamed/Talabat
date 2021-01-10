@@ -27,21 +27,30 @@ import javax.swing.JOptionPane;
  */
 public class Database {
 
+    public Connection databaseConnection;
+
+    public Database() {
+        try {
+            this.databaseConnection = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void insertIntoBasketTable(String mealId) {
 
         // meal id //userId
         String username = Talabat.currentUser;
 
-        Connection myConn = null;
+        
         Statement myStmt = null;
         ResultSet myRs, myRs1 = null;
         try {
-            // get connection 
-            myConn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com:3306/sql2383521", "sql2383521", "bL5%tX9!");
-            // 2. Create a statement
-            myStmt = myConn.createStatement();
+           
+            // Create a statement
+            myStmt = databaseConnection.createStatement();
 
-            // 3. Execute SQL query
+            // Execute SQL query
             myRs1 = myStmt.executeQuery("select cart_id from customers where username ='" + username + "';");
             String basketId = null;
             while (myRs1.next()) {
@@ -49,11 +58,11 @@ public class Database {
             }
 
             myStmt.executeUpdate("insert into contains values(" + basketId + "," + mealId + ");");
-            System.out.println("insert done");
+            
 
-        } catch (Exception ex) {
-            System.out.println("error 404");
-        }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        } 
 
     }
 
@@ -61,27 +70,23 @@ public class Database {
 
         ArrayList<Restaurant> list = new ArrayList<Restaurant>();
 
-        Connection myConn = null;
+       
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-            // get connection 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-            // 2. Create a statement
-            myStmt = myConn.createStatement();
-
-            // 3. Execute SQL query
+            
+            myStmt = databaseConnection.createStatement();
             myRs = myStmt.executeQuery("select * from restaurants");
 
-            // 4. Process the result set
+            //Process the result set
             Restaurant r;
             while (myRs.next()) {
                 r = new Restaurant(myRs.getString("name"), myRs.getBytes("image"), myRs.getString("description"));
 
                 list.add(r);
             }
-        } catch (Exception ex) {
-            System.out.println("error 404");
+        } catch (SQLException ex) { 
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
@@ -90,23 +95,20 @@ public class Database {
         String user = s;
         ArrayList<Order> orderList = new ArrayList<Order>();
 
-        Connection myConn = null;
+        
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-            // get connection 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-            // 2. Create a statement
-            myStmt = myConn.createStatement();
+           
+           
+            
+            myStmt = databaseConnection.createStatement();
 
-            // 3. Execute SQL query
-            System.out.println(user);
+            //Execute SQL query
             myRs = myStmt.executeQuery("select * from orders where username='" + user + "';");
-
-            //meals rest_name orderDate total_price
-            //meals agebo mn basket_id bta3 el user //kol meal leha id ageb mno el rest_name
-            //
-            // 4. Process the result set
+            
+            //Process the result set
+            
             Order o;
             Cart c = new Cart();
             c.addMeal(new Meal("kofta", 20.0f), 2);
@@ -116,21 +118,21 @@ public class Database {
 
                 orderList.add(o);
             }
-        } catch (Exception ex) {
-            System.out.println("error 404");
+        } catch (SQLException ex) { 
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return orderList;
     }
 
     public void updateRestaurantImage(InputStream s) {
-        Connection myConn = null;
+        
         Statement myStmt = null;
         try {
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-            myStmt = myConn.createStatement();
+            
+            
 
-            //myStmt.executeUpdate("UPDATE restaurants SET image = " + s + " WHERE name = 'mac';");
-            PreparedStatement ps = myConn.prepareStatement("UPDATE restaurants SET image = ? WHERE name = 'mac';");
+            
+            PreparedStatement ps = databaseConnection.prepareStatement("UPDATE restaurants SET image = ? WHERE name = 'mac';");
 
             ps.setBlob(1, s);
             ps.executeUpdate();
@@ -142,14 +144,13 @@ public class Database {
     }
 
     public void addMealToRestaurant(Meal m, String restaurantName, InputStream s) {
-        Connection myConn = null;
-        Statement myStmt = null;
+        
+        
         try {
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-            myStmt = myConn.createStatement();
-
+            
+           
             //myStmt.executeUpdate("UPDATE restaurants SET image = " + s + " WHERE name = 'mac';");
-            PreparedStatement ps = myConn.prepareStatement("insert into meals values(?,?,?,?,?,?);");
+            PreparedStatement ps =  databaseConnection.prepareStatement("insert into meals values(?,?,?,?,?,?);");
 
             ps.setString(1, null);
             ps.setString(2, m.name);
@@ -170,27 +171,28 @@ public class Database {
 
         ArrayList<Meal> mealList = new ArrayList<Meal>();
 
-        Connection myConn = null;
+        
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+            
+            myStmt =  databaseConnection.createStatement();
 
-            myStmt = myConn.createStatement();
-
-            System.out.println(restaurantName);
+            
             myRs = myStmt.executeQuery("select * from meals where restaurantName ='" + restaurantName + "';");
 
             while (myRs.next()) {
+                
                 String name = myRs.getString("name");
                 String description = myRs.getString("description");
                 float price = myRs.getFloat("price");
                 byte[] image = myRs.getBytes("image");
-                System.out.println(name + "\n" + description);
+                
                 Meal m = new Meal(name, description, price, image);
-
                 mealList.add(m);
+                
+                System.out.println(name + "\n" + description);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -201,14 +203,13 @@ public class Database {
     public int getMealId(String mealName, String restaurantName) {
 
         int id = -1;
-        Connection myConn;
+        
         Statement myStmt;
         ResultSet myRs;
         try {
 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            myStmt = myConn.createStatement();
+      
+            myStmt =  databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select id from meals where name ='" + mealName + "'and restaurantName='" + restaurantName + "';");
 
@@ -224,14 +225,10 @@ public class Database {
 
     public void updateMeal(Meal m, InputStream s, int id) {
 
-        Connection myConn;
-        Statement myStmt;
-        ResultSet myRs;
+        
         try {
 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            PreparedStatement ps = myConn.prepareStatement("update meals set name = ?,description=?,image=? where id = ? ;");
+            PreparedStatement ps =  databaseConnection.prepareStatement("update meals set name = ?,description=?,image=? where id = ? ;");
 
             ps.setString(1, m.name);
             ps.setString(2, m.description);
@@ -250,20 +247,16 @@ public class Database {
 
     public void insertMealIntoCart(int mealId, int quantity, String username) {
 
-        Connection myConn;
-        Statement myStmt;
-        ResultSet myRs;
+        
         try {
 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            PreparedStatement ps = myConn.prepareStatement("insert ignore into cart (cartOwner,mealId) values(?,?);");
+            PreparedStatement ps =  databaseConnection.prepareStatement("insert ignore into cart (cartOwner,mealId) values(?,?);");
             ps.setString(1, username);
             ps.setInt(2, mealId);
 
             ps.executeUpdate();
 
-            PreparedStatement ps1 = myConn.prepareStatement("update cart set quantity=quantity + ? where mealId=? and cartOwner=? and orderNumber=0;");
+            PreparedStatement ps1 =  databaseConnection.prepareStatement("update cart set quantity=quantity + ? where mealId=? and cartOwner=? and orderNumber=0;");
             ps1.setInt(1, quantity);
             ps1.setInt(2, mealId);
             ps1.setString(3, username);
@@ -279,14 +272,14 @@ public class Database {
 
     public void orderCart(String username) {
 
-        Connection myConn;
+       
         Statement myStmt = null;
         ResultSet myRs;
         try {
 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            myStmt = myConn.createStatement();
+           
+            myStmt =  databaseConnection.createStatement();
+            
             //get max number of order for a specific customer
             myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
             int maxOrderNumber = 0;
@@ -295,7 +288,7 @@ public class Database {
             }
             maxOrderNumber++;
 
-            PreparedStatement ps1 = myConn.prepareStatement("update cart set orderNumber=? , orderDate=? where cartOwner=? and orderNumber=0;");
+            PreparedStatement ps1 =  databaseConnection.prepareStatement("update cart set orderNumber=? , orderDate=? where cartOwner=? and orderNumber=0;");
             ps1.setInt(1, maxOrderNumber);
             ps1.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             ps1.setString(3, username);
@@ -313,13 +306,13 @@ public class Database {
 
         Cart cart = new Cart();
 
-        Connection myConn = null;
+        
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+           
 
-            myStmt = myConn.createStatement();
+            myStmt =  databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select * from cart where cartOwner = '" + username + "' and orderNumber=0; ");
 
@@ -336,14 +329,12 @@ public class Database {
 
     public Meal returnMealFromId(int id) {
 
-        Connection myConn = null;
         Statement myStmt = null;
         ResultSet myRs = null;
         Meal m = null;
         try {
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            myStmt = myConn.createStatement();
+             
+            myStmt =  databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select * from meals where id =" + id + ";");
 
@@ -358,14 +349,13 @@ public class Database {
 
     public void removeMeal(int mealid, String username) {
 
-        Connection myConn;
+        
         Statement myStmt = null;
-        ResultSet myRs;
+        
         try {
 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            myStmt = myConn.createStatement();
+        
+            myStmt =  databaseConnection.createStatement();
             //get max number of order for a specific customer
             myStmt.executeUpdate("delete from cart where cartOwner='" + username + "' and mealId=" + mealid + ";");
 
@@ -379,14 +369,14 @@ public class Database {
 
     public Order[] returnOrderOfcustomers(String username) {
 
-        Connection myConn = null;
+        
         Statement myStmt = null;
         ResultSet myRs = null;
         Order[] orders = null;
         try {
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+            
 
-            myStmt = myConn.createStatement();
+            myStmt =  databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
             int maxOrderNumber = 0;
@@ -398,6 +388,7 @@ public class Database {
 
             orders = new Order[maxOrderNumber+1];
             
+            //intialize orders array
             for(int i=0;i<maxOrderNumber+1;i++)
             {
                 orders[i]= new Order();

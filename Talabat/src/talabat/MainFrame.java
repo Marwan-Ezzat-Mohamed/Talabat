@@ -51,6 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
+    
+    public Database db = new Database();
     public class Gradient extends JPanel {
 
         protected void paintComponent(Graphics g) {
@@ -123,7 +125,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void restMealsTableForOwners() {
 
-        Database db = new Database();
+        
         mealList = db.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
@@ -196,7 +198,7 @@ public class MainFrame extends javax.swing.JFrame {
     Cart cart;
     public void cartTable() {
 
-        Database db = new Database();
+        
         cart = db.returnCart(Talabat.currentUser);
         float totalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
@@ -236,7 +238,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void restaurantMealsTable(String s) {
 
-        Database db = new Database();
+        
         mealList = db.getRestaurantMeals(s);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
@@ -306,7 +308,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void myOrdersTable() {
-        Database db= new Database();
+        
         Order[] orders = db.returnOrderOfcustomers(Talabat.currentUser);
         
         
@@ -373,8 +375,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void createImageMap() {
 
-        Database d = new Database();
-        allRestaurantsArrayList = d.returnAllRestaurants();
+        
+        allRestaurantsArrayList = db.returnAllRestaurants();
         sz = allRestaurantsArrayList.size();
 
         for (int i = 0; i < sz; i++) {
@@ -532,7 +534,7 @@ public class MainFrame extends javax.swing.JFrame {
             ImageIcon img = ResizeImage(path);
 
             InputStream is = new FileInputStream(selectedFile);
-            Database db = new Database();
+            
             db.updateRestaurantImage(is);
             resturantIcon1.setIcon(img);
         } //if the user click on save in Jfilechooser
@@ -552,7 +554,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                 endSplashScreenAnimation();
             }
-        }, 1);
+        }, 3000);
     }
 
     /**
@@ -3600,7 +3602,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         LocalDate orderDateTime = LocalDate.now();
 
-        Database db = new Database();
+        
         db.orderCart(Talabat.currentUser);
         Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
 
@@ -3643,7 +3645,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = userCart.getSelectedRow();
 
-        Database db=new Database();
+        
         
         int mealId=cart.meals[index].mealId;
         System.out.println("meal id is : " +mealId);
@@ -3667,7 +3669,7 @@ public class MainFrame extends javax.swing.JFrame {
         edit.mealNameLabel.setText(mealList.get(i).name);
         edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
         edit.mealIndex = i;
-        Database db = new Database();
+        
         int id = db.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
         edit.mealId = id;
         if (mealList.get(i).databaseImage != null) {
