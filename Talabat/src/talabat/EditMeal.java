@@ -41,7 +41,7 @@ public class EditMeal extends javax.swing.JFrame {
     public ImageIcon ResizeImage(String ImagePath) {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
-        Image newImg = img.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        Image newImg = img.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(newImg);
         return image;
     }
@@ -287,7 +287,12 @@ public class EditMeal extends javax.swing.JFrame {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(EditMeal.class.getName()).log(Level.SEVERE, null, ex);
             }
-            db.updateMeal(m, is, mealId);
+            db.updateMealWithImage(m, is, mealId);
+        }
+        else 
+        {
+            System.out.println("talabat.EditMeal.applyChangesbuttonMouseClicked()" +mealId);
+            db.updateMealWithoutImage(m, mealId);
         }
 
         mealNameTextField.setText(MainFrame.mealList.get(mealIndex).name);

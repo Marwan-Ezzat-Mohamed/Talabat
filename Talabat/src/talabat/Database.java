@@ -36,17 +36,16 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void insertIntoBasketTable(String mealId) {
 
         // meal id //userId
         String username = Talabat.currentUser;
 
-        
         Statement myStmt = null;
         ResultSet myRs, myRs1 = null;
         try {
-           
+
             // Create a statement
             myStmt = databaseConnection.createStatement();
 
@@ -58,11 +57,10 @@ public class Database {
             }
 
             myStmt.executeUpdate("insert into contains values(" + basketId + "," + mealId + ");");
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
 
     }
 
@@ -70,11 +68,10 @@ public class Database {
 
         ArrayList<Restaurant> list = new ArrayList<Restaurant>();
 
-       
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-            
+
             myStmt = databaseConnection.createStatement();
             myRs = myStmt.executeQuery("select * from restaurants");
 
@@ -85,7 +82,7 @@ public class Database {
 
                 list.add(r);
             }
-        } catch (SQLException ex) { 
+        } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
@@ -95,20 +92,16 @@ public class Database {
         String user = s;
         ArrayList<Order> orderList = new ArrayList<Order>();
 
-        
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-           
-           
-            
+
             myStmt = databaseConnection.createStatement();
 
             //Execute SQL query
             myRs = myStmt.executeQuery("select * from orders where username='" + user + "';");
-            
+
             //Process the result set
-            
             Order o;
             Cart c = new Cart();
             c.addMeal(new Meal("kofta", 20.0f), 2);
@@ -118,20 +111,17 @@ public class Database {
 
                 orderList.add(o);
             }
-        } catch (SQLException ex) { 
+        } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return orderList;
     }
 
     public void updateRestaurantImage(InputStream s) {
-        
+
         Statement myStmt = null;
         try {
-            
-            
 
-            
             PreparedStatement ps = databaseConnection.prepareStatement("UPDATE restaurants SET image = ? WHERE name = 'mac';");
 
             ps.setBlob(1, s);
@@ -144,13 +134,11 @@ public class Database {
     }
 
     public void addMealToRestaurant(Meal m, String restaurantName, InputStream s) {
-        
-        
+
         try {
-            
-           
+
             //myStmt.executeUpdate("UPDATE restaurants SET image = " + s + " WHERE name = 'mac';");
-            PreparedStatement ps =  databaseConnection.prepareStatement("insert into meals values(?,?,?,?,?,?);");
+            PreparedStatement ps = databaseConnection.prepareStatement("insert into meals values(?,?,?,?,?,?);");
 
             ps.setString(1, null);
             ps.setString(2, m.name);
@@ -171,27 +159,24 @@ public class Database {
 
         ArrayList<Meal> mealList = new ArrayList<Meal>();
 
-        
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
 
-            
-            myStmt =  databaseConnection.createStatement();
+            myStmt = databaseConnection.createStatement();
 
-            
             myRs = myStmt.executeQuery("select * from meals where restaurantName ='" + restaurantName + "';");
 
             while (myRs.next()) {
-                
+
                 String name = myRs.getString("name");
                 String description = myRs.getString("description");
                 float price = myRs.getFloat("price");
                 byte[] image = myRs.getBytes("image");
-                
+
                 Meal m = new Meal(name, description, price, image);
                 mealList.add(m);
-                
+
                 System.out.println(name + "\n" + description);
             }
         } catch (SQLException ex) {
@@ -203,13 +188,12 @@ public class Database {
     public int getMealId(String mealName, String restaurantName) {
 
         int id = -1;
-        
+
         Statement myStmt;
         ResultSet myRs;
         try {
 
-      
-            myStmt =  databaseConnection.createStatement();
+            myStmt = databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select id from meals where name ='" + mealName + "'and restaurantName='" + restaurantName + "';");
 
@@ -223,20 +207,39 @@ public class Database {
         return id;
     }
 
-    public void updateMeal(Meal m, InputStream s, int id) {
+    public void updateMealWithImage(Meal m, InputStream s, int id) {
 
-        
         try {
 
-            PreparedStatement ps =  databaseConnection.prepareStatement("update meals set name = ?,description=?,image=? where id = ? ;");
+            PreparedStatement ps = databaseConnection.prepareStatement("update meals set name = ?,description=?,image=?,price=? where id = ? ;");
 
             ps.setString(1, m.name);
             ps.setString(2, m.description);
-
             ps.setBlob(3, s);
-            ps.setInt(4, id);
-
+            ps.setFloat(4, m.mealPrice);
+            ps.setInt(5, id);
+            
             ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Meal updated");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error please try again");
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void updateMealWithoutImage(Meal m, int id) {
+
+        try {
+
+            PreparedStatement ps = databaseConnection.prepareStatement("update meals set name = ?,description=?,price=? where id = ? ;");
+
+            ps.setString(1, m.name);
+            ps.setString(2, m.description);
+            ps.setFloat(3, m.mealPrice);
+            ps.setInt(4, id);
+            ps.executeUpdate();
+            
             JOptionPane.showMessageDialog(null, "Meal updated");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error please try again");
@@ -247,16 +250,15 @@ public class Database {
 
     public void insertMealIntoCart(int mealId, int quantity, String username) {
 
-        
         try {
 
-            PreparedStatement ps =  databaseConnection.prepareStatement("insert ignore into cart (cartOwner,mealId) values(?,?);");
+            PreparedStatement ps = databaseConnection.prepareStatement("insert ignore into cart (cartOwner,mealId) values(?,?);");
             ps.setString(1, username);
             ps.setInt(2, mealId);
 
             ps.executeUpdate();
 
-            PreparedStatement ps1 =  databaseConnection.prepareStatement("update cart set quantity=quantity + ? where mealId=? and cartOwner=? and orderNumber=0;");
+            PreparedStatement ps1 = databaseConnection.prepareStatement("update cart set quantity=quantity + ? where mealId=? and cartOwner=? and orderNumber=0;");
             ps1.setInt(1, quantity);
             ps1.setInt(2, mealId);
             ps1.setString(3, username);
@@ -272,14 +274,12 @@ public class Database {
 
     public void orderCart(String username) {
 
-       
         Statement myStmt = null;
         ResultSet myRs;
         try {
 
-           
-            myStmt =  databaseConnection.createStatement();
-            
+            myStmt = databaseConnection.createStatement();
+
             //get max number of order for a specific customer
             myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
             int maxOrderNumber = 0;
@@ -288,7 +288,7 @@ public class Database {
             }
             maxOrderNumber++;
 
-            PreparedStatement ps1 =  databaseConnection.prepareStatement("update cart set orderNumber=? , orderDate=? where cartOwner=? and orderNumber=0;");
+            PreparedStatement ps1 = databaseConnection.prepareStatement("update cart set orderNumber=? , orderDate=? where cartOwner=? and orderNumber=0;");
             ps1.setInt(1, maxOrderNumber);
             ps1.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             ps1.setString(3, username);
@@ -306,13 +306,11 @@ public class Database {
 
         Cart cart = new Cart();
 
-        
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
-           
 
-            myStmt =  databaseConnection.createStatement();
+            myStmt = databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select * from cart where cartOwner = '" + username + "' and orderNumber=0; ");
 
@@ -333,8 +331,8 @@ public class Database {
         ResultSet myRs = null;
         Meal m = null;
         try {
-             
-            myStmt =  databaseConnection.createStatement();
+
+            myStmt = databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select * from meals where id =" + id + ";");
 
@@ -349,13 +347,11 @@ public class Database {
 
     public void removeMeal(int mealid, String username) {
 
-        
         Statement myStmt = null;
-        
+
         try {
 
-        
-            myStmt =  databaseConnection.createStatement();
+            myStmt = databaseConnection.createStatement();
             //get max number of order for a specific customer
             myStmt.executeUpdate("delete from cart where cartOwner='" + username + "' and mealId=" + mealid + ";");
 
@@ -369,14 +365,12 @@ public class Database {
 
     public Order[] returnOrderOfcustomers(String username) {
 
-        
         Statement myStmt = null;
         ResultSet myRs = null;
         Order[] orders = null;
         try {
-            
 
-            myStmt =  databaseConnection.createStatement();
+            myStmt = databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
             int maxOrderNumber = 0;
@@ -386,23 +380,22 @@ public class Database {
             myRs = null;
             myRs = myStmt.executeQuery("select * from cart where cartOwner = '" + username + "' and orderNumber<>0; ");
 
-            orders = new Order[maxOrderNumber+1];
-            
+            orders = new Order[maxOrderNumber + 1];
+
             //intialize orders array
-            for(int i=0;i<maxOrderNumber+1;i++)
-            {
-                orders[i]= new Order();
+            for (int i = 0; i < maxOrderNumber + 1; i++) {
+                orders[i] = new Order();
             }
 
-            System.out.println("max order number = "+maxOrderNumber );
+            System.out.println("max order number = " + maxOrderNumber);
             while (myRs.next()) {
 
-                int mealId=myRs.getInt("mealID");
-                int mealOrderNumber=myRs.getInt("orderNumber");
-                int quantity=myRs.getInt("quantity");
-                Date d= myRs.getTimestamp("orderDate");
-                orders[mealOrderNumber].Date=d;
-                orders[mealOrderNumber].addMeal(returnMealFromId(mealId),quantity ,mealOrderNumber );
+                int mealId = myRs.getInt("mealID");
+                int mealOrderNumber = myRs.getInt("orderNumber");
+                int quantity = myRs.getInt("quantity");
+                Date d = myRs.getTimestamp("orderDate");
+                orders[mealOrderNumber].Date = d;
+                orders[mealOrderNumber].addMeal(returnMealFromId(mealId), quantity, mealOrderNumber);
 
             }
         } catch (Exception ex) {
