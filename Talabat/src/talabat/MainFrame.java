@@ -549,12 +549,14 @@ public class MainFrame extends javax.swing.JFrame {
         new java.util.Timer().schedule(new java.util.TimerTask() {
             @Override
             public void run() {
-
-                populateAllRestaurantsTable();
-
+                
                 endSplashScreenAnimation();
+                populateAllRestaurantsTable();
+                endLoading();
             }
+            
         }, 3000);
+        
     }
 
     /**
@@ -569,6 +571,9 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         splashscreen = new javax.swing.JPanel();
         jLabel112 = new javax.swing.JLabel();
+        loadingscreen = new javax.swing.JPanel();
+        jLabel113 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
         loginPanel = new Gradient();
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
@@ -796,6 +801,38 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         mainPanel.add(splashscreen, "card2");
+
+        loadingscreen.setBackground(new java.awt.Color(254, 89, 2));
+
+        jLabel113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/talabat10x.gif"))); // NOI18N
+
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/loading.gif"))); // NOI18N
+
+        javax.swing.GroupLayout loadingscreenLayout = new javax.swing.GroupLayout(loadingscreen);
+        loadingscreen.setLayout(loadingscreenLayout);
+        loadingscreenLayout.setHorizontalGroup(
+            loadingscreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loadingscreenLayout.createSequentialGroup()
+                .addGroup(loadingscreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loadingscreenLayout.createSequentialGroup()
+                        .addGap(281, 281, 281)
+                        .addComponent(jLabel113))
+                    .addGroup(loadingscreenLayout.createSequentialGroup()
+                        .addGap(489, 489, 489)
+                        .addComponent(jLabel26)))
+                .addContainerGap(353, Short.MAX_VALUE))
+        );
+        loadingscreenLayout.setVerticalGroup(
+            loadingscreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loadingscreenLayout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(jLabel113)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addComponent(jLabel26)
+                .addGap(79, 79, 79))
+        );
+
+        mainPanel.add(loadingscreen, "card2");
 
         loginPanel.setBackground(new java.awt.Color(254, 89, 2));
 
@@ -2095,7 +2132,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(meals_pan8, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MyOrderLayout = new javax.swing.GroupLayout(MyOrder);
@@ -2103,7 +2140,7 @@ public class MainFrame extends javax.swing.JFrame {
         MyOrderLayout.setHorizontalGroup(
             MyOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, 1197, Short.MAX_VALUE)
+            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
         );
         MyOrderLayout.setVerticalGroup(
             MyOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2512,14 +2549,14 @@ public class MainFrame extends javax.swing.JFrame {
         resturantPanelLayout.setHorizontalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1197, Short.MAX_VALUE)
+            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
         );
         resturantPanelLayout.setVerticalGroup(
             resturantPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resturantPanelLayout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE))
         );
 
         mainPanel.add(resturantPanel, "card6");
@@ -2576,7 +2613,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(103, 103, 103)
                         .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE))))
                 .addGap(88, 88, 88))
         );
         jPanel24Layout.setVerticalGroup(
@@ -2591,7 +2628,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantPanel1Layout = new javax.swing.GroupLayout(resturantPanel1);
@@ -2600,7 +2637,7 @@ public class MainFrame extends javax.swing.JFrame {
             resturantPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resturantPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, 1121, Short.MAX_VALUE)
+                .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE)
                 .addContainerGap())
         );
         resturantPanel1Layout.setVerticalGroup(
@@ -2816,9 +2853,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        descriptionTextField.setBackground(new java.awt.Color(255, 255, 255));
         descriptionTextField.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        descriptionTextField.setForeground(new java.awt.Color(0, 0, 0));
         descriptionTextField.setText("No description");
         descriptionTextField.setBorder(null);
         descriptionTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -2958,14 +2993,14 @@ public class MainFrame extends javax.swing.JFrame {
         resturantOwnerPanelLayout.setHorizontalGroup(
             resturantOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 1197, Short.MAX_VALUE)
+            .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
         );
         resturantOwnerPanelLayout.setVerticalGroup(
             resturantOwnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resturantOwnerPanelLayout.createSequentialGroup()
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
+                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE))
         );
 
         mainPanel.add(resturantOwnerPanel, "card6");
@@ -3177,7 +3212,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(meals_pan9, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MyOrderForOwnerLayout = new javax.swing.GroupLayout(MyOrderForOwner);
@@ -3185,7 +3220,7 @@ public class MainFrame extends javax.swing.JFrame {
         MyOrderForOwnerLayout.setHorizontalGroup(
             MyOrderForOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, 1197, Short.MAX_VALUE)
+            .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
         );
         MyOrderForOwnerLayout.setVerticalGroup(
             MyOrderForOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3206,7 +3241,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 904, Short.MAX_VALUE)
         );
 
         pack();
@@ -3216,11 +3251,23 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
+        mainPanel.add(loadingscreen);
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }
+
+    private void endLoading() {
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
     }
 
+    
+    
+    
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
@@ -3958,6 +4005,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel11;
     public javax.swing.JLabel jLabel111;
     public javax.swing.JLabel jLabel112;
+    public javax.swing.JLabel jLabel113;
     public javax.swing.JLabel jLabel114;
     public javax.swing.JLabel jLabel116;
     public javax.swing.JLabel jLabel12;
@@ -3975,6 +4023,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel23;
     public javax.swing.JLabel jLabel24;
     public javax.swing.JLabel jLabel25;
+    public javax.swing.JLabel jLabel26;
     public javax.swing.JLabel jLabel3;
     public javax.swing.JLabel jLabel37;
     public javax.swing.JLabel jLabel39;
@@ -4048,6 +4097,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JSeparator jSeparator6;
     public javax.swing.JLabel label1;
     public javax.swing.JLabel label2;
+    public javax.swing.JPanel loadingscreen;
     public javax.swing.JLabel loginLinkButton;
     public javax.swing.JLabel loginLinkButton1;
     public javax.swing.JPanel loginPanel;
