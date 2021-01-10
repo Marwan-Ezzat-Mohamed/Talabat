@@ -31,6 +31,15 @@ public class Order {
         ordererdMeals[numberOfMealsInCart].numberInOrder=numberInOrder;
         numberOfMealsInCart++;
     }
+    
+    public void addMeal(Meal m,int q,Date d,int numberInOrder) {
+
+        ordererdMeals[numberOfMealsInCart] = m;
+        ordererdMeals[numberOfMealsInCart].mealsQuantityInCart=q;
+        ordererdMeals[numberOfMealsInCart].orderDate=d;
+        ordererdMeals[numberOfMealsInCart].numberInOrder=numberInOrder;
+        numberOfMealsInCart++;
+    }
 
     public void displayOrder() {
         for (int i = 0; i < numberOfMealsInCart; i++) {

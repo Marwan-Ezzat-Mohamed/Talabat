@@ -403,4 +403,46 @@ public class Database {
         }
         return orders;
     }
+    
+    
+    
+    public Order returnOrderOfOwner(String restaurantName) {
+
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        Order order = null;
+        try {
+            
+
+            myStmt = databaseConnection.createStatement();
+
+            //myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
+            int maxOrderNumber = 0;
+            
+            
+            ///select * from meals , cart where restaurantName='mac' and mealId=id order by orderDate
+
+
+            myRs = myStmt.executeQuery("select * from meals , cart where restaurantName='" + restaurantName + "' and orderNumber<>0 and mealId=id order by orderNumber; ");
+
+            
+            order = new Order();
+            
+            while (myRs.next()) {
+                
+                int mealId = myRs.getInt("mealID");
+                int quantity = myRs.getInt("quantity");
+                int numberInOrder = myRs.getInt("orderNumber");
+                Date d = myRs.getTimestamp("orderDate");
+                Meal m =  returnMealFromId(mealId);
+                order .addMeal(m, quantity, d,numberInOrder);
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return order;
+    }
 }

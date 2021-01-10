@@ -51,8 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
-    
     public Database db = new Database();
+
     public class Gradient extends JPanel {
 
         protected void paintComponent(Graphics g) {
@@ -81,25 +81,40 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void myOrdersTableForOwner1() {
 
+        Order order = db.returnOrderOfOwner(Talabat.currentOwnerRestaurantName);
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
-        Object[][] rows = new Object[Talabat.owners[Talabat.currentOwnerIndex].restaurant.numberOfOrders][columnName.length];
-        int row = 0;
-        for (int i = 0; i < Talabat.owners[Talabat.currentOwnerIndex].restaurant.numberOfOrders; i++) {
-            rows[row][0] = i + 1;
-            for (int j = 0; j < Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].numberOfMealsInCart; j++) {
+        Object[][] rows = new Object[order.numberOfMealsInCart][columnName.length];
 
-                rows[row][2] = Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].name;
-                rows[row][3] = String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].mealPrice);
-                rows[row][4] = String.valueOf(Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].mealsQuantityInCart);
-                rows[row][5] = Talabat.customers[Talabat.currentUserIndex].cart.orderDate;
-                System.out.println(Talabat.owners[Talabat.currentOwnerIndex].restaurant.orders[i].ordererdMeals[j].name);
-                row++;
+        int orderNumber = 1;
+        int prev = 0;
+        for (int i = 0; i < order.numberOfMealsInCart; i++) {
 
+            System.out.println(order.ordererdMeals[i].name);
+            if (i > 0 && order.ordererdMeals[i].numberInOrder != prev) {
+                //System.out.println(prev);
+                orderNumber++;
             }
+            rows[i][0] = orderNumber;
+            if (order.ordererdMeals[i].databaseImage != null) {
+
+                ImageIcon image = new ImageIcon(new ImageIcon(order.ordererdMeals[i].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+
+                rows[i][1] = image;
+
+            } else {
+                rows[i][1] = null;
+            }
+
+            rows[i][2] = order.ordererdMeals[i].name;
+            rows[i][3] = String.valueOf(order.ordererdMeals[i].mealPrice);
+            rows[i][4] = String.valueOf(order.ordererdMeals[i].mealsQuantityInCart);
+            rows[i][5] = order.ordererdMeals[i].orderDate;
+
+            prev = order.ordererdMeals[i].numberInOrder;
         }
 
         TableModelForMyOrders orderModel = new TableModelForMyOrders(rows, columnName);
-//        orderSorter = new TableRowSorter<>(orderModel);
+        
         myOrdersTableForOwner.setModel(orderModel);
         myOrdersTableForOwner.setRowHeight(160);
 
@@ -125,7 +140,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void restMealsTableForOwners() {
 
-        
         mealList = db.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
@@ -196,9 +210,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     Cart cart;
+
     public void cartTable() {
 
-        
         cart = db.returnCart(Talabat.currentUser);
         float totalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
@@ -215,7 +229,7 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 rows[i][0] = null;
             }
-           
+
             rows[i][1] = cart.meals[i].name;
             rows[i][2] = String.valueOf(cart.meals[i].mealPrice);
             rows[i][3] = String.valueOf(cart.meals[i].mealsQuantityInCart);
@@ -238,7 +252,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void restaurantMealsTable(String s) {
 
-        
         mealList = db.getRestaurantMeals(s);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
@@ -308,10 +321,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void myOrdersTable() {
-        
+
         Order[] orders = db.returnOrderOfcustomers(Talabat.currentUser);
-        
-        
+
         int mx = 0;
         for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].ordersCount; j++) {
             mx += Talabat.customers[Talabat.currentUserIndex].orders[j].numberOfMealsInCart;
@@ -375,7 +387,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void createImageMap() {
 
-        
         allRestaurantsArrayList = db.returnAllRestaurants();
         sz = allRestaurantsArrayList.size();
 
@@ -534,7 +545,7 @@ public class MainFrame extends javax.swing.JFrame {
             ImageIcon img = ResizeImage(path);
 
             InputStream is = new FileInputStream(selectedFile);
-            
+
             db.updateRestaurantImage(is);
             resturantIcon1.setIcon(img);
         } //if the user click on save in Jfilechooser
@@ -549,14 +560,17 @@ public class MainFrame extends javax.swing.JFrame {
         new java.util.Timer().schedule(new java.util.TimerTask() {
             @Override
             public void run() {
-                
+
                 endSplashScreenAnimation();
+
                 populateAllRestaurantsTable();
+                cartTable();
+
                 endLoading();
             }
-            
+
         }, 3000);
-        
+
     }
 
     /**
@@ -3265,9 +3279,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.revalidate();
     }
 
-    
-    
-    
+
     private void usernameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameTextFieldActionPerformed
@@ -3649,7 +3661,6 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         LocalDate orderDateTime = LocalDate.now();
 
-        
         db.orderCart(Talabat.currentUser);
         Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
 
@@ -3692,10 +3703,8 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = userCart.getSelectedRow();
 
-        
-        
-        int mealId=cart.meals[index].mealId;
-        System.out.println("meal id is : " +mealId);
+        int mealId = cart.meals[index].mealId;
+        System.out.println("meal id is : " + mealId);
         db.removeMeal(mealId, Talabat.currentUser);
         //Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
         //Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
@@ -3716,7 +3725,7 @@ public class MainFrame extends javax.swing.JFrame {
         edit.mealNameLabel.setText(mealList.get(i).name);
         edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
         edit.mealIndex = i;
-        
+
         int id = db.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
         edit.mealId = id;
         if (mealList.get(i).databaseImage != null) {

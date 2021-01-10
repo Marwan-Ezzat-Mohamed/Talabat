@@ -1,5 +1,6 @@
 package talabat;
 
+import java.util.Date;
 import javax.swing.ImageIcon;
 
 public class Meal {
@@ -10,6 +11,7 @@ public class Meal {
     public int orderCount, mealId,numberInOrder;
     public int mealsQuantityInCart;
     public byte[] databaseImage;
+    public Date orderDate;
 
     public Meal(String name, String description, float mealPrice) {
         this.name = name;
