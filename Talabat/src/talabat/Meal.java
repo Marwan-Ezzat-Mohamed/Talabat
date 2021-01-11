@@ -19,7 +19,7 @@ public class Meal {
         this.mealPrice = mealPrice;
     }
     
-    public ImageIcon Image = new ImageIcon(ImageIcon.class.getResource("/pics/addphoto.png"));
+   // public ImageIcon Image = new ImageIcon(ImageIcon.class.getResource("/pics/addphoto.png"));
 
     public Meal(String name, float mealPrice) {
         this.name = name;
@@ -44,12 +44,7 @@ public class Meal {
 
     }
 
-    public Meal(String name, String description, float mealPrice,ImageIcon i) {
-        this.name = name;
-        this.description = description;
-        this.mealPrice = mealPrice;
-        this.Image=i;
-    }
+    
 
     public Meal() {
     }

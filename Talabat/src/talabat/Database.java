@@ -28,10 +28,11 @@ import javax.swing.JOptionPane;
 public class Database {
 
     public Connection databaseConnection;
+    private String databaseUrl="jdbc:mysql://remotemysql.com:3306/RjFI4gANpY";
 
     public Database() {
         try {
-            this.databaseConnection = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
+            this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -42,6 +43,7 @@ public class Database {
         // meal id //userId
         String username = Talabat.currentUser;
 
+        
         Statement myStmt = null;
         ResultSet myRs, myRs1 = null;
         try {
@@ -66,7 +68,7 @@ public class Database {
 
     public ArrayList<Restaurant> returnAllRestaurants() {
 
-        ArrayList<Restaurant> list = new ArrayList<Restaurant>();
+        ArrayList<Restaurant> list = new ArrayList<>();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -90,7 +92,7 @@ public class Database {
 
     public ArrayList<Order> returnMyOrders(String s) {
         String user = s;
-        ArrayList<Order> orderList = new ArrayList<Order>();
+        ArrayList<Order> orderList = new ArrayList<>();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -157,7 +159,7 @@ public class Database {
 
     public ArrayList<Meal> getRestaurantMeals(String restaurantName) {
 
-        ArrayList<Meal> mealList = new ArrayList<Meal>();
+        ArrayList<Meal> mealList = new ArrayList<>();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -248,13 +250,14 @@ public class Database {
 
     }
 
-    public void insertMealIntoCart(int mealId, int quantity, String username) {
+    public void insertMealIntoCart(int mealId, int quantity,float orderPrice,String username) {
 
         try {
 
-            PreparedStatement ps = databaseConnection.prepareStatement("insert ignore into cart (cartOwner,mealId) values(?,?);");
+            PreparedStatement ps = databaseConnection.prepareStatement("insert ignore into cart (cartOwner,mealId,orderprice) values(?,?,?);");
             ps.setString(1, username);
             ps.setInt(2, mealId);
+            ps.setFloat(3, orderPrice);
 
             ps.executeUpdate();
 
@@ -302,7 +305,7 @@ public class Database {
 
     }
 
-    public Cart returnCart(String username) {
+    public Cart returnCartOfCustomer(String username) {
 
         Cart cart = new Cart();
 
@@ -319,7 +322,7 @@ public class Database {
                 cart.addMeal((returnMealFromId(myRs.getInt("mealId"))), myRs.getInt("quantity"));
 
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cart;
@@ -398,7 +401,7 @@ public class Database {
                 orders[mealOrderNumber].addMeal(returnMealFromId(mealId), quantity, mealOrderNumber);
 
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return orders;
@@ -433,14 +436,16 @@ public class Database {
                 int mealId = myRs.getInt("mealID");
                 int quantity = myRs.getInt("quantity");
                 int numberInOrder = myRs.getInt("orderNumber");
+                float orderPrice=myRs.getFloat("orderPrice");
                 Date d = myRs.getTimestamp("orderDate");
                 Meal m =  returnMealFromId(mealId);
+                m.mealPrice=orderPrice;
                 order .addMeal(m, quantity, d,numberInOrder);
             }
             
             
             
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return order;

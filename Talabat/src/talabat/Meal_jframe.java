@@ -318,7 +318,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         
        
             Database db= new Database();
-            db.insertMealIntoCart(db.getMealId(MainFrame.mealList.get(mealIndex).name, Talabat.owners[ownerIndex].restaurantName), value, Talabat.currentUser);
+            db.insertMealIntoCart(db.getMealId(MainFrame.mealList.get(mealIndex).name, Talabat.owners[ownerIndex].restaurantName), value,mealPriceFloat, Talabat.currentUser);
         
 
 

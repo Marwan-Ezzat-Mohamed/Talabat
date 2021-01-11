@@ -2449,7 +2449,7 @@
                               <Component id="jLabel107" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="totalPriceLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="totalPriceLabelForCustomerCart" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel11" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -2479,7 +2479,7 @@
                               <EmptySpace min="-2" pref="270" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel107" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="totalPriceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="totalPriceLabelForCustomerCart" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -2679,7 +2679,7 @@
                 <Property name="text" type="java.lang.String" value="Total"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="totalPriceLabel">
+            <Component class="javax.swing.JLabel" name="totalPriceLabelForCustomerCart">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="20" style="1"/>
@@ -2701,7 +2701,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="userCart">
+                <Component class="javax.swing.JTable" name="currentUserCartJtable">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="22" style="1"/>
@@ -3875,7 +3875,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="mealsOfResturantForOwner">
+                    <Component class="javax.swing.JTable" name="mealsOfResturantForOwnerJtable">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Tahoma" size="22" style="1"/>
@@ -3897,7 +3897,7 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mealsOfResturantForOwnerMouseClicked"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mealsOfResturantForOwnerJtableMouseClicked"/>
                       </Events>
                     </Component>
                   </SubComponents>

@@ -302,13 +302,7 @@ public class EditMeal extends javax.swing.JFrame {
         mealNameLabel.setText(MainFrame.mealList.get(mealIndex).name);
         priceLabel.setText(String.valueOf(MainFrame.mealList.get(mealIndex).mealPrice));
 
-        if (mealImage != null) {
-
-            MainFrame.mealList.get(mealIndex).Image = (ImageIcon) mealImage.getIcon();
-
-        } else {
-            MainFrame.mealList.get(mealIndex).Image = null;
-        }
+        
 
         this.dispose();
 

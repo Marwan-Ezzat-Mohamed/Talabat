@@ -54,7 +54,7 @@ public class Cart {
     public void displayMeals() {
         for (int i = 0; i < numberOfMeals; i++) {
 
-            meals[i].displayInfo();;
+            meals[i].displayInfo();
         }
     }
 

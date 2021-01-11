@@ -51,10 +51,11 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
-    public Database db = new Database();
+    public Database database = new Database();
 
     public class Gradient extends JPanel {
 
+        @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
@@ -71,27 +72,25 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private TableRowSorter orderSorter;
-    private TableRowSorter restMealsTableSorter;
+    private TableRowSorter mealsOfResturantForOwnerTableSorter;
     private TableRowSorter mealSortter;
     static ArrayList<Order> orderList;
     static ArrayList<Meal> mealList;
     static int ownerIndex;
 
-    boolean allResturantsIsSorted = false;
+    boolean allResturantsIsSorted ;
 
-    public void myOrdersTableForOwner1() {
+    public void populateOrdersTableForOwner() {
 
-        Order order = db.returnOrderOfOwner(Talabat.currentOwnerRestaurantName);
+        Order order = database.returnOrderOfOwner(Talabat.currentOwnerRestaurantName);
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
         Object[][] rows = new Object[order.numberOfMealsInCart][columnName.length];
 
         int orderNumber = 1;
-        int prev = 0;
+        int prevOrderNumber = 0;
         for (int i = 0; i < order.numberOfMealsInCart; i++) {
 
-            System.out.println(order.ordererdMeals[i].name);
-            if (i > 0 && order.ordererdMeals[i].numberInOrder != prev) {
-                //System.out.println(prev);
+            if (i > 0 && order.ordererdMeals[i].numberInOrder != prevOrderNumber) {
                 orderNumber++;
             }
             rows[i][0] = orderNumber;
@@ -110,7 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
             rows[i][4] = String.valueOf(order.ordererdMeals[i].mealsQuantityInCart);
             rows[i][5] = order.ordererdMeals[i].orderDate;
 
-            prev = order.ordererdMeals[i].numberInOrder;
+            prevOrderNumber = order.ordererdMeals[i].numberInOrder;
         }
 
         TableModelForMyOrders orderModel = new TableModelForMyOrders(rows, columnName);
@@ -138,9 +137,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void restMealsTableForOwners() {
+    public void populateRestaurantMealsTableForOwner() {
 
-        mealList = db.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
+        mealList = database.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
@@ -162,26 +161,28 @@ public class MainFrame extends javax.swing.JFrame {
 
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
-        restMealsTableSorter = new TableRowSorter<>(mealModel);
-        mealsOfResturantForOwner.setModel(mealModel);
-        mealsOfResturantForOwner.setRowHeight(160);
+        mealsOfResturantForOwnerTableSorter = new TableRowSorter<>(mealModel);
+        mealsOfResturantForOwnerJtable.setModel(mealModel);
+        mealsOfResturantForOwnerJtable.setRowHeight(160);
 
-        mealsOfResturantForOwner.getColumnModel().getColumn(0).setMaxWidth(160);
-        mealsOfResturantForOwner.getColumnModel().getColumn(0).setMinWidth(160);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(0).setMaxWidth(160);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(0).setMinWidth(160);
 
-        mealsOfResturantForOwner.getColumnModel().getColumn(1).setMaxWidth(200);
-        mealsOfResturantForOwner.getColumnModel().getColumn(1).setMinWidth(200);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(1).setMaxWidth(200);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(1).setMinWidth(200);
 
-        mealsOfResturantForOwner.getColumnModel().getColumn(2).setMaxWidth(290);
-        mealsOfResturantForOwner.getColumnModel().getColumn(2).setMinWidth(290);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(2).setMaxWidth(290);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(2).setMinWidth(290);
 
-        mealsOfResturantForOwner.getColumnModel().getColumn(3).setMaxWidth(100);
-        mealsOfResturantForOwner.getColumnModel().getColumn(3).setMinWidth(100);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(3).setMaxWidth(100);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(3).setMinWidth(100);
 
-        restMealsTableSorter.setSortable(0, false);
-        restMealsTableSorter.setSortable(2, false);
-        restMealsTableSorter.setSortable(3, false);
-        mealsOfResturantForOwner.setRowSorter(restMealsTableSorter);
+        mealsOfResturantForOwnerTableSorter.setSortable(0, false);
+        mealsOfResturantForOwnerTableSorter.setSortable(2, false);
+        mealsOfResturantForOwnerTableSorter.setSortable(3, false);
+        mealsOfResturantForOwnerJtable.setRowSorter(mealsOfResturantForOwnerTableSorter);
+        
+        //enable search
         searchMealsTextField1.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -200,59 +201,58 @@ public class MainFrame extends javax.swing.JFrame {
 
             public void search(String str) {
                 if (str.length() == 0) {
-                    restMealsTableSorter.setRowFilter(null);
+                    mealsOfResturantForOwnerTableSorter.setRowFilter(null);
                 } else {
-                    restMealsTableSorter.setRowFilter(RowFilter.regexFilter(str, 1));
+                    mealsOfResturantForOwnerTableSorter.setRowFilter(RowFilter.regexFilter(str, 1));
                 }
             }
 
         });
     }
 
-    Cart cart;
+    Cart currentCustomerCart;
 
-    public void cartTable() {
+    public void populateCurrentUserCartTable() {
 
-        cart = db.returnCart(Talabat.currentUser);
-        float totalPrice = 0;
+        currentCustomerCart = database.returnCartOfCustomer(Talabat.currentUser);
+        float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
-        Object[][] rows = new Object[cart.numberOfMeals][columnName.length];
+        Object[][] rows = new Object[currentCustomerCart.numberOfMeals][columnName.length];
 
-        for (int i = 0; i < cart.numberOfMeals; i++) {
+        for (int i = 0; i < currentCustomerCart.numberOfMeals; i++) {
 
-            if (cart.meals[i].databaseImage != null) {
-
-                System.out.println("image in cart is not null");
-                ImageIcon image = new ImageIcon(new ImageIcon(cart.meals[i].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+            if (currentCustomerCart.meals[i].databaseImage != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(currentCustomerCart.meals[i].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                 rows[i][0] = image;
 
             } else {
                 rows[i][0] = null;
             }
 
-            rows[i][1] = cart.meals[i].name;
-            rows[i][2] = String.valueOf(cart.meals[i].mealPrice);
-            rows[i][3] = String.valueOf(cart.meals[i].mealsQuantityInCart);
-            totalPrice += cart.meals[i].mealPrice * cart.meals[i].mealsQuantityInCart;
+            rows[i][1] = currentCustomerCart.meals[i].name;
+            rows[i][2] = String.valueOf(currentCustomerCart.meals[i].mealPrice);
+            rows[i][3] = String.valueOf(currentCustomerCart.meals[i].mealsQuantityInCart);
+            cartTotalPrice += currentCustomerCart.meals[i].mealPrice * currentCustomerCart.meals[i].mealsQuantityInCart;
 
         }
-        totalPriceLabel.setText(String.valueOf(totalPrice));
-        TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
+        totalPriceLabelForCustomerCart.setText(String.valueOf(cartTotalPrice));
+        
+        TableModelForRestaurantsTable currentUserCartTableModel = new TableModelForRestaurantsTable(rows, columnName);
 
-        userCart.setModel(mealModel);
-        userCart.setRowHeight(160);
+        currentUserCartJtable.setModel(currentUserCartTableModel);
+        currentUserCartJtable.setRowHeight(160);
 
-        userCart.getColumnModel().getColumn(0).setMaxWidth(160);
-        userCart.getColumnModel().getColumn(0).setMinWidth(160);
+        currentUserCartJtable.getColumnModel().getColumn(0).setMaxWidth(160);
+        currentUserCartJtable.getColumnModel().getColumn(0).setMinWidth(160);
 
-        userCart.getColumnModel().getColumn(1).setMaxWidth(200);
-        userCart.getColumnModel().getColumn(1).setMinWidth(200);
+        currentUserCartJtable.getColumnModel().getColumn(1).setMaxWidth(200);
+        currentUserCartJtable.getColumnModel().getColumn(1).setMinWidth(200);
 
     }
 
-    public void restaurantMealsTable(String s) {
+    public void populateRestaurantMealsJTableForCustomer(String restaurantName) {
 
-        mealList = db.getRestaurantMeals(s);
+        mealList = database.getRestaurantMeals(restaurantName);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
@@ -322,7 +322,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void myOrdersTable() {
 
-        Order[] orders = db.returnOrderOfcustomers(Talabat.currentUser);
+        Order[] orders = database.returnOrderOfcustomers(Talabat.currentUser);
 
         int mx = 0;
         for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].ordersCount; j++) {
@@ -387,7 +387,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void createImageMap() {
 
-        allRestaurantsArrayList = db.returnAllRestaurants();
+        allRestaurantsArrayList = database.returnAllRestaurants();
         sz = allRestaurantsArrayList.size();
 
         for (int i = 0; i < sz; i++) {
@@ -546,7 +546,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             InputStream is = new FileInputStream(selectedFile);
 
-            db.updateRestaurantImage(is);
+            database.updateRestaurantImage(is);
             resturantIcon1.setIcon(img);
         } //if the user click on save in Jfilechooser
         else if (result == JFileChooser.CANCEL_OPTION) {
@@ -564,8 +564,8 @@ public class MainFrame extends javax.swing.JFrame {
                 endSplashScreenAnimation();
 
                 populateAllRestaurantsTable();
-                cartTable();
-
+                populateCurrentUserCartTable();
+                
                 endLoading();
             }
 
@@ -707,10 +707,10 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel93 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel107 = new javax.swing.JLabel();
-        totalPriceLabel = new javax.swing.JLabel();
+        totalPriceLabelForCustomerCart = new javax.swing.JLabel();
         jLabel111 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        userCart = new javax.swing.JTable();
+        currentUserCartJtable = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
         resturantPanel = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
@@ -762,7 +762,7 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         Hot_deals6 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        mealsOfResturantForOwner = new javax.swing.JTable();
+        mealsOfResturantForOwnerJtable = new javax.swing.JTable();
         searchMealsTextField1 = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
         refreshButton = new javax.swing.JLabel();
@@ -2263,13 +2263,13 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel107.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel107.setText("Total");
 
-        totalPriceLabel.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        totalPriceLabel.setText("55 EGP");
+        totalPriceLabelForCustomerCart.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        totalPriceLabelForCustomerCart.setText("55 EGP");
 
         jLabel111.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/bskt3x.png"))); // NOI18N
 
-        userCart.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        userCart.setModel(new javax.swing.table.DefaultTableModel(
+        currentUserCartJtable.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        currentUserCartJtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -2280,12 +2280,12 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        userCart.setGridColor(new java.awt.Color(255, 255, 255));
-        userCart.setSelectionBackground(new java.awt.Color(255, 208, 182));
-        userCart.setShowVerticalLines(false);
-        userCart.getTableHeader().setResizingAllowed(false);
-        userCart.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(userCart);
+        currentUserCartJtable.setGridColor(new java.awt.Color(255, 255, 255));
+        currentUserCartJtable.setSelectionBackground(new java.awt.Color(255, 208, 182));
+        currentUserCartJtable.setShowVerticalLines(false);
+        currentUserCartJtable.getTableHeader().setResizingAllowed(false);
+        currentUserCartJtable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(currentUserCartJtable);
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/remove.png"))); // NOI18N
@@ -2319,7 +2319,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jLabel107)
                         .addGap(137, 137, 137)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(totalPriceLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(totalPriceLabelForCustomerCart, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jLabel21))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2342,7 +2342,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(270, 270, 270)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel107)
-                            .addComponent(totalPriceLabel))
+                            .addComponent(totalPriceLabelForCustomerCart))
                         .addGap(81, 81, 81)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel21)
@@ -2916,8 +2916,8 @@ public class MainFrame extends javax.swing.JFrame {
         Hot_deals6.setFont(new java.awt.Font("Trebuchet MS", 1, 36)); // NOI18N
         Hot_deals6.setText("Meals");
 
-        mealsOfResturantForOwner.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        mealsOfResturantForOwner.setModel(new javax.swing.table.DefaultTableModel(
+        mealsOfResturantForOwnerJtable.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        mealsOfResturantForOwnerJtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -2928,16 +2928,16 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        mealsOfResturantForOwner.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        mealsOfResturantForOwner.setShowVerticalLines(false);
-        mealsOfResturantForOwner.getTableHeader().setResizingAllowed(false);
-        mealsOfResturantForOwner.getTableHeader().setReorderingAllowed(false);
-        mealsOfResturantForOwner.addMouseListener(new java.awt.event.MouseAdapter() {
+        mealsOfResturantForOwnerJtable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        mealsOfResturantForOwnerJtable.setShowVerticalLines(false);
+        mealsOfResturantForOwnerJtable.getTableHeader().setResizingAllowed(false);
+        mealsOfResturantForOwnerJtable.getTableHeader().setReorderingAllowed(false);
+        mealsOfResturantForOwnerJtable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mealsOfResturantForOwnerMouseClicked(evt);
+                mealsOfResturantForOwnerJtableMouseClicked(evt);
             }
         });
-        jScrollPane7.setViewportView(mealsOfResturantForOwner);
+        jScrollPane7.setViewportView(mealsOfResturantForOwnerJtable);
 
         searchMealsTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3255,7 +3255,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
         );
 
         pack();
@@ -3436,7 +3436,7 @@ public class MainFrame extends javax.swing.JFrame {
                 mainPanel.add(resturantOwnerPanel);
                 mainPanel.repaint();
                 mainPanel.revalidate();
-                restMealsTableForOwners();
+                populateRestaurantMealsTableForOwner();
             }
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
@@ -3661,7 +3661,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         LocalDate orderDateTime = LocalDate.now();
 
-        db.orderCart(Talabat.currentUser);
+        database.orderCart(Talabat.currentUser);
         Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
 
         Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
@@ -3669,7 +3669,7 @@ public class MainFrame extends javax.swing.JFrame {
         Talabat.owners[ownerIndex].restaurant.orders[Talabat.owners[ownerIndex].restaurant.numberOfOrders].addCart(Talabat.customers[Talabat.currentUserIndex].cart);
         Talabat.owners[ownerIndex].restaurant.numberOfOrders++;
         //Talabat.customers[Talabat.currentUserIndex].orderCart();
-        cartTable();
+        populateCurrentUserCartTable();
 
 
     }//GEN-LAST:event_jLabel11MouseClicked
@@ -3688,7 +3688,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void basketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseClicked
         // TODO add your handling code here:
-        cartTable();
+        populateCurrentUserCartTable();
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3701,23 +3701,23 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
         // TODO add your handling code here:
-        int index = userCart.getSelectedRow();
+        int index = currentUserCartJtable.getSelectedRow();
 
-        int mealId = cart.meals[index].mealId;
+        int mealId = currentCustomerCart.meals[index].mealId;
         System.out.println("meal id is : " + mealId);
-        db.removeMeal(mealId, Talabat.currentUser);
+        database.removeMeal(mealId, Talabat.currentUser);
         //Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
         //Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
-        cartTable();
+        populateCurrentUserCartTable();
 
     }//GEN-LAST:event_jLabel21MouseClicked
 
     EditMeal edit = new EditMeal();
-    private void mealsOfResturantForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerMouseClicked
+    private void mealsOfResturantForOwnerJtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseClicked
         // TODO add your handling code here:
 
-        int ii = mealsOfResturantForOwner.getSelectedRow();
-        int i = restMealsTableSorter.convertRowIndexToModel(ii);
+        int ii = mealsOfResturantForOwnerJtable.getSelectedRow();
+        int i = mealsOfResturantForOwnerTableSorter.convertRowIndexToModel(ii);
         edit.mealNameTextField.setText(mealList.get(i).name);
         edit.priceTextField.setText(String.valueOf(mealList.get(i).mealPrice));
         edit.descriptionTextField.setText(mealList.get(i).description);
@@ -3726,7 +3726,7 @@ public class MainFrame extends javax.swing.JFrame {
         edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
         edit.mealIndex = i;
 
-        int id = db.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
+        int id = database.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
         edit.mealId = id;
         if (mealList.get(i).databaseImage != null) {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
@@ -3740,7 +3740,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_mealsOfResturantForOwnerMouseClicked
+    }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseClicked
 
     private void searchMealsTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMealsTextField1ActionPerformed
         // TODO add your handling code here:
@@ -3748,7 +3748,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void refreshButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshButtonMouseClicked
         // TODO add your handling code here:
-        restMealsTableForOwners();
+        populateRestaurantMealsTableForOwner();
     }//GEN-LAST:event_refreshButtonMouseClicked
     AddMeal add = new AddMeal();
     private void addMealButoonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMealButoonMouseClicked
@@ -3765,7 +3765,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-        // add sign up panel
+        
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3779,7 +3779,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-        // add sign up panel
+        
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3815,13 +3815,13 @@ public class MainFrame extends javax.swing.JFrame {
                 resturantIcon1.setIcon(image);
             }
 
-            restaurantMealsTable(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
+            populateRestaurantMealsJTableForCustomer(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
 
             // add sign up panel
             mainPanel.add(resturantOwnerPanel);
             mainPanel.repaint();
             mainPanel.revalidate();
-            restMealsTableForOwners();
+            populateRestaurantMealsTableForOwner();
 
         }
     }//GEN-LAST:event_jLabel22MousePressed
@@ -3856,7 +3856,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void ordersForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwnerMouseClicked
 
-        myOrdersTableForOwner1();
+        populateOrdersTableForOwner();
         mainPanel.removeAll();
 
         mainPanel.repaint();
@@ -3922,7 +3922,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.revalidate();
 
             System.out.println("selected restaurant is : " + selectedRestaurantName);
-            restaurantMealsTable(selectedRestaurantName);
+            populateRestaurantMealsJTableForCustomer(selectedRestaurantName);
         }
     }//GEN-LAST:event_allRestaurantsjListMouseClicked
 
@@ -3955,25 +3955,22 @@ public class MainFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainFrame().setVisible(true);
         });
     }
 
@@ -3999,6 +3996,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JPasswordField confirmPasswordFieldForSignUp1;
     public javax.swing.JLabel confirmPasswordLabelForSignUp;
     public javax.swing.JLabel confirmPasswordLabelForSignUp1;
+    public javax.swing.JTable currentUserCartJtable;
     public javax.swing.JTextField descriptionTextField;
     public javax.swing.JLabel dontHaveAccountLabel;
     public javax.swing.JPanel dwn_panel;
@@ -4114,7 +4112,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel meal1pic;
     public javax.swing.JLabel meal1pic1;
     public javax.swing.JLabel meal1pic2;
-    public javax.swing.JTable mealsOfResturantForOwner;
+    public javax.swing.JTable mealsOfResturantForOwnerJtable;
     public javax.swing.JTable mealsTable;
     public javax.swing.JPanel meals_pan;
     public javax.swing.JPanel meals_pan8;
@@ -4169,8 +4167,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel talabatLogo;
     public javax.swing.JLabel talabatLogoForSignUp;
     public javax.swing.JLabel talabatLogoForSignUp1;
-    public javax.swing.JLabel totalPriceLabel;
-    public javax.swing.JTable userCart;
+    public javax.swing.JLabel totalPriceLabelForCustomerCart;
     public javax.swing.JLabel userPhoto;
     public javax.swing.JLabel userPhoto1;
     public javax.swing.JLabel username;
