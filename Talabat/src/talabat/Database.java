@@ -250,14 +250,15 @@ public class Database {
 
     }
 
-    public void insertMealIntoCart(int mealId, int quantity,float orderPrice,String username) {
+    public void insertMealIntoCart(int mealId, int quantity,float orderPrice,String notes,String username) {
 
         try {
 
-            PreparedStatement ps = databaseConnection.prepareStatement("insert ignore into cart (cartOwner,mealId,orderprice) values(?,?,?);");
+            PreparedStatement ps = databaseConnection.prepareStatement("insert ignore into cart (cartOwner,mealId,orderprice,notes) values(?,?,?,?);");
             ps.setString(1, username);
             ps.setInt(2, mealId);
             ps.setFloat(3, orderPrice);
+            ps.setString(4, notes);
 
             ps.executeUpdate();
 
@@ -419,11 +420,7 @@ public class Database {
 
             myStmt = databaseConnection.createStatement();
 
-            //myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
-            int maxOrderNumber = 0;
             
-            
-            ///select * from meals , cart where restaurantName='mac' and mealId=id order by orderDate
 
 
             myRs = myStmt.executeQuery("select * from meals , cart where restaurantName='" + restaurantName + "' and orderNumber<>0 and mealId=id order by orderNumber; ");
@@ -438,8 +435,10 @@ public class Database {
                 int numberInOrder = myRs.getInt("orderNumber");
                 float orderPrice=myRs.getFloat("orderPrice");
                 Date d = myRs.getTimestamp("orderDate");
+                String notes=myRs.getString("notes");
                 Meal m =  returnMealFromId(mealId);
                 m.mealPrice=orderPrice;
+                m.notesForOrder=notes;
                 order .addMeal(m, quantity, d,numberInOrder);
             }
             
@@ -449,5 +448,23 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return order;
+    }
+    
+    public void removeMealFromOwner(int id)
+    {
+        try {
+
+            
+
+            PreparedStatement ps = databaseConnection.prepareStatement("delete from meals where id = ? ;");
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Meal deleted");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error please try again");
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

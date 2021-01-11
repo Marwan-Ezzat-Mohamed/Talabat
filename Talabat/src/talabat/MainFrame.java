@@ -51,8 +51,6 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
-    public Database database = new Database();
-
     public class Gradient extends JPanel {
 
         @Override
@@ -78,12 +76,21 @@ public class MainFrame extends javax.swing.JFrame {
     static ArrayList<Meal> mealList;
     static int ownerIndex;
 
-    boolean allResturantsIsSorted ;
+    boolean allResturantsIsSorted;
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public void populateOrdersTableForOwner() {
 
-        Order order = database.returnOrderOfOwner(Talabat.currentOwnerRestaurantName);
-        String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
+        Order order = Talabat.database.returnOrderOfOwner(Talabat.currentOwnerRestaurantName);
+        String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date", "Notes"};
         Object[][] rows = new Object[order.numberOfMealsInCart][columnName.length];
 
         int orderNumber = 1;
@@ -109,11 +116,17 @@ public class MainFrame extends javax.swing.JFrame {
             rows[i][4] = String.valueOf(order.ordererdMeals[i].mealsQuantityInCart);
             rows[i][5] = order.ordererdMeals[i].orderDate;
 
+            if (order.ordererdMeals[i].notesForOrder == null) {
+                rows[i][6] = "No notes";
+            } else {
+                rows[i][6] = order.ordererdMeals[i].notesForOrder;
+            }
+
             prevOrderNumber = order.ordererdMeals[i].numberInOrder;
         }
 
         TableModelForMyOrders orderModel = new TableModelForMyOrders(rows, columnName);
-        
+
         myOrdersTableForOwner.setModel(orderModel);
         myOrdersTableForOwner.setRowHeight(160);
 
@@ -135,11 +148,20 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMaxWidth(160);
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMinWidth(160);
 
+        myOrdersTableForOwner.getColumnModel().getColumn(6).setMaxWidth(160);
+        myOrdersTableForOwner.getColumnModel().getColumn(6).setMinWidth(160);
+        
+        
+        
+       
+        
+        
+
     }
 
     public void populateRestaurantMealsTableForOwner() {
 
-        mealList = database.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
+        mealList = Talabat.database.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
@@ -181,7 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
         mealsOfResturantForOwnerTableSorter.setSortable(2, false);
         mealsOfResturantForOwnerTableSorter.setSortable(3, false);
         mealsOfResturantForOwnerJtable.setRowSorter(mealsOfResturantForOwnerTableSorter);
-        
+
         //enable search
         searchMealsTextField1.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -214,7 +236,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void populateCurrentUserCartTable() {
 
-        currentCustomerCart = database.returnCartOfCustomer(Talabat.currentUser);
+        currentCustomerCart = Talabat.database.returnCartOfCustomer(Talabat.currentUser);
         float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
         Object[][] rows = new Object[currentCustomerCart.numberOfMeals][columnName.length];
@@ -236,7 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         }
         totalPriceLabelForCustomerCart.setText(String.valueOf(cartTotalPrice));
-        
+
         TableModelForRestaurantsTable currentUserCartTableModel = new TableModelForRestaurantsTable(rows, columnName);
 
         currentUserCartJtable.setModel(currentUserCartTableModel);
@@ -252,7 +274,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void populateRestaurantMealsJTableForCustomer(String restaurantName) {
 
-        mealList = database.getRestaurantMeals(restaurantName);
+        mealList = Talabat.database.getRestaurantMeals(restaurantName);
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
@@ -322,7 +344,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void myOrdersTable() {
 
-        Order[] orders = database.returnOrderOfcustomers(Talabat.currentUser);
+        Order[] orders = Talabat.database.returnOrderOfcustomers(Talabat.currentUser);
 
         int mx = 0;
         for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].ordersCount; j++) {
@@ -387,7 +409,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void createImageMap() {
 
-        allRestaurantsArrayList = database.returnAllRestaurants();
+        allRestaurantsArrayList = Talabat.database.returnAllRestaurants();
         sz = allRestaurantsArrayList.size();
 
         for (int i = 0; i < sz; i++) {
@@ -546,7 +568,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             InputStream is = new FileInputStream(selectedFile);
 
-            database.updateRestaurantImage(is);
+            Talabat.database.updateRestaurantImage(is);
             resturantIcon1.setIcon(img);
         } //if the user click on save in Jfilechooser
         else if (result == JFileChooser.CANCEL_OPTION) {
@@ -565,7 +587,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                 populateAllRestaurantsTable();
                 populateCurrentUserCartTable();
-                
+
                 endLoading();
             }
 
@@ -2127,7 +2149,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
+                    .addComponent(meals_pan8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
                     .addGroup(jPanel33Layout.createSequentialGroup()
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2146,7 +2168,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(meals_pan8, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MyOrderLayout = new javax.swing.GroupLayout(MyOrder);
@@ -2570,7 +2592,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(resturantPanelLayout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE))
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
         );
 
         mainPanel.add(resturantPanel, "card6");
@@ -2642,7 +2664,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantPanel1Layout = new javax.swing.GroupLayout(resturantPanel1);
@@ -2651,7 +2673,7 @@ public class MainFrame extends javax.swing.JFrame {
             resturantPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resturantPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE)
+                .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, 1121, Short.MAX_VALUE)
                 .addContainerGap())
         );
         resturantPanel1Layout.setVerticalGroup(
@@ -3014,7 +3036,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(resturantOwnerPanelLayout.createSequentialGroup()
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE))
+                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE))
         );
 
         mainPanel.add(resturantOwnerPanel, "card6");
@@ -3091,7 +3113,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(ordersForOwner1)
                 .addGap(42, 42, 42)
                 .addComponent(jLabel51)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addComponent(jLabel52)
                 .addGap(27, 27, 27)
                 .addComponent(signOutFromOwner)
@@ -3187,8 +3209,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(435, 435, 435)
                         .addComponent(jLabel98))
                     .addGroup(meals_pan9Layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 1073, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         meals_pan9Layout.setVerticalGroup(
@@ -3207,7 +3229,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel36Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meals_pan9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
+                    .addComponent(meals_pan9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
                     .addGroup(jPanel36Layout.createSequentialGroup()
                         .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel37, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3226,7 +3248,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(meals_pan9, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout MyOrderForOwnerLayout = new javax.swing.GroupLayout(MyOrderForOwner);
@@ -3661,7 +3683,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         LocalDate orderDateTime = LocalDate.now();
 
-        database.orderCart(Talabat.currentUser);
+        Talabat.database.orderCart(Talabat.currentUser);
         Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
 
         Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
@@ -3705,7 +3727,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         int mealId = currentCustomerCart.meals[index].mealId;
         System.out.println("meal id is : " + mealId);
-        database.removeMeal(mealId, Talabat.currentUser);
+        Talabat.database.removeMeal(mealId, Talabat.currentUser);
         //Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
         //Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
         populateCurrentUserCartTable();
@@ -3726,7 +3748,7 @@ public class MainFrame extends javax.swing.JFrame {
         edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
         edit.mealIndex = i;
 
-        int id = database.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
+        int id = Talabat.database.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
         edit.mealId = id;
         if (mealList.get(i).databaseImage != null) {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
@@ -3765,7 +3787,6 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-        
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3779,7 +3800,6 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-        
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3962,7 +3982,7 @@ public class MainFrame extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

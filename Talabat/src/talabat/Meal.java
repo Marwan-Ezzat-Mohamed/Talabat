@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 public class Meal {
 
-    public String name, description;
+    public String name, description,notesForOrder;
 
     public float mealPrice;
     public int orderCount, mealId,numberInOrder;

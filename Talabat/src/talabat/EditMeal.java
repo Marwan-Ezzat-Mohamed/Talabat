@@ -278,7 +278,7 @@ public class EditMeal extends javax.swing.JFrame {
         MainFrame.mealList.get(mealIndex).mealPrice = Float.parseFloat(priceTextField.getText());
 
         Meal m = new Meal(mealNameTextField.getText(), descriptionTextField.getText(), Float.parseFloat(priceTextField.getText()));
-        Database db = new Database();
+        
         InputStream is = null;
 
         if (selectedFile != null) {
@@ -287,12 +287,12 @@ public class EditMeal extends javax.swing.JFrame {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(EditMeal.class.getName()).log(Level.SEVERE, null, ex);
             }
-            db.updateMealWithImage(m, is, mealId);
+            Talabat.database.updateMealWithImage(m, is, mealId);
         }
         else 
         {
             System.out.println("talabat.EditMeal.applyChangesbuttonMouseClicked()" +mealId);
-            db.updateMealWithoutImage(m, mealId);
+            Talabat.database.updateMealWithoutImage(m, mealId);
         }
 
         mealNameTextField.setText(MainFrame.mealList.get(mealIndex).name);

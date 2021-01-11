@@ -310,6 +310,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         }
         Meal m = new Meal(mealName.getText(), mealPriceFloat);
         Talabat.customers[Talabat.currentUserIndex].cart.addMeal(m, value);
+        String notes=noteTextarea.getText();
         System.out.println(m.name);
         System.out.println("mealindex " + mealIndex);
         System.out.println(Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals);
@@ -317,8 +318,8 @@ public class Meal_jframe extends javax.swing.JFrame {
         
         
        
-            Database db= new Database();
-            db.insertMealIntoCart(db.getMealId(MainFrame.mealList.get(mealIndex).name, Talabat.owners[ownerIndex].restaurantName), value,mealPriceFloat, Talabat.currentUser);
+            
+        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.mealList.get(mealIndex).name, Talabat.owners[ownerIndex].restaurantName), value,mealPriceFloat,notes ,Talabat.currentUser);
         
 
 

@@ -31,15 +31,12 @@ public class Owner extends User {
 
     public void addMeal(Meal m, InputStream s) {
         
-        
-        
         Connection myConn = null;
         Statement myStmt = null;
         try {
             myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
             myStmt = myConn.createStatement();
 
-            //myStmt.executeUpdate("UPDATE restaurants SET image = " + s + " WHERE name = 'mac';");
             PreparedStatement ps = myConn.prepareStatement("insert into meals values(?,?,?,?,?,?);");
 
             ps.setString(1, null);
@@ -49,6 +46,7 @@ public class Owner extends User {
             ps.setString(5, restaurantName);
             ps.setFloat(6, m.mealPrice);
             ps.executeUpdate();
+            
             JOptionPane.showMessageDialog(null, "meal added");
 
         } catch (SQLException ex) {
@@ -62,24 +60,10 @@ public class Owner extends User {
         restaurant.mealCount--;
 
         //remove from database
-        Database db = new Database();
-        int id = db.getMealId(mealName,restaurantName);
-        Connection myConn;
+        int id = Talabat.database.getMealId(mealName,restaurantName);
+        Talabat.database.removeMealFromOwner(id);
 
-        try {
-
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            PreparedStatement ps = myConn.prepareStatement("delete from meals where id = ? ;");
-
-            ps.setInt(1, id);
-
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Meal deleted");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error please try again");
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     //waiting for gui

@@ -17,10 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import static talabat.MainFrame.allRestaurantsArrayList;
 
-/**
- *
- * @author nouran
- */
+
 public class AddMeal extends javax.swing.JFrame {
 
     /**

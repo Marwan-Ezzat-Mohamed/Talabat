@@ -17,6 +17,8 @@ public class Talabat {
     public static String currentOwner;
     public static String currentOwnerRestaurantName;
     public static int currentOwnerIndex;
+    
+    public static Database database= new Database();
 
     public static int login() {
         int numberOfCustomers = Customer.numberOfCustomers;
