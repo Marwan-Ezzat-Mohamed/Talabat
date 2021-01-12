@@ -368,7 +368,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel22MousePressed"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel22MouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
@@ -3058,6 +3058,9 @@
                         <Property name="text" type="java.lang.String" value="Burgers, Fast Food, Breakfast"/>
                         <Property name="verticalAlignment" type="int" value="1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="resturantDescriptionLabelKeyPressed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="resturantIcon">
                       <Properties>
@@ -3854,6 +3857,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="descriptionTextFieldActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="descriptionTextFieldKeyPressed"/>
                       </Events>
                     </Component>
                   </SubComponents>

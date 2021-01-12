@@ -467,4 +467,24 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+     public void editRestaurantDescription(String restaurantName, String description) {
+
+        try {
+
+            //myStmt.executeUpdate("UPDATE restaurants SET image = " + s + " WHERE name = 'mac';");
+            PreparedStatement ps = databaseConnection.prepareStatement("update restaurants set description=? where name = ? ;");
+            
+
+            ps.setString(1, description);
+            ps.setString(2, restaurantName);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "description edited");
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error please try again");
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

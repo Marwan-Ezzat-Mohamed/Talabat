@@ -72,6 +72,14 @@ public class Owner extends User {
         //restaurant.meals[i].description /// = textbox text
         //restaurant.meals[i].price /// = textbox text
     }
+    
+    
+    public void editRestaurantDescription(String description)
+    {
+        this.restaurant.description=description;
+        Talabat.database.editRestaurantDescription(this.restaurantName, description);
+    }
+   
 
     public void viewOrders() {
         for (int i = 0; i < restaurant.mealCount; i++) {

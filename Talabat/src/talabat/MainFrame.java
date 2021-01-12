@@ -77,17 +77,8 @@ public class MainFrame extends javax.swing.JFrame {
     static int ownerIndex;
 
     boolean allResturantsIsSorted;
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    public void populateOrdersTableForOwner() {
+    public void updateOrdersTableForOwner() {
 
         Order order = Talabat.database.returnOrderOfOwner(Talabat.currentOwnerRestaurantName);
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date", "Notes"};
@@ -150,16 +141,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         myOrdersTableForOwner.getColumnModel().getColumn(6).setMaxWidth(160);
         myOrdersTableForOwner.getColumnModel().getColumn(6).setMinWidth(160);
-        
-        
-        
-       
-        
-        
 
     }
 
-    public void populateRestaurantMealsTableForOwner() {
+    public void updateRestaurantMealsTableForOwner() {
 
         mealList = Talabat.database.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
 
@@ -234,9 +219,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     Cart currentCustomerCart;
 
-    public void populateCurrentUserCartTable() {
+    public void updateCurrentUserCartTable() {
 
-        currentCustomerCart = Talabat.database.returnCartOfCustomer(Talabat.currentUser);
+       
+        currentCustomerCart = Talabat.customer.returnCart();
         float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
         Object[][] rows = new Object[currentCustomerCart.numberOfMeals][columnName.length];
@@ -272,7 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void populateRestaurantMealsJTableForCustomer(String restaurantName) {
+    public void updateRestaurantMealsJTableForCustomer(String restaurantName) {
 
         mealList = Talabat.database.getRestaurantMeals(restaurantName);
 
@@ -485,7 +471,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void populateAllRestaurantsTable() {
+    public void updateAllRestaurantsTable() {
 
         System.out.println("what is this");
         createImageMap();
@@ -584,10 +570,7 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
 
                 endSplashScreenAnimation();
-
-                populateAllRestaurantsTable();
-                populateCurrentUserCartTable();
-
+                updateAllRestaurantsTable();
                 endLoading();
             }
 
@@ -948,8 +931,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/login.png"))); // NOI18N
         jLabel22.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel22MousePressed(evt);
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel22MouseClicked(evt);
             }
         });
 
@@ -2469,6 +2452,11 @@ public class MainFrame extends javax.swing.JFrame {
         resturantDescriptionLabel.setForeground(new java.awt.Color(230, 81, 0));
         resturantDescriptionLabel.setText("Burgers, Fast Food, Breakfast");
         resturantDescriptionLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        resturantDescriptionLabel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                resturantDescriptionLabelKeyPressed(evt);
+            }
+        });
 
         resturantIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (3).png"))); // NOI18N
 
@@ -2895,6 +2883,11 @@ public class MainFrame extends javax.swing.JFrame {
         descriptionTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 descriptionTextFieldActionPerformed(evt);
+            }
+        });
+        descriptionTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                descriptionTextFieldKeyPressed(evt);
             }
         });
 
@@ -3458,7 +3451,7 @@ public class MainFrame extends javax.swing.JFrame {
                 mainPanel.add(resturantOwnerPanel);
                 mainPanel.repaint();
                 mainPanel.revalidate();
-                populateRestaurantMealsTableForOwner();
+                updateRestaurantMealsTableForOwner();
             }
         }
     }//GEN-LAST:event_passwordFieldKeyPressed
@@ -3680,20 +3673,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_searchMealsTextFieldActionPerformed
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        // TODO add your handling code here:
-        LocalDate orderDateTime = LocalDate.now();
 
-        Talabat.database.orderCart(Talabat.currentUser);
-        Talabat.customers[Talabat.currentUserIndex].cart.orderDate = orderDateTime;
-
-        Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
-        System.out.println(Talabat.owners[ownerIndex].restaurant.numberOfOrders);
-        Talabat.owners[ownerIndex].restaurant.orders[Talabat.owners[ownerIndex].restaurant.numberOfOrders].addCart(Talabat.customers[Talabat.currentUserIndex].cart);
-        Talabat.owners[ownerIndex].restaurant.numberOfOrders++;
-        //Talabat.customers[Talabat.currentUserIndex].orderCart();
-        populateCurrentUserCartTable();
-
-
+        Talabat.customer.orderCart();
+        updateCurrentUserCartTable();
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
@@ -3710,7 +3692,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void basketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseClicked
         // TODO add your handling code here:
-        populateCurrentUserCartTable();
+        updateCurrentUserCartTable();
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3730,7 +3712,7 @@ public class MainFrame extends javax.swing.JFrame {
         Talabat.database.removeMeal(mealId, Talabat.currentUser);
         //Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
         //Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
-        populateCurrentUserCartTable();
+        updateCurrentUserCartTable();
 
     }//GEN-LAST:event_jLabel21MouseClicked
 
@@ -3770,7 +3752,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void refreshButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshButtonMouseClicked
         // TODO add your handling code here:
-        populateRestaurantMealsTableForOwner();
+        updateRestaurantMealsTableForOwner();
     }//GEN-LAST:event_refreshButtonMouseClicked
     AddMeal add = new AddMeal();
     private void addMealButoonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMealButoonMouseClicked
@@ -3806,46 +3788,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_signOutFromOwnerMouseClicked
 
-    private void jLabel22MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MousePressed
-
-        if (Talabat.login() == 1) {
-            mainPanel.removeAll();
-            mainPanel.repaint();
-            mainPanel.revalidate();
-
-            // add sign up panel
-            mainPanel.add(homePanel);
-            mainPanel.repaint();
-            mainPanel.revalidate();
-
-        } else if (Talabat.login() == 2) {
-            mainPanel.removeAll();
-            mainPanel.repaint();
-            mainPanel.revalidate();
-
-            // System.out.println(owners[i].restaurantName);
-            resturantNameLabel1.setText(owners[Talabat.currentOwnerIndex].restaurant.name);
-
-            if (owners[Talabat.currentOwnerIndex].restaurant.description != null) {
-
-                resturantDescriptionLabel.setText(owners[Talabat.currentOwnerIndex].restaurant.description);
-            }
-            if (owners[Talabat.currentOwnerIndex].restaurant.Image != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(owners[Talabat.currentOwnerIndex].restaurant.Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
-                resturantIcon1.setIcon(image);
-            }
-
-            populateRestaurantMealsJTableForCustomer(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
-
-            // add sign up panel
-            mainPanel.add(resturantOwnerPanel);
-            mainPanel.repaint();
-            mainPanel.revalidate();
-            populateRestaurantMealsTableForOwner();
-
-        }
-    }//GEN-LAST:event_jLabel22MousePressed
-
     private void jLabel23MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel23MousePressed
         // TODO add your handling code here:
         if (Talabat.signUpForCustomer()) {
@@ -3876,7 +3818,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void ordersForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwnerMouseClicked
 
-        populateOrdersTableForOwner();
+        updateOrdersTableForOwner();
         mainPanel.removeAll();
 
         mainPanel.repaint();
@@ -3942,7 +3884,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.revalidate();
 
             System.out.println("selected restaurant is : " + selectedRestaurantName);
-            populateRestaurantMealsJTableForCustomer(selectedRestaurantName);
+            updateRestaurantMealsJTableForCustomer(selectedRestaurantName);
         }
     }//GEN-LAST:event_allRestaurantsjListMouseClicked
 
@@ -3958,6 +3900,66 @@ public class MainFrame extends javax.swing.JFrame {
     private void descriptionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_descriptionTextFieldActionPerformed
+
+    private void resturantDescriptionLabelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resturantDescriptionLabelKeyPressed
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_resturantDescriptionLabelKeyPressed
+
+    private void descriptionTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descriptionTextFieldKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String newDescription = descriptionTextField.getText();
+            Talabat.owner.editRestaurantDescription(newDescription);
+           
+        }
+
+    }//GEN-LAST:event_descriptionTextFieldKeyPressed
+
+    private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
+        if (Talabat.login() == 1) {
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            // add sign up panel
+            mainPanel.add(homePanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+        } else if (Talabat.login() == 2) {
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            // System.out.println(owners[i].restaurantName);
+            resturantNameLabel1.setText(owners[Talabat.currentOwnerIndex].restaurant.name);
+
+            if (owners[Talabat.currentOwnerIndex].restaurant.description != null) {
+
+                resturantDescriptionLabel.setText(owners[Talabat.currentOwnerIndex].restaurant.description);
+            }
+            if (owners[Talabat.currentOwnerIndex].restaurant.Image != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(owners[Talabat.currentOwnerIndex].restaurant.Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                resturantIcon1.setIcon(image);
+            }
+
+            updateRestaurantMealsJTableForCustomer(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
+
+            
+            
+            descriptionTextField.setText(Talabat.owner.restaurant.description);
+            
+
+            // add sign up panel
+            mainPanel.add(resturantOwnerPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+            updateRestaurantMealsTableForOwner();
+
+        }
+    }//GEN-LAST:event_jLabel22MouseClicked
 
     /**
      * @param args the command line arguments

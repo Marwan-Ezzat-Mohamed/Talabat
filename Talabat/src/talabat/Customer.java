@@ -1,5 +1,7 @@
 package talabat;
 
+import static talabat.MainFrame.ownerIndex;
+
 public class Customer extends User {
 
     public static int numberOfCustomers;
@@ -19,12 +21,22 @@ public class Customer extends User {
     }
 
     public void orderCart() {
+        Talabat.database.orderCart(this.username);
+       
         Order o = new Order();
         o.addCart(cart);
 
         orders[ordersCount++] = o;
         cart.emptyCart();
+        
     }
+    
+    public Cart returnCart()
+    {
+        Cart c =Talabat.database.returnCartOfCustomer(this.username);
+        return c;
+    }
+    
 
     public void browseRestaurants() {
 

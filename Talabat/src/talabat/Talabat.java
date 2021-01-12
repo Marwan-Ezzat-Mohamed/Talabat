@@ -18,6 +18,9 @@ public class Talabat {
     public static String currentOwnerRestaurantName;
     public static int currentOwnerIndex;
     
+    public static Customer customer ;
+    public static Owner owner ;
+    
     public static Database database= new Database();
 
     public static int login() {
@@ -34,6 +37,7 @@ public class Talabat {
                 loginFrame.username.setText(customers[i].username);
                 currentUser = customers[i].username;
                 currentUserIndex = i;
+                customer=customers[i];
                 //do some thing;
                 return 1;
 
@@ -47,7 +51,8 @@ public class Talabat {
                 currentOwner = owners[i].username;
                 currentOwnerRestaurantName=owners[i].restaurantName;
 
-                
+                owner=owners[i];
+                System.out.println("resturantDescriptionLabel.getText() "+owner.restaurant.description);
                 currentOwnerIndex = i;
                 //do some thing;
                 return 2;
