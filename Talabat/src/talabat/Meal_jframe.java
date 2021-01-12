@@ -88,7 +88,6 @@ public class Meal_jframe extends javax.swing.JFrame {
         noteTextarea.setForeground(new java.awt.Color(153, 153, 153));
         noteTextarea.setLineWrap(true);
         noteTextarea.setRows(4);
-        noteTextarea.setText("Optional");
         noteTextarea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(noteTextarea);
 
