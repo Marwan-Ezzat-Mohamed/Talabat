@@ -300,25 +300,25 @@ public class Meal_jframe extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         boolean found=false;
-        for (int i = 0; i < Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals; i++) {
-            if (MainFrame.mealList.get(mealIndex).name.equals(Talabat.customers[Talabat.currentUserIndex].cart.meals[i].name)) {
+        for (int i = 0; i < Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getNumberOfMeals(); i++) {
+            if (MainFrame.mealList.get(mealIndex).getName().equals(Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getMeals()[i].getName())) {
                 found=true;
-                Talabat.customers[Talabat.currentUserIndex].cart.meals[i].mealsQuantityInCart += value;
+                Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getMeals()[i].setMealsQuantityInCart(value);
                 break;
             }
         }
         Meal m = new Meal(mealName.getText(), mealPriceFloat);
-        Talabat.customers[Talabat.currentUserIndex].cart.addMeal(m, value);
+        Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().addMeal(m, value);
         String notes=noteTextarea.getText();
-        System.out.println(m.name);
+        System.out.println(m.getName());
         System.out.println("mealindex " + mealIndex);
-        System.out.println(Talabat.customers[Talabat.currentUserIndex].cart.numberOfMeals);
+        System.out.println(Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getNumberOfMeals());
 
         
         
        
             
-        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.mealList.get(mealIndex).name, Talabat.owners[ownerIndex].restaurantName), value,mealPriceFloat,notes ,Talabat.currentUser);
+        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.mealList.get(mealIndex).getName(), Talabat.getOwners()[ownerIndex].getRestaurantName()), value,mealPriceFloat,notes ,Talabat.getCurrentUser());
         
 
 

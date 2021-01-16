@@ -41,7 +41,7 @@ public class Database {
     public void insertIntoBasketTable(String mealId) {
 
         // meal id //userId
-        String username = Talabat.currentUser;
+        String username = Talabat.getCurrentUser();
 
         
         Statement myStmt = null;
@@ -143,11 +143,11 @@ public class Database {
             PreparedStatement ps = databaseConnection.prepareStatement("insert into meals values(?,?,?,?,?,?);");
 
             ps.setString(1, null);
-            ps.setString(2, m.name);
-            ps.setString(3, m.description);
+            ps.setString(2, m.getName());
+            ps.setString(3, m.getDescription());
             ps.setBlob(4, s);
             ps.setString(5, restaurantName);
-            ps.setFloat(6, m.mealPrice);
+            ps.setFloat(6, m.getMealPrice());
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "meal added");
 
@@ -215,10 +215,10 @@ public class Database {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set name = ?,description=?,image=?,price=? where id = ? ;");
 
-            ps.setString(1, m.name);
-            ps.setString(2, m.description);
+            ps.setString(1, m.getName());
+            ps.setString(2, m.getDescription());
             ps.setBlob(3, s);
-            ps.setFloat(4, m.mealPrice);
+            ps.setFloat(4, m.getMealPrice());
             ps.setInt(5, id);
             
             ps.executeUpdate();
@@ -236,9 +236,9 @@ public class Database {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set name = ?,description=?,price=? where id = ? ;");
 
-            ps.setString(1, m.name);
-            ps.setString(2, m.description);
-            ps.setFloat(3, m.mealPrice);
+            ps.setString(1, m.getName());
+            ps.setString(2, m.getDescription());
+            ps.setFloat(3, m.getMealPrice());
             ps.setInt(4, id);
             ps.executeUpdate();
             
@@ -398,7 +398,7 @@ public class Database {
                 int mealOrderNumber = myRs.getInt("orderNumber");
                 int quantity = myRs.getInt("quantity");
                 Date d = myRs.getTimestamp("orderDate");
-                orders[mealOrderNumber].Date = d;
+                orders[mealOrderNumber].setDate(d);
                 orders[mealOrderNumber].addMeal(returnMealFromId(mealId), quantity, mealOrderNumber);
 
             }
@@ -437,8 +437,8 @@ public class Database {
                 Date d = myRs.getTimestamp("orderDate");
                 String notes=myRs.getString("notes");
                 Meal m =  returnMealFromId(mealId);
-                m.mealPrice=orderPrice;
-                m.notesForOrder=notes;
+                m.setMealPrice(orderPrice);
+                m.setNotesForOrder(notes);
                 order .addMeal(m, quantity, d,numberInOrder);
             }
             

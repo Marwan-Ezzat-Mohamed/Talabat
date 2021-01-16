@@ -273,9 +273,9 @@ public class EditMeal extends javax.swing.JFrame {
 
     private void applyChangesbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyChangesbuttonMouseClicked
         // TODO add your handling code here:
-        MainFrame.mealList.get(mealIndex).name = mealNameTextField.getText();
-        MainFrame.mealList.get(mealIndex).description = descriptionTextField.getText();
-        MainFrame.mealList.get(mealIndex).mealPrice = Float.parseFloat(priceTextField.getText());
+        MainFrame.mealList.get(mealIndex).setName(mealNameTextField.getText());
+        MainFrame.mealList.get(mealIndex).setDescription(descriptionTextField.getText());
+        MainFrame.mealList.get(mealIndex).setMealPrice(Float.parseFloat(priceTextField.getText()));
 
         Meal m = new Meal(mealNameTextField.getText(), descriptionTextField.getText(), Float.parseFloat(priceTextField.getText()));
         
@@ -295,12 +295,12 @@ public class EditMeal extends javax.swing.JFrame {
             Talabat.database.updateMealWithoutImage(m, mealId);
         }
 
-        mealNameTextField.setText(MainFrame.mealList.get(mealIndex).name);
-        priceTextField.setText(String.valueOf(MainFrame.mealList.get(mealIndex).mealPrice));
-        descriptionTextField.setText(MainFrame.mealList.get(mealIndex).description);
-        mealDescriptionLabel.setText(MainFrame.mealList.get(mealIndex).description);
-        mealNameLabel.setText(MainFrame.mealList.get(mealIndex).name);
-        priceLabel.setText(String.valueOf(MainFrame.mealList.get(mealIndex).mealPrice));
+        mealNameTextField.setText(MainFrame.mealList.get(mealIndex).getName());
+        priceTextField.setText(String.valueOf(MainFrame.mealList.get(mealIndex).getMealPrice()));
+        descriptionTextField.setText(MainFrame.mealList.get(mealIndex).getDescription());
+        mealDescriptionLabel.setText(MainFrame.mealList.get(mealIndex).getDescription());
+        mealNameLabel.setText(MainFrame.mealList.get(mealIndex).getName());
+        priceLabel.setText(String.valueOf(MainFrame.mealList.get(mealIndex).getMealPrice()));
 
         
 
@@ -311,8 +311,8 @@ public class EditMeal extends javax.swing.JFrame {
 
     private void removeMealbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeMealbuttonMouseClicked
         // TODO add your handling code here:
-        String mealName= MainFrame.mealList.get(mealIndex).name;
-        Talabat.owners[Talabat.currentOwnerIndex].removeMeal(mealName);
+        String mealName= MainFrame.mealList.get(mealIndex).getName();
+        Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].removeMeal(mealName);
 
        
         mealNameTextField.setText(null);

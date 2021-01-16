@@ -87,7 +87,7 @@
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="36" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -135,7 +135,7 @@
                                       <Component id="total" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                       <Component id="orderPrice" min="-2" pref="109" max="-2" attributes="0"/>
-                                      <EmptySpace pref="40" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="addtoBasket" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>

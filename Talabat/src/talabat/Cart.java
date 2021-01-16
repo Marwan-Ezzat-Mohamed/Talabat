@@ -8,30 +8,58 @@ import jdk.nashorn.internal.ir.ContinueNode;
 public class Cart {
 
     private final int maxMeals = 100;
-    public Meal[] meals = new Meal[maxMeals];
-    public float totalPrice = 0;
-    public int numberOfMeals;
-    public LocalDate orderDate;
-    public String notes, restaurnatName;
+    private Meal[] meals = new Meal[maxMeals];
+    private float totalPrice = 0;
+    private int numberOfMeals;
+    private LocalDate orderDate;
+    private String notes, restaurnatName;
 //number of orders currently in the cart.
+
+    public int getMaxMeals() {
+        return maxMeals;
+    }
+
+    public Meal[] getMeals() {
+        return meals;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public int getNumberOfMeals() {
+        return numberOfMeals;
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getRestaurnatName() {
+        return restaurnatName;
+    }
 
     public void addMeal(Meal meal, int quantity) {
         int index=isMealFound(meal);
         if (index!=-1) {
             totalPrice += meal.getPrice() * quantity;
             meals[index] = meal;
-            meals[index].mealsQuantityInCart+=quantity;
+            meals[index].setMealsQuantityInCart(quantity);
             return;
         }
         meals[numberOfMeals] = meal;
-        meals[numberOfMeals].mealsQuantityInCart+=quantity;
+        meals[numberOfMeals].setMealsQuantityInCart(quantity);
         totalPrice += meal.getPrice() * quantity;
         numberOfMeals++;
     }
 
     public int isMealFound(Meal m) {
         for (int i = 0; i < numberOfMeals; i++) {
-            if (m.name.equals(meals[i].name)) {
+            if (m.getName().equals(meals[i].getName())) {
                 return i;
             }
         }
@@ -65,5 +93,4 @@ public class Cart {
         }
         numberOfMeals = 0;
     }
-
 }

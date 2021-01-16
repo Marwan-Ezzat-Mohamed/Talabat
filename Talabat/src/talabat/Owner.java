@@ -12,17 +12,32 @@ import javax.swing.JOptionPane;
 
 public class Owner extends User {
 
-    public static int numberOfOwners;
-    public String restaurantName;
-    public Restaurant restaurant = new Restaurant();
+    private static int numberOfOwners;
+    private String restaurantName;
+    private Restaurant restaurant = new Restaurant();
+
+    public static int getNumberOfOwners() {
+        return numberOfOwners;
+    }
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 
     public Owner(String username, String password, String restaurantName) {
 
-        this.username = username;
-        this.password = password;
+        this.setUsername(username);
+        this.setPassword(password);
         this.restaurantName = restaurantName;
-        restaurant.name = this.restaurantName;
-        this.accountType = 1;
+        restaurant.setName(this.restaurantName);
+        this.setAccountType(1);
         numberOfOwners++;
         for (int i = 0; i < 100; i++) {
             this.restaurant.orders[i] = new Order();
@@ -40,11 +55,11 @@ public class Owner extends User {
             PreparedStatement ps = myConn.prepareStatement("insert into meals values(?,?,?,?,?,?);");
 
             ps.setString(1, null);
-            ps.setString(2, m.name);
-            ps.setString(3, m.description);
+            ps.setString(2, m.getName());
+            ps.setString(3, m.getDescription());
             ps.setBlob(4, s);
-            ps.setString(5, restaurantName);
-            ps.setFloat(6, m.mealPrice);
+            ps.setString(5, getRestaurantName());
+            ps.setFloat(6, m.getMealPrice());
             ps.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "meal added");
@@ -76,7 +91,7 @@ public class Owner extends User {
     
     public void editRestaurantDescription(String description)
     {
-        this.restaurant.description=description;
+        this.restaurant.setDescription(description);
         Talabat.database.editRestaurantDescription(this.restaurantName, description);
     }
    

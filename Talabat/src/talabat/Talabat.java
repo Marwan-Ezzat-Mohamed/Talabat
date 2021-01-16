@@ -9,33 +9,77 @@ import javax.swing.ImageIcon;
 
 public class Talabat {
 
-    public static MainFrame loginFrame;
-    static Customer[] customers = new Customer[100];
-    public static Owner[] owners = new Owner[100];
-    public static String currentUser;
-    public static int currentUserIndex;
-    public static String currentOwner;
-    public static String currentOwnerRestaurantName;
-    public static int currentOwnerIndex;
+    private static MainFrame loginFrame;
+    private static Customer[] customers = new Customer[100];
+    private static Owner[] owners = new Owner[100];
+    private static String currentUser;
+    private static int currentUserIndex;
+    private static String currentOwner;
+    private static String currentOwnerRestaurantName;
+    private static int currentOwnerIndex;
     
-    public static Customer customer ;
+    private static Customer customer ;
+
+    public static MainFrame getLoginFrame() {
+        return loginFrame;
+    }
+
+    public static Customer[] getCustomers() {
+        return customers;
+    }
+
+    public static Owner[] getOwners() {
+        return owners;
+    }
+
+    public static String getCurrentUser() {
+        return currentUser;
+    }
+
+    public static int getCurrentUserIndex() {
+        return currentUserIndex;
+    }
+
+    public static String getCurrentOwner() {
+        return currentOwner;
+    }
+
+    public static String getCurrentOwnerRestaurantName() {
+        return currentOwnerRestaurantName;
+    }
+
+    public static int getCurrentOwnerIndex() {
+        return currentOwnerIndex;
+    }
+
+    public static Customer getCustomer() {
+        return customer;
+    }
+
+    public static Owner getOwner() {
+        return owner;
+    }
+
+    public static Database getDatabase() {
+        return database;
+    }
     public static Owner owner ;
     
     public static Database database= new Database();
 
     public static int login() {
-        int numberOfCustomers = Customer.numberOfCustomers;
-        int numberOfOwners = Owner.numberOfOwners;
+        int numberOfCustomers = Customer.getNumberOfCustomers();
+        int numberOfOwners = Owner.getNumberOfOwners();
 
         String inputUsername = loginFrame.usernameTextField.getText();
         String inputPassword = loginFrame.passwordField.getText();
 
         for (int i = 0; i < numberOfCustomers; i++) {
-            if (customers[i].username.equals(inputUsername) && customers[i].password.equals(inputPassword)) {
+            if (customers[i].getUsername().equals(inputUsername) && customers[i].getPassword().equals(inputPassword)) {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
-                loginFrame.username.setText(customers[i].username);
-                currentUser = customers[i].username;
+                loginFrame.username.setText(customers[i].getUsername());
+                currentUser = customers[i].getUsername();
                 currentUserIndex = i;
                 customer=customers[i];
                 //do some thing;
@@ -45,14 +89,14 @@ public class Talabat {
         }
 
         for (int i = 0; i < numberOfOwners; i++) {
-            if (owners[i].username.equals(inputUsername) && owners[i].password.equals(inputPassword)) {
+            if (owners[i].getUsername().equals(inputUsername) && owners[i].getPassword().equals(inputPassword)) {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
-                currentOwner = owners[i].username;
-                currentOwnerRestaurantName=owners[i].restaurantName;
+                currentOwner = owners[i].getUsername();
+                currentOwnerRestaurantName=owners[i].getRestaurantName();
 
                 owner=owners[i];
-                System.out.println("resturantDescriptionLabel.getText() "+owner.restaurant.description);
+                System.out.println("resturantDescriptionLabel.getText() "+owner.getRestaurant().getDescription());
                 currentOwnerIndex = i;
                 //do some thing;
                 return 2;
@@ -67,7 +111,7 @@ public class Talabat {
     }
 
     public static boolean signUpForCustomer() {
-        int numberOfCustomers = Customer.numberOfCustomers;
+        int numberOfCustomers = Customer.getNumberOfCustomers();
         Connection myConn1 = null;
         Statement myStmt1 = null;
 
@@ -83,7 +127,7 @@ public class Talabat {
 //        System.out.println(address);
         boolean foundUser = false;
         for (int i = 0; i < numberOfCustomers; i++) {
-            if (customers[i].username.equals(inputUsername)) {
+            if (customers[i].getUsername().equals(inputUsername)) {
                 foundUser = true;
                 break;
             }
@@ -106,7 +150,7 @@ public class Talabat {
                 myStmt1 = myConn1.createStatement();
                 String st = "INSERT INTO customers Values( '" + inputUsername + "','" + inputPassword + "','" + mobile + "','" + address + "');";
                 myStmt1.executeUpdate(st);
-                customers[Customer.numberOfCustomers] = new Customer(mobile, address, inputUsername, inputPassword);
+                customers[Customer.getNumberOfCustomers()] = new Customer(mobile, address, inputUsername, inputPassword);
             } catch (SQLException ex) {
                 Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -116,7 +160,7 @@ public class Talabat {
     }
 
     public static boolean signUpForOwner() {
-        int numberOfOwners = Owner.numberOfOwners;
+        int numberOfOwners = Owner.getNumberOfOwners();
         Connection myConn1 = null;
         Statement myStmt1 = null;
 
@@ -131,7 +175,7 @@ public class Talabat {
 //        System.out.println(address);
         boolean foundUser = false;
         for (int i = 0; i < numberOfOwners; i++) {
-            if (owners[i].username.equals(inputUsername)) {
+            if (owners[i].getUsername().equals(inputUsername)) {
                 foundUser = true;
                 break;
             }
@@ -156,7 +200,7 @@ public class Talabat {
                 String st2 = "insert into restaurants values ('" + restaurantName + "'," + null + "," + null + ");";
                 myStmt1.executeUpdate(st2);
                 myStmt1.executeUpdate(st);
-                owners[Owner.numberOfOwners] = new Owner(inputUsername, inputPassword, restaurantName);
+                owners[Owner.getNumberOfOwners()] = new Owner(inputUsername, inputPassword, restaurantName);
             } catch (SQLException ex) {
                 Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -226,7 +270,7 @@ public class Talabat {
                     r = new Restaurant(rName, Iimage, rDescription);
                     
                 }
-                newOwners[i].restaurant=r;
+                newOwners[i].setRestaurant(r);
                 i++;
             }
         } catch (SQLException ex) { 

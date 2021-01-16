@@ -40,7 +40,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import static talabat.Talabat.owners;
 
 /**
  *
@@ -80,21 +79,21 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void updateOrdersTableForOwner() {
 
-        Order order = Talabat.database.returnOrderOfOwner(Talabat.currentOwnerRestaurantName);
+        Order order = Talabat.database.returnOrderOfOwner(Talabat.getCurrentOwnerRestaurantName());
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date", "Notes"};
-        Object[][] rows = new Object[order.numberOfMealsInCart][columnName.length];
+        Object[][] rows = new Object[order.getNumberOfMealsInCart()][columnName.length];
 
         int orderNumber = 1;
         int prevOrderNumber = 0;
-        for (int i = 0; i < order.numberOfMealsInCart; i++) {
+        for (int i = 0; i < order.getNumberOfMealsInCart(); i++) {
 
-            if (i > 0 && order.ordererdMeals[i].numberInOrder != prevOrderNumber) {
+            if (i > 0 && order.getOrdererdMeals()[i].getNumberInOrder() != prevOrderNumber) {
                 orderNumber++;
             }
             rows[i][0] = orderNumber;
-            if (order.ordererdMeals[i].databaseImage != null) {
+            if (order.getOrdererdMeals()[i].getDatabaseImage() != null) {
 
-                ImageIcon image = new ImageIcon(new ImageIcon(order.ordererdMeals[i].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                ImageIcon image = new ImageIcon(new ImageIcon(order.getOrdererdMeals()[i].getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 rows[i][1] = image;
 
@@ -102,18 +101,18 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][1] = null;
             }
 
-            rows[i][2] = order.ordererdMeals[i].name;
-            rows[i][3] = String.valueOf(order.ordererdMeals[i].mealPrice);
-            rows[i][4] = String.valueOf(order.ordererdMeals[i].mealsQuantityInCart);
-            rows[i][5] = order.ordererdMeals[i].orderDate;
+            rows[i][2] = order.getOrdererdMeals()[i].getName();
+            rows[i][3] = String.valueOf(order.getOrdererdMeals()[i].getMealPrice());
+            rows[i][4] = String.valueOf(order.getOrdererdMeals()[i].getMealsQuantityInCart());
+            rows[i][5] = order.getOrdererdMeals()[i].getOrderDate();
 
-            if (order.ordererdMeals[i].notesForOrder == null) {
+            if (order.getOrdererdMeals()[i].getNotesForOrder() == null) {
                 rows[i][6] = "No notes";
             } else {
-                rows[i][6] = order.ordererdMeals[i].notesForOrder;
+                rows[i][6] = order.getOrdererdMeals()[i].getNotesForOrder();
             }
 
-            prevOrderNumber = order.ordererdMeals[i].numberInOrder;
+            prevOrderNumber = order.getOrdererdMeals()[i].getNumberInOrder();
         }
 
         TableModelForMyOrders orderModel = new TableModelForMyOrders(rows, columnName);
@@ -146,15 +145,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void updateRestaurantMealsTableForOwner() {
 
-        mealList = Talabat.database.getRestaurantMeals(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
+        mealList = Talabat.database.getRestaurantMeals(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurantName());
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
         for (int i = 0; i < mealList.size(); i++) {
 
-            if (mealList.get(i).databaseImage != null) {
+            if (mealList.get(i).getDatabaseImage() != null) {
 
-                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 rows[i][0] = image;
 
@@ -162,9 +161,9 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][0] = null;
             }
             System.out.println(ownerIndex);
-            rows[i][1] = mealList.get(i).name;
-            rows[i][2] = mealList.get(i).description;
-            rows[i][3] = mealList.get(i).mealPrice;
+            rows[i][1] = mealList.get(i).getName();
+            rows[i][2] = mealList.get(i).getDescription();
+            rows[i][3] = mealList.get(i).getMealPrice();
 
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
@@ -222,25 +221,25 @@ public class MainFrame extends javax.swing.JFrame {
     public void updateCurrentUserCartTable() {
 
        
-        currentCustomerCart = Talabat.customer.returnCart();
+        currentCustomerCart = Talabat.getCustomer().returnCart();
         float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
-        Object[][] rows = new Object[currentCustomerCart.numberOfMeals][columnName.length];
+        Object[][] rows = new Object[currentCustomerCart.getNumberOfMeals()][columnName.length];
 
-        for (int i = 0; i < currentCustomerCart.numberOfMeals; i++) {
+        for (int i = 0; i < currentCustomerCart.getNumberOfMeals(); i++) {
 
-            if (currentCustomerCart.meals[i].databaseImage != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(currentCustomerCart.meals[i].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+            if (currentCustomerCart.getMeals()[i].getDatabaseImage() != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(currentCustomerCart.getMeals()[i].getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                 rows[i][0] = image;
 
             } else {
                 rows[i][0] = null;
             }
 
-            rows[i][1] = currentCustomerCart.meals[i].name;
-            rows[i][2] = String.valueOf(currentCustomerCart.meals[i].mealPrice);
-            rows[i][3] = String.valueOf(currentCustomerCart.meals[i].mealsQuantityInCart);
-            cartTotalPrice += currentCustomerCart.meals[i].mealPrice * currentCustomerCart.meals[i].mealsQuantityInCart;
+            rows[i][1] = currentCustomerCart.getMeals()[i].getName();
+            rows[i][2] = String.valueOf(currentCustomerCart.getMeals()[i].getMealPrice());
+            rows[i][3] = String.valueOf(currentCustomerCart.getMeals()[i].getMealsQuantityInCart());
+            cartTotalPrice += currentCustomerCart.getMeals()[i].getMealPrice() * currentCustomerCart.getMeals()[i].getMealsQuantityInCart();
 
         }
         totalPriceLabelForCustomerCart.setText(String.valueOf(cartTotalPrice));
@@ -266,9 +265,9 @@ public class MainFrame extends javax.swing.JFrame {
         Object[][] rows = new Object[mealList.size()][columnName.length];
         for (int i = 0; i < mealList.size(); i++) {
 
-            if (mealList.get(i).databaseImage != null) {
+            if (mealList.get(i).getDatabaseImage() != null) {
 
-                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 rows[i][0] = image;
 
@@ -276,9 +275,9 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][0] = null;
             }
             System.out.println(ownerIndex);
-            rows[i][1] = mealList.get(i).name;
-            rows[i][2] = mealList.get(i).description;
-            rows[i][3] = mealList.get(i).mealPrice;
+            rows[i][1] = mealList.get(i).getName();
+            rows[i][2] = mealList.get(i).getDescription();
+            rows[i][3] = mealList.get(i).getMealPrice();
 
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
@@ -330,11 +329,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void myOrdersTable() {
 
-        Order[] orders = Talabat.database.returnOrderOfcustomers(Talabat.currentUser);
+        Order[] orders = Talabat.database.returnOrderOfcustomers(Talabat.getCurrentUser());
 
         int mx = 0;
-        for (int j = 0; j < Talabat.customers[Talabat.currentUserIndex].ordersCount; j++) {
-            mx += Talabat.customers[Talabat.currentUserIndex].orders[j].numberOfMealsInCart;
+        for (int j = 0; j < Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getOrdersCount(); j++) {
+            mx += Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getOrders()[j].getNumberOfMealsInCart();
         }
 
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
@@ -343,19 +342,19 @@ public class MainFrame extends javax.swing.JFrame {
         System.out.println("order lENGHTG" + orders.length);
         for (int i = 1; i < orders.length; i++) {
 
-            for (int j = 0; j < orders[i].numberOfMealsInCart; j++) {
+            for (int j = 0; j < orders[i].getNumberOfMealsInCart(); j++) {
                 rows[row][0] = (i);
 
-                if (orders[i].ordererdMeals[j].databaseImage != null) {
-                    ImageIcon image = new ImageIcon(new ImageIcon(orders[i].ordererdMeals[j].databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                if (orders[i].getOrdererdMeals()[j].getDatabaseImage() != null) {
+                    ImageIcon image = new ImageIcon(new ImageIcon(orders[i].getOrdererdMeals()[j].getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                     rows[row][1] = image;
                 } else {
                     rows[row][1] = null;
                 }
-                rows[row][2] = orders[i].ordererdMeals[j].name;
-                rows[row][3] = String.valueOf(orders[i].ordererdMeals[j].mealPrice);
-                rows[row][4] = String.valueOf(orders[i].ordererdMeals[j].mealsQuantityInCart);
-                rows[row][5] = orders[i].Date;
+                rows[row][2] = orders[i].getOrdererdMeals()[j].getName();
+                rows[row][3] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealPrice());
+                rows[row][4] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealsQuantityInCart());
+                rows[row][5] = orders[i].getDate();
 
                 row++;
 
@@ -400,8 +399,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         for (int i = 0; i < sz; i++) {
 
-            allRestaurantsImageMap.put(allRestaurantsArrayList.get(i).name, allRestaurantsArrayList.get(i));
-            nameList[i] = allRestaurantsArrayList.get(i).name;
+            allRestaurantsImageMap.put(allRestaurantsArrayList.get(i).getName(), allRestaurantsArrayList.get(i));
+            nameList[i] = allRestaurantsArrayList.get(i).getName();
 
         }
 
@@ -444,16 +443,16 @@ public class MainFrame extends javax.swing.JFrame {
             Restaurant r = allRestaurantsImageMap.get((String) value);
 
             if (r != null) {
-                if (allRestaurantsImageMap.get((String) value).Image != null) {
-                    ImageIcon image = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get((String) value).Image).getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH));
+                if (allRestaurantsImageMap.get((String) value).getImage() != null) {
+                    ImageIcon image = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get((String) value).getImage()).getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH));
                     label.setIcon(image);
 
                 }
                 String labelText = null;
-                if (r.description == null) {
-                    labelText = "<html> <div style='text-align: center;'>" + r.name + "</div></html>";
+                if (r.getDescription() == null) {
+                    labelText = "<html> <div style='text-align: center;'>" + r.getName() + "</div></html>";
                 } else {
-                    labelText = "<html> <div style='text-align: center;'>" + r.name + "<br>" + r.description + "</div></html>";
+                    labelText = "<html> <div style='text-align: center;'>" + r.getName() + "<br>" + r.getDescription() + "</div></html>";
                 }
                 label.setText(labelText);
             }
@@ -3641,9 +3640,9 @@ public class MainFrame extends javax.swing.JFrame {
             int oldRow = mealsTable.getSelectedRow();
             int newRow = mealSortter.convertRowIndexToModel(oldRow);
 
-            if (mealList.get(newRow).databaseImage != null) {
+            if (mealList.get(newRow).getDatabaseImage() != null) {
 
-                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(newRow).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+                ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(newRow).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 mealFrame.mealImage.setIcon(image);
 
@@ -3651,12 +3650,12 @@ public class MainFrame extends javax.swing.JFrame {
                 mealFrame.mealImage.setIcon(null);
             }
 
-            mealFrame.mealName.setText(mealList.get(newRow).name);
+            mealFrame.mealName.setText(mealList.get(newRow).getName());
 
-            mealFrame.mealDescription.setText(mealList.get(newRow).description);
+            mealFrame.mealDescription.setText(mealList.get(newRow).getDescription());
 
-            mealFrame.orderPrice.setText(String.valueOf(mealList.get(newRow).mealPrice) + "EGP");
-            mealFrame.mealPriceFloat = mealList.get(newRow).mealPrice;
+            mealFrame.orderPrice.setText(String.valueOf(mealList.get(newRow).getMealPrice()) + "EGP");
+            mealFrame.mealPriceFloat = mealList.get(newRow).getMealPrice();
 
             mealFrame.mealIndex = newRow;
             mealFrame.ownerIndex = ownerIndex;
@@ -3674,7 +3673,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
 
-        Talabat.customer.orderCart();
+        Talabat.getCustomer().orderCart();
         updateCurrentUserCartTable();
     }//GEN-LAST:event_jLabel11MouseClicked
 
@@ -3707,9 +3706,9 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int index = currentUserCartJtable.getSelectedRow();
 
-        int mealId = currentCustomerCart.meals[index].mealId;
+        int mealId = currentCustomerCart.getMeals()[index].getMealId();
         System.out.println("meal id is : " + mealId);
-        Talabat.database.removeMeal(mealId, Talabat.currentUser);
+        Talabat.database.removeMeal(mealId, Talabat.getCurrentUser());
         //Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
         //Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
         updateCurrentUserCartTable();
@@ -3722,18 +3721,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         int ii = mealsOfResturantForOwnerJtable.getSelectedRow();
         int i = mealsOfResturantForOwnerTableSorter.convertRowIndexToModel(ii);
-        edit.mealNameTextField.setText(mealList.get(i).name);
-        edit.priceTextField.setText(String.valueOf(mealList.get(i).mealPrice));
-        edit.descriptionTextField.setText(mealList.get(i).description);
-        edit.mealDescriptionLabel.setText(mealList.get(i).description);
-        edit.mealNameLabel.setText(mealList.get(i).name);
-        edit.priceLabel.setText(String.valueOf(mealList.get(i).mealPrice));
+        edit.mealNameTextField.setText(mealList.get(i).getName());
+        edit.priceTextField.setText(String.valueOf(mealList.get(i).getMealPrice()));
+        edit.descriptionTextField.setText(mealList.get(i).getDescription());
+        edit.mealDescriptionLabel.setText(mealList.get(i).getDescription());
+        edit.mealNameLabel.setText(mealList.get(i).getName());
+        edit.priceLabel.setText(String.valueOf(mealList.get(i).getMealPrice()));
         edit.mealIndex = i;
 
-        int id = Talabat.database.getMealId(mealList.get(i).name, Talabat.currentOwnerRestaurantName);
+        int id = Talabat.database.getMealId(mealList.get(i).getName(), Talabat.getCurrentOwnerRestaurantName());
         edit.mealId = id;
-        if (mealList.get(i).databaseImage != null) {
-            ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).databaseImage).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+        if (mealList.get(i).getDatabaseImage() != null) {
+            ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
             edit.mealImage.setIcon(image);
 
@@ -3847,25 +3846,25 @@ public class MainFrame extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             String selectedRestaurantName = allRestaurantsjList.getSelectedValue();
 
-            Owner[] ownersArray = new Owner[Owner.numberOfOwners];
-            ownersArray = Talabat.owners;
+            Owner[] ownersArray = new Owner[Owner.getNumberOfOwners()];
+            ownersArray = Talabat.getOwners();
 
-            for (int i = 0; i < Owner.numberOfOwners; i++) {
-                if (ownersArray[i].restaurantName.equals(selectedRestaurantName)) {
+            for (int i = 0; i < Owner.getNumberOfOwners(); i++) {
+                if (ownersArray[i].getRestaurantName().equals(selectedRestaurantName)) {
                     //owner index used to get restaurant information
                     ownerIndex = i;
                     break;
                 }
             }
-            String restaurantDescripion = ownersArray[ownerIndex].restaurant.description;
+            String restaurantDescripion = ownersArray[ownerIndex].getRestaurant().getDescription();
 
             resturantNameLabel.setText(selectedRestaurantName);
             resturantDescriptionLabel.setText(restaurantDescripion);
 
             //get image of resturant directly from the map
-            if (allRestaurantsImageMap.get(selectedRestaurantName).Image != null) {
+            if (allRestaurantsImageMap.get(selectedRestaurantName).getImage() != null) {
                 //get image from map
-                ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(selectedRestaurantName).Image).getImage());
+                ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(selectedRestaurantName).getImage()).getImage());
 
                 //convert image to icon of size 160*160
                 ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
@@ -3934,22 +3933,22 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.revalidate();
 
             // System.out.println(owners[i].restaurantName);
-            resturantNameLabel1.setText(owners[Talabat.currentOwnerIndex].restaurant.name);
+            resturantNameLabel1.setText(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getName());
 
-            if (owners[Talabat.currentOwnerIndex].restaurant.description != null) {
+            if (Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getDescription() != null) {
 
-                resturantDescriptionLabel.setText(owners[Talabat.currentOwnerIndex].restaurant.description);
+                resturantDescriptionLabel.setText(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getDescription());
             }
-            if (owners[Talabat.currentOwnerIndex].restaurant.Image != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(owners[Talabat.currentOwnerIndex].restaurant.Image).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+            if (Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getImage() != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                 resturantIcon1.setIcon(image);
             }
 
-            updateRestaurantMealsJTableForCustomer(Talabat.owners[Talabat.currentOwnerIndex].restaurantName);
+            updateRestaurantMealsJTableForCustomer(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurantName());
 
             
             
-            descriptionTextField.setText(Talabat.owner.restaurant.description);
+            descriptionTextField.setText(Talabat.owner.getRestaurant().getDescription());
             
 
             // add sign up panel
