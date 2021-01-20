@@ -12,13 +12,12 @@ import javax.swing.JOptionPane;
 
 public class Owner extends User {
 
-    private static int numberOfOwners;
+    public static int numberOfOwners;
     private String restaurantName;
     private Restaurant restaurant = new Restaurant();
 
-    public static int getNumberOfOwners() {
-        return numberOfOwners;
-    }
+    
+
     public String getRestaurantName() {
         return restaurantName;
     }
@@ -33,19 +32,20 @@ public class Owner extends User {
 
     public Owner(String username, String password, String restaurantName) {
 
-        this.setUsername(username);
+        super(password, username);
+
         this.setPassword(password);
         this.restaurantName = restaurantName;
         restaurant.setName(this.restaurantName);
-        this.setAccountType(1);
+
         numberOfOwners++;
         for (int i = 0; i < 100; i++) {
-            this.restaurant.orders[i] = new Order();
+            this.restaurant.getOrders()[i] = new Order();
         }
     }
 
     public void addMeal(Meal m, InputStream s) {
-        
+
         Connection myConn = null;
         Statement myStmt = null;
         try {
@@ -61,7 +61,7 @@ public class Owner extends User {
             ps.setString(5, getRestaurantName());
             ps.setFloat(6, m.getMealPrice());
             ps.executeUpdate();
-            
+
             JOptionPane.showMessageDialog(null, "meal added");
 
         } catch (SQLException ex) {
@@ -72,13 +72,12 @@ public class Owner extends User {
 
     public void removeMeal(String mealName) {
 
-        restaurant.mealCount--;
-
+        restaurant.setMealCount(restaurant.getMealCount()-1);
+     
         //remove from database
-        int id = Talabat.database.getMealId(mealName,restaurantName);
+        int id = Talabat.database.getMealId(mealName, restaurantName);
         Talabat.database.removeMealFromOwner(id);
 
-        
     }
 
     //waiting for gui
@@ -87,26 +86,17 @@ public class Owner extends User {
         //restaurant.meals[i].description /// = textbox text
         //restaurant.meals[i].price /// = textbox text
     }
-    
-    
-    public void editRestaurantDescription(String description)
-    {
+
+    public void editRestaurantDescription(String description) {
         this.restaurant.setDescription(description);
         Talabat.database.editRestaurantDescription(this.restaurantName, description);
     }
-   
 
-    public void viewOrders() {
-        for (int i = 0; i < restaurant.mealCount; i++) {
-
-            restaurant.orders[i].displayOrder();
-        }
-    }
-
+    
     public void viewMeals() {
-        for (int i = 0; i < restaurant.mealCount; i++) {
+        for (int i = 0; i < restaurant.getMealCount(); i++) {
 
-            restaurant.meals[i].displayInfo();
+            restaurant.getMeals()[i].displayInfo();
         }
     }
 

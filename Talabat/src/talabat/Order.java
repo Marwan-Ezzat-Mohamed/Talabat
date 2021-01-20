@@ -76,27 +76,24 @@ public class Order {
         this.numberOfMealsInCart = numberOfMealsInCart;
     }
 
-    public void addMeal(Meal m,int q,int numberInOrder) {
-
+    public void addMeal(Meal m, int q, int numberInOrder) {
+      
         ordererdMeals[numberOfMealsInCart] = m;
         ordererdMeals[numberOfMealsInCart].setMealsQuantityInCart(q);
         ordererdMeals[numberOfMealsInCart].setNumberInOrder(numberInOrder);
         numberOfMealsInCart++;
-    }
-    
-    public void addMeal(Meal m,int q,Date d,int numberInOrder) {
+        
 
+    }
+
+    public void addMeal(Meal m, int q, Date d, int numberInOrder) {
+
+        System.out.println("numberOfMealsInCart::" + numberOfMealsInCart);
         ordererdMeals[numberOfMealsInCart] = m;
         ordererdMeals[numberOfMealsInCart].setMealsQuantityInCart(q);
         ordererdMeals[numberOfMealsInCart].setOrderDate(d);
         ordererdMeals[numberOfMealsInCart].setNumberInOrder(numberInOrder);
         numberOfMealsInCart++;
-    }
 
-    public void displayOrder() {
-        for (int i = 0; i < numberOfMealsInCart; i++) {
-            ordererdMeals[i].displayInfo();
-        }
     }
-
 }

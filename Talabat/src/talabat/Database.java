@@ -456,7 +456,7 @@ public class Database {
 
             
 
-            PreparedStatement ps = databaseConnection.prepareStatement("delete from meals where id = ? ;");
+            PreparedStatement ps = databaseConnection.prepareStatement("update meals set restaurantName=null where id = ? ;");
 
             ps.setInt(1, id);
 

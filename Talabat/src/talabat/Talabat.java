@@ -9,16 +9,15 @@ import javax.swing.ImageIcon;
 
 public class Talabat {
 
-    private static MainFrame loginFrame;
-    private static Customer[] customers = new Customer[100];
-    private static Owner[] owners = new Owner[100];
-    private static String currentUser;
-    private static int currentUserIndex;
-    private static String currentOwner;
-    private static String currentOwnerRestaurantName;
-    private static int currentOwnerIndex;
-    
-    private static Customer customer ;
+    public static MainFrame loginFrame;
+    public static Customer[] customers = new Customer[100];
+    public static Owner[] owners = new Owner[100];
+    public static String currentUser;
+    public static int currentUserIndex;
+    public static String currentOwner;
+    public static String currentOwnerRestaurantName;
+    public static int currentOwnerIndex;
+    public static Customer customer ;
 
     public static MainFrame getLoginFrame() {
         return loginFrame;
@@ -69,7 +68,7 @@ public class Talabat {
 
     public static int login() {
         int numberOfCustomers = Customer.getNumberOfCustomers();
-        int numberOfOwners = Owner.getNumberOfOwners();
+        int numberOfOwners = Owner.numberOfOwners;
 
         String inputUsername = loginFrame.usernameTextField.getText();
         String inputPassword = loginFrame.passwordField.getText();
@@ -160,7 +159,7 @@ public class Talabat {
     }
 
     public static boolean signUpForOwner() {
-        int numberOfOwners = Owner.getNumberOfOwners();
+        int numberOfOwners = Owner.numberOfOwners;
         Connection myConn1 = null;
         Statement myStmt1 = null;
 
@@ -200,7 +199,7 @@ public class Talabat {
                 String st2 = "insert into restaurants values ('" + restaurantName + "'," + null + "," + null + ");";
                 myStmt1.executeUpdate(st2);
                 myStmt1.executeUpdate(st);
-                owners[Owner.getNumberOfOwners()] = new Owner(inputUsername, inputPassword, restaurantName);
+                owners[Owner.numberOfOwners] = new Owner(inputUsername, inputPassword, restaurantName);
             } catch (SQLException ex) {
                 Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
             }

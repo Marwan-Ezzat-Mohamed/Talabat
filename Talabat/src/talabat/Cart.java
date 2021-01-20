@@ -1,9 +1,6 @@
 package talabat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-import jdk.nashorn.internal.ir.ContinueNode;
 
 public class Cart {
 
@@ -13,7 +10,6 @@ public class Cart {
     private int numberOfMeals;
     private LocalDate orderDate;
     private String notes, restaurnatName;
-//number of orders currently in the cart.
 
     public int getMaxMeals() {
         return maxMeals;
@@ -77,20 +73,5 @@ public class Cart {
             newMeals[j++] = meals[i];
         }
         meals = newMeals;
-    }
-
-    public void displayMeals() {
-        for (int i = 0; i < numberOfMeals; i++) {
-
-            meals[i].displayInfo();
-        }
-    }
-
-    
-    public void emptyCart() {
-        for (int i = 0; i < maxMeals; i++) {
-            meals[i] = null;
-        }
-        numberOfMeals = 0;
     }
 }

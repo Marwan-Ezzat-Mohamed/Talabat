@@ -1,18 +1,20 @@
-
 package talabat;
 
 abstract public class User {
-    private String username,password;
-    private int accountType;   /// 0 for customer 1 for owner
+
+    private final String username;
+    private String password;
+
+    public User(String password, String username) {
+        this.password = password;
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+ 
     public String getPassword() {
         return password;
     }
@@ -21,13 +23,4 @@ abstract public class User {
         this.password = password;
     }
 
-    public int getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(int accountType) {
-        this.accountType = accountType;
-    }
-    
-   
 }

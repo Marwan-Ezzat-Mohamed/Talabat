@@ -2,36 +2,58 @@ package talabat;
 
 import com.sun.imageio.plugins.common.I18N;
 
-
 public class Restaurant {
 
+    private final int maxSize = 100;
     private static int numberOfRestaurants;
+    private int mealCount, numberOfOrders;
+    private Meal[] meals = new Meal[maxSize];
+    private Order[] orders = new Order[maxSize];
+    private String name, description;
 
     public void setName(String name) {
         this.name = name;
     }
-    protected int mealCount = 0,numberOfOrders;
-    protected Meal[] meals = new Meal[100];
-    protected Order[] orders = new Order[100];
-    private String name;
-    private String description;
+
+    public void setMealCount(int mealCount) {
+        this.mealCount = mealCount;
+    }
     private byte[] Image;
 
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public Restaurant() {
-        for(int i=0;i<100;i++)
-        {
-            orders[i]=new Order();
-        }
-        
-        for(int i=0;i<100;i++)
-        {
-            meals[i]=new Meal();
+        for (int i = 0; i < maxSize; i++) {
+            orders[i] = new Order();
+            meals[i] = new Meal();
         }
         numberOfRestaurants++;
+    }
+
+    public Restaurant(String name, Meal m) {
+        //call the main constructor
+        this();
+
+        this.name = name;
+        this.meals[mealCount++] = m;
+        numberOfRestaurants++;
+    }
+
+    public Restaurant(String name, byte[] Image, String description) {
+        //call the main constructor
+        this();
+
+        this.name = name;
+        this.description = description;
+        this.Image = Image;
+        numberOfRestaurants++;
+    }
+
+    public Order displayOrders() {
+        Order order = Talabat.database.returnOrderOfOwner(this.name);
+        return order;
     }
 
     public static int getNumberOfRestaurants() {
@@ -65,36 +87,5 @@ public class Restaurant {
     public byte[] getImage() {
         return Image;
     }
-    public Restaurant(String name, Meal m) {
-        //call the main constructor
-        this();
-        
-        this.name=name;
-        this.meals[mealCount++]=m;
-        numberOfRestaurants++;
-    }
-
-    public Restaurant(String name, byte[] Image,String description) {
-        //call the main constructor
-        this();
-        
-        this.name = name;
-        this.description = description;
-        this.Image = Image;
-        numberOfRestaurants++;
-    }
-    
-    public void displayOrders()
-    {
-        for(int i=0;i<numberOfOrders+1;i++)
-        {
-            orders[i].displayOrder();
-        }
-    }
-    
-
-    
-    
-    
 
 }

@@ -73,13 +73,14 @@ public class MainFrame extends javax.swing.JFrame {
     private TableRowSorter mealSortter;
     static ArrayList<Order> orderList;
     static ArrayList<Meal> mealList;
+    static ArrayList<Restaurant> allRestaurantsArrayList;
     static int ownerIndex;
 
     boolean allResturantsIsSorted;
 
     public void updateOrdersTableForOwner() {
 
-        Order order = Talabat.database.returnOrderOfOwner(Talabat.getCurrentOwnerRestaurantName());
+        Order order = Talabat.owner.getRestaurant().displayOrders();
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date", "Notes"};
         Object[][] rows = new Object[order.getNumberOfMealsInCart()][columnName.length];
 
@@ -220,8 +221,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void updateCurrentUserCartTable() {
 
-       
-        currentCustomerCart = Talabat.getCustomer().returnCart();
+        currentCustomerCart = Talabat.getCustomer().viewCart();
         float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
         Object[][] rows = new Object[currentCustomerCart.getNumberOfMeals()][columnName.length];
@@ -329,19 +329,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void myOrdersTable() {
 
-        Order[] orders = Talabat.database.returnOrderOfcustomers(Talabat.getCurrentUser());
-
-        int mx = 0;
-        for (int j = 0; j < Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getOrdersCount(); j++) {
-            mx += Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getOrders()[j].getNumberOfMealsInCart();
-        }
-
+        Order[] orders = Talabat.customer.viewOrders();
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
-        Object[][] rows = new Object[100][columnName.length];
+        Object[][] rows = new Object[orders.length][columnName.length];
         int row = 0;
-        System.out.println("order lENGHTG" + orders.length);
+        
         for (int i = 1; i < orders.length; i++) {
-
             for (int j = 0; j < orders[i].getNumberOfMealsInCart(); j++) {
                 rows[row][0] = (i);
 
@@ -351,6 +344,7 @@ public class MainFrame extends javax.swing.JFrame {
                 } else {
                     rows[row][1] = null;
                 }
+                
                 rows[row][2] = orders[i].getOrdererdMeals()[j].getName();
                 rows[row][3] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealPrice());
                 rows[row][4] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealsQuantityInCart());
@@ -362,7 +356,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         TableModelForMyOrders orderModel = new TableModelForMyOrders(rows, columnName);
-//        orderSorter = new TableRowSorter<>(orderModel);
+        
         myOrdersTable.setModel(orderModel);
         myOrdersTable.setRowHeight(160);
 
@@ -386,7 +380,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    static ArrayList<Restaurant> allRestaurantsArrayList;
     Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
 
     String[] nameList = new String[100];
@@ -3846,10 +3839,10 @@ public class MainFrame extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             String selectedRestaurantName = allRestaurantsjList.getSelectedValue();
 
-            Owner[] ownersArray = new Owner[Owner.getNumberOfOwners()];
+            Owner[] ownersArray = new Owner[Owner.numberOfOwners];
             ownersArray = Talabat.getOwners();
 
-            for (int i = 0; i < Owner.getNumberOfOwners(); i++) {
+            for (int i = 0; i < Owner.numberOfOwners; i++) {
                 if (ownersArray[i].getRestaurantName().equals(selectedRestaurantName)) {
                     //owner index used to get restaurant information
                     ownerIndex = i;
@@ -3911,7 +3904,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String newDescription = descriptionTextField.getText();
             Talabat.owner.editRestaurantDescription(newDescription);
-           
+
         }
 
     }//GEN-LAST:event_descriptionTextFieldKeyPressed
@@ -3946,10 +3939,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             updateRestaurantMealsJTableForCustomer(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurantName());
 
-            
-            
             descriptionTextField.setText(Talabat.owner.getRestaurant().getDescription());
-            
 
             // add sign up panel
             mainPanel.add(resturantOwnerPanel);

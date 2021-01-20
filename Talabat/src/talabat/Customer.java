@@ -1,16 +1,14 @@
 package talabat;
 
-import static talabat.MainFrame.ownerIndex;
 
 public class Customer extends User {
 
-    private static int numberOfCustomers;
-
-    private String mobileNumber;
-    private String address;
-    private Order[] orders = new Order[100];
-    private int ordersCount;
+    public int ordersCount;
+    public static int numberOfCustomers;
+    private final int maxOrders = 100;
+    private String mobileNumber,address;
     private Cart cart = new Cart();
+    private Order[] orders = new Order[maxOrders];
 
     public static int getNumberOfCustomers() {
         return numberOfCustomers;
@@ -37,45 +35,27 @@ public class Customer extends User {
     }
 
     public Customer(String mobileNumber, String address, String user, String pass) {
+        super(pass, user);
         this.mobileNumber = mobileNumber;
         this.address = address;
-        this.setUsername(user);
         this.setPassword(pass);
         numberOfCustomers++;
     }
 
     public void orderCart() {
         Talabat.database.orderCart(this.getUsername());
-       
-        Order o = new Order();
-        o.addCart(cart);
-
-        orders[ordersCount++] = o;
-        cart.emptyCart();
-        
     }
-    
-    public Cart returnCart()
-    {
-        Cart c =Talabat.database.returnCartOfCustomer(this.getUsername());
+
+    public Cart viewCart() {
+        Cart c = Talabat.database.returnCartOfCustomer(this.getUsername());
         return c;
     }
-    
 
-    public void browseRestaurants() {
+   
+    public Order[] viewOrders() {
 
-    }
-
-    public void browseMealOfRestaurant() {
-
-    }
-
-    public void viewOrders() {
-
-        for (int i = 0; i < ordersCount; i++) {
-            System.out.println("Order number: " + (i + 1) + "#");
-            orders[i].displayOrder();
-        }
+        Order[] orders = Talabat.database.returnOrderOfcustomers(super.getUsername());
+        return orders;
     }
 
 }

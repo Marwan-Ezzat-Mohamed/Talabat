@@ -5,13 +5,43 @@ import javax.swing.ImageIcon;
 
 public class Meal {
 
-    private String name, description,notesForOrder;
-
+    private String name, description, notesForOrder;
     private float mealPrice;
-    private int orderCount, mealId,numberInOrder;
-    private int mealsQuantityInCart;
+    private int mealId, numberInOrder, mealsQuantityInCart;
     private byte[] databaseImage;
     private Date orderDate;
+
+    public Meal(String name, String description, float mealPrice) {
+        this.name = name;
+        this.description = description;
+        this.mealPrice = mealPrice;
+    }
+
+    public Meal(String name, float mealPrice) {
+        this.name = name;
+        this.mealPrice = mealPrice;
+
+    }
+    
+    public Meal(String name, String description, float price, byte[] image) {
+        this.name = name;
+        this.description = description;
+        this.mealPrice = price;
+        this.databaseImage = image;
+
+    }
+
+    public Meal(String name, String description, float price, byte[] image, int id) {
+        this.name = name;
+        this.description = description;
+        this.mealPrice = price;
+        this.databaseImage = image;
+        this.mealId = id;
+
+    }
+
+    public Meal() {
+    }
 
     public void setNumberInOrder(int numberInOrder) {
         this.numberInOrder = numberInOrder;
@@ -19,20 +49,6 @@ public class Meal {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
-    }
-
-    public Meal(String name, String description, float mealPrice) {
-        this.name = name;
-        this.description = description;
-        this.mealPrice = mealPrice;
-    }
-    
-   // public ImageIcon Image = new ImageIcon(ImageIcon.class.getResource("/pics/addphoto.png"));
-
-    public Meal(String name, float mealPrice) {
-        this.name = name;
-        this.mealPrice = mealPrice;
-
     }
 
     public String getName() {
@@ -51,10 +67,6 @@ public class Meal {
         return mealPrice;
     }
 
-    public int getOrderCount() {
-        return orderCount;
-    }
-
     public int getMealId() {
         return mealId;
     }
@@ -68,7 +80,7 @@ public class Meal {
     }
 
     public void setMealsQuantityInCart(int mealsQuantityInCart) {
-        this.mealsQuantityInCart += mealsQuantityInCart;
+        this.mealsQuantityInCart = mealsQuantityInCart;
     }
 
     public void setName(String name) {
@@ -95,30 +107,7 @@ public class Meal {
         return orderDate;
     }
 
-    public Meal(String name, String description, float price, byte [] image) {
-        this.name = name;
-        this.description = description;
-        this.mealPrice = price;
-        this.databaseImage = image;
-
-    }
     
-    public Meal(String name, String description, float price, byte [] image,int id) {
-        this.name = name;
-        this.description = description;
-        this.mealPrice = price;
-        this.databaseImage = image;
-        this.mealId=id;
-
-    }
-
-    
-
-    public Meal() {
-    }
-
-    
-
     public void displayInfo() {
         System.out.println("Meal name: " + this.name + "\nMeal price: " + this.mealPrice + "\nDescription: " + this.description);
     }
