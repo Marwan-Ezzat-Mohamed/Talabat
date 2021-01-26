@@ -407,7 +407,9 @@ public class Database {
                 int quantity = myRs.getInt("quantity");
                 Date d = myRs.getTimestamp("orderDate");
                 orders[mealOrderNumber].setDate(d);
-                orders[mealOrderNumber].addMeal(returnMealFromId(mealId), quantity, mealOrderNumber);
+                Meal meal=returnMealFromId(mealId);
+                orders[mealOrderNumber].addMeal(meal, quantity, mealOrderNumber);
+                
 
             }
         } catch (SQLException ex) {
