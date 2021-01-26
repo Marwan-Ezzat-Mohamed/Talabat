@@ -1,11 +1,18 @@
 package talabat;
 
 import java.util.Date;
-import javax.swing.ImageIcon;
 
 public class Meal {
 
-    private String name, description, notesForOrder;
+    private String name, description, notesForOrder,restaurantName;
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
     private float mealPrice;
     private int mealId, numberInOrder, mealsQuantityInCart;
     private byte[] databaseImage;

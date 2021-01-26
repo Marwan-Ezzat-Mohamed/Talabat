@@ -148,6 +148,7 @@ public class Database {
                 byte[] image = myRs.getBytes("image");
 
                 Meal m = new Meal(name, description, price, image);
+                m.setRestaurantName(restaurantName);
                 mealList.add(m);
 
                
@@ -171,16 +172,18 @@ public class Database {
 
             myStmt = databaseConnection.createStatement();
 
-            myRs = myStmt.executeQuery("select * from meals;");
+            myRs = myStmt.executeQuery("select * from meals where restaurantName<> \"NULL\";");
 
             while (myRs.next()) {
 
                 String name = myRs.getString("name");
+                String restaurantName=myRs.getString("restaurantName");
                 String description = myRs.getString("description");
                 float price = myRs.getFloat("price");
                 byte[] image = myRs.getBytes("image");
 
                 Meal m = new Meal(name, description, price, image);
+                m.setRestaurantName(restaurantName);
                 mealList.add(m);
             }
         } catch (SQLException ex) {

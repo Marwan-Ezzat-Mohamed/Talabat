@@ -299,26 +299,14 @@ public class Meal_jframe extends javax.swing.JFrame {
     private void addtoBasketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtoBasketMouseClicked
         // TODO add your handling code here:
 
-        boolean found=false;
-        for (int i = 0; i < Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getNumberOfMeals(); i++) {
-            if (MainFrame.mealList.get(mealIndex).getName().equals(Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getMeals()[i].getName())) {
-                found=true;
-                Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getMeals()[i].setMealsQuantityInCart(value);
-                break;
-            }
-        }
-        Meal m = new Meal(mealName.getText(), mealPriceFloat);
-        Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().addMeal(m, value);
-        String notes=noteTextarea.getText();
-        System.out.println(m.getName());
-        System.out.println("mealindex " + mealIndex);
-        System.out.println(Talabat.getCustomers()[Talabat.getCurrentUserIndex()].getCart().getNumberOfMeals());
-
-        
-        
        
-            
-        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.mealList.get(mealIndex).getName(), Talabat.getOwners()[ownerIndex].getRestaurantName()), value,mealPriceFloat,notes ,Talabat.getCurrentUser());
+        Meal m = new Meal(mealName.getText(), mealPriceFloat);
+        System.out.println("helo reg"+ mealIndex);
+        Talabat.customer.getCart().addMeal(m, value);
+        String notes=noteTextarea.getText();
+        
+
+        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName()), value,mealPriceFloat,notes ,Talabat.getCurrentUser());
         
 
 
