@@ -19,11 +19,17 @@ public class TableModelForRestaurantsTable extends AbstractTableModel {
 
     public Class getColumnClass(int column) {
         // 1 is the index of the column image
+
+        Class returnValue = null;
         if (column == 0) {
-            return Icon.class;
+            returnValue = Icon.class;
+        } else if (column == 3) {
+            returnValue = getValueAt(0, column).getClass();
         } else {
-            return String.class;
+            returnValue = String.class;
         }
+
+        return returnValue;
     }
 
     public int getRowCount() {

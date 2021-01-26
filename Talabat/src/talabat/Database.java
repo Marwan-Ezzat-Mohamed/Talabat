@@ -21,14 +21,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Marwan Ezzat
- */
 public class Database {
 
     public Connection databaseConnection;
-    private String databaseUrl="jdbc:mysql://remotemysql.com:3306/RjFI4gANpY";
+    private final String databaseUrl="jdbc:mysql://remotemysql.com:3306/RjFI4gANpY";
 
     public Database() {
         try {
@@ -38,34 +34,9 @@ public class Database {
         }
     }
 
-    public void insertIntoBasketTable(String mealId) {
+   
 
-        // meal id //userId
-        String username = Talabat.getCurrentUser();
-
-        
-        Statement myStmt = null;
-        ResultSet myRs, myRs1 = null;
-        try {
-
-            // Create a statement
-            myStmt = databaseConnection.createStatement();
-
-            // Execute SQL query
-            myRs1 = myStmt.executeQuery("select cart_id from customers where username ='" + username + "';");
-            String basketId = null;
-            while (myRs1.next()) {
-                basketId = myRs1.getString("cart_id");
-            }
-
-            myStmt.executeUpdate("insert into contains values(" + basketId + "," + mealId + ");");
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
+    
     public ArrayList<Restaurant> returnAllRestaurants() {
 
         ArrayList<Restaurant> list = new ArrayList<>();
@@ -89,6 +60,7 @@ public class Database {
         }
         return list;
     }
+    
 
     public ArrayList<Order> returnMyOrders(String s) {
         String user = s;
@@ -120,8 +92,7 @@ public class Database {
     }
 
     public void updateRestaurantImage(InputStream s) {
-
-        Statement myStmt = null;
+        
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("UPDATE restaurants SET image = ? WHERE name = 'mac';");
@@ -139,7 +110,6 @@ public class Database {
 
         try {
 
-            //myStmt.executeUpdate("UPDATE restaurants SET image = " + s + " WHERE name = 'mac';");
             PreparedStatement ps = databaseConnection.prepareStatement("insert into meals values(?,?,?,?,?,?);");
 
             ps.setString(1, null);
@@ -149,6 +119,7 @@ public class Database {
             ps.setString(5, restaurantName);
             ps.setFloat(6, m.getMealPrice());
             ps.executeUpdate();
+            
             JOptionPane.showMessageDialog(null, "meal added");
 
         } catch (SQLException ex) {
@@ -179,7 +150,38 @@ public class Database {
                 Meal m = new Meal(name, description, price, image);
                 mealList.add(m);
 
-                System.out.println(name + "\n" + description);
+               
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mealList;
+    }
+    
+    
+    
+    
+     public ArrayList<Meal> getAllMealsInAllRestaurants() {
+
+        ArrayList<Meal> mealList = new ArrayList<>();
+
+        Statement myStmt = null;
+        ResultSet myRs = null;
+        try {
+
+            myStmt = databaseConnection.createStatement();
+
+            myRs = myStmt.executeQuery("select * from meals;");
+
+            while (myRs.next()) {
+
+                String name = myRs.getString("name");
+                String description = myRs.getString("description");
+                float price = myRs.getFloat("price");
+                byte[] image = myRs.getBytes("image");
+
+                Meal m = new Meal(name, description, price, image);
+                mealList.add(m);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -209,7 +211,8 @@ public class Database {
         return id;
     }
 
-    public void updateMealWithImage(Meal m, InputStream s, int id) {
+    //update meal with image
+    public void updateMeal(Meal m, InputStream s, int id) {
 
         try {
 
@@ -230,7 +233,8 @@ public class Database {
 
     }
 
-    public void updateMealWithoutImage(Meal m, int id) {
+     //update meal without image
+    public void updateMeal(Meal m, int id) {
 
         try {
 
@@ -391,7 +395,8 @@ public class Database {
                 orders[i] = new Order();
             }
 
-            System.out.println("max order number = " + maxOrderNumber);
+            
+            
             while (myRs.next()) {
 
                 int mealId = myRs.getInt("mealID");
@@ -407,8 +412,6 @@ public class Database {
         }
         return orders;
     }
-    
-    
     
     public Order returnOrderOfOwner(String restaurantName) {
 

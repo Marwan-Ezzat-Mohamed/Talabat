@@ -196,7 +196,7 @@ public class Talabat {
                 myConn1 = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
                 myStmt1 = myConn1.createStatement();
                 String st = "INSERT INTO owners Values( '" + inputUsername + "','" + inputPassword + "','" + restaurantName + "');";
-                String st2 = "insert into restaurants values ('" + restaurantName + "'," + null + "," + null + ");";
+                String st2 = "insert into restaurants values ('" + restaurantName + "'," + null + "," + null+ "," + null + ");";
                 myStmt1.executeUpdate(st2);
                 myStmt1.executeUpdate(st);
                 owners[Owner.numberOfOwners] = new Owner(inputUsername, inputPassword, restaurantName);

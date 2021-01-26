@@ -287,12 +287,12 @@ public class EditMeal extends javax.swing.JFrame {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(EditMeal.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Talabat.database.updateMealWithImage(m, is, mealId);
+            Talabat.database.updateMeal(m, is, mealId);
         }
         else 
         {
             System.out.println("talabat.EditMeal.applyChangesbuttonMouseClicked()" +mealId);
-            Talabat.database.updateMealWithoutImage(m, mealId);
+            Talabat.database.updateMeal(m, mealId);
         }
 
         mealNameTextField.setText(MainFrame.mealList.get(mealIndex).getName());
