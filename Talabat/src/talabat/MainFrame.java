@@ -78,6 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
     static ArrayList<Restaurant> allRestaurantsArrayList;
     static int ownerIndex;
     static ArrayList<Meal> randomMealSet = new ArrayList<Meal>();
+    static ArrayList<Restaurant> randomRestaurantsSet = new ArrayList<>();
 
     boolean allResturantsIsSorted;
 
@@ -87,7 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
         Random rand = new Random();
         while (randomMealSet.size() < 3) {
 
-            //get random meal from the restaurant
+            //get random meal from a restaurant
             int randomMeal = rand.nextInt(allMealsList.size());
             Meal meal = allMealsList.get(randomMeal);
 
@@ -105,6 +106,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         }
 
+        //set the meals in home page
         for (int j = 0; j < randomMealSet.size(); j++) {
 
             Meal randomMeal = randomMealSet.get(j);
@@ -144,26 +146,25 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         // restaurants
-        ArrayList<Restaurant> restaurantsSet = new ArrayList<>();
-        while (restaurantsSet.size() < 3) {
+        while (randomRestaurantsSet.size() < 3) {
             int randomRestaurant = rand.nextInt(allRestaurantsArrayList.size());
             Restaurant restaurant = allRestaurantsArrayList.get(randomRestaurant);
 
             //check if restaurant is found in our list if we found it we dont add it to the list
             Boolean found = false;
-            for (int i = 0; i < restaurantsSet.size(); i++) {
-                if (restaurantsSet.get(i).getName().equals(restaurant.getName())) {
+            for (int i = 0; i < randomRestaurantsSet.size(); i++) {
+                if (randomRestaurantsSet.get(i).getName().equals(restaurant.getName())) {
                     found = true;
                 }
             }
             if (!found) {
-                restaurantsSet.add(restaurant);
+                randomRestaurantsSet.add(restaurant);
             }
         }
 
-        // set the labels and images of restaurants
-        for (int i = 0; i < restaurantsSet.size(); i++) {
-            Restaurant restaurant = restaurantsSet.get(i);
+        // set the restaurants in home page
+        for (int i = 0; i < randomRestaurantsSet.size(); i++) {
+            Restaurant restaurant = randomRestaurantsSet.get(i);
 
             if (i == 0) {
                 jLabel12.setText(restaurant.getName());
@@ -449,7 +450,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void myOrdersTable() {
+    public void updateOrdersTableForCustomer() {
 
         Order[] orders = Talabat.customer.viewOrders();
 
@@ -1926,7 +1927,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel13.setText("Description");
 
-        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (3).png"))); // NOI18N
+        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                retaurants2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1959,7 +1965,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel15.setText("Description");
 
-        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (3).png"))); // NOI18N
+        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                retaurants3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1992,7 +2003,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel17.setText("Description");
 
-        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (3).png"))); // NOI18N
+        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                retaurants4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -3783,6 +3799,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         Talabat.getCustomer().orderCart();
         updateCurrentUserCartTable();
+        updateOrdersTableForCustomer();
+
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
@@ -3800,12 +3818,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
         // TODO add your handling code here:
         int index = currentUserCartJtable.getSelectedRow();
-
         int mealId = currentCustomerCart.getMeals()[index].getMealId();
-        System.out.println("meal id is : " + mealId);
-        Talabat.database.removeMeal(mealId, Talabat.getCurrentUser());
-        //Talabat.customers[Talabat.currentUserIndex].cart.removeMeal(index);
-        //Talabat.customers[Talabat.currentUserIndex].cart.displayMeals();
+        Talabat.database.removeMeal(mealId, Talabat.customer.getUsername());
         updateCurrentUserCartTable();
 
     }//GEN-LAST:event_jLabel21MouseClicked
@@ -3990,16 +4004,34 @@ public class MainFrame extends javax.swing.JFrame {
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
         //customer login
         if (Talabat.login() == 1) {
-            mainPanel.removeAll();
-            mainPanel.repaint();
-            mainPanel.revalidate();
+            String customerName = Talabat.customer.getUsername();
 
-            customerNameLabel.setText(Talabat.customer.getUsername());
-            mainPanel.add(homePanel);
-            mainPanel.repaint();
-            mainPanel.revalidate();
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+                @Override
+                public void run() {
 
-        } else if (Talabat.login() == 2) {
+                    mainPanel.removeAll();
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    mainPanel.add(loadingscreen);
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+
+                    updateOrdersTableForCustomer();
+                    
+                    customerNameLabel.setText(customerName);
+                    mainPanel.removeAll();
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                    mainPanel.add(homePanel);
+                    mainPanel.repaint();
+                    mainPanel.revalidate();
+                }
+
+            }, 0);
+
+        } //owner login
+        else if (Talabat.login() == 2) {
             mainPanel.removeAll();
             mainPanel.repaint();
             mainPanel.revalidate();
@@ -4204,18 +4236,16 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void my_ordersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMousePressed
         // TODO add your handling code here:
-        myOrdersTable();
+
 
     }//GEN-LAST:event_my_ordersMousePressed
 
     private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
         // TODO add your handling code here:
-        myOrdersTable();
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
 
-        // add sign up panel
         mainPanel.add(MyOrder);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4359,7 +4389,6 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-       
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4367,11 +4396,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void signOutLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signOutLabel2MouseClicked
         // TODO add your handling code here:
-         mainPanel.removeAll();
+        mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
 
-       
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4379,11 +4407,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void homeButtonInRestPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeButtonInRestPanelMouseClicked
         // TODO add your handling code here:
-         mainPanel.removeAll();
+        mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
 
-       
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4395,7 +4422,6 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-       
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4423,11 +4449,120 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-       
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
     }//GEN-LAST:event_jLabel39MouseClicked
+
+    private void retaurants2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retaurants2MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            Restaurant restaurant = randomRestaurantsSet.get(0);
+
+            String resturantName = restaurant.getName();
+            String restaurantDescripion = restaurant.getDescription();
+
+            resturantNameLabel.setText(resturantName);
+            resturantDescriptionLabel.setText(restaurantDescripion);
+
+            //get image of resturant directly from the map
+            if (allRestaurantsImageMap.get(resturantName).getImage() != null) {
+                //get image from map
+                ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(resturantName).getImage()).getImage());
+
+                //convert image to icon of size 160*160
+                ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+
+                resturantIcon.setIcon(image);
+            } else {
+                resturantIcon.setIcon(null);
+            }
+
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            mainPanel.add(resturantPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            updateRestaurantMealsJTableForCustomer(resturantName);
+        }
+
+
+    }//GEN-LAST:event_retaurants2MouseClicked
+
+    private void retaurants4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retaurants4MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            Restaurant restaurant = randomRestaurantsSet.get(1);
+
+            String resturantName = restaurant.getName();
+            String restaurantDescripion = restaurant.getDescription();
+
+            resturantNameLabel.setText(resturantName);
+            resturantDescriptionLabel.setText(restaurantDescripion);
+
+            //get image of resturant directly from the map
+            if (allRestaurantsImageMap.get(resturantName).getImage() != null) {
+                //get image from map
+                ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(resturantName).getImage()).getImage());
+
+                //convert image to icon of size 160*160
+                ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+
+                resturantIcon.setIcon(image);
+            } else {
+                resturantIcon.setIcon(null);
+            }
+
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            mainPanel.add(resturantPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            updateRestaurantMealsJTableForCustomer(resturantName);
+        }
+    }//GEN-LAST:event_retaurants4MouseClicked
+
+    private void retaurants3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retaurants3MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            Restaurant restaurant = randomRestaurantsSet.get(2);
+
+            String resturantName = restaurant.getName();
+            String restaurantDescripion = restaurant.getDescription();
+
+            resturantNameLabel.setText(resturantName);
+            resturantDescriptionLabel.setText(restaurantDescripion);
+
+            //get image of resturant directly from the map
+            if (allRestaurantsImageMap.get(resturantName).getImage() != null) {
+                //get image from map
+                ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(resturantName).getImage()).getImage());
+
+                //convert image to icon of size 160*160
+                ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+
+                resturantIcon.setIcon(image);
+            } else {
+                resturantIcon.setIcon(null);
+            }
+
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            mainPanel.add(resturantPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            updateRestaurantMealsJTableForCustomer(resturantName);
+        }
+    }//GEN-LAST:event_retaurants3MouseClicked
 
     /**
      * @param args the command line arguments

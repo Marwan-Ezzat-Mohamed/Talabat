@@ -306,7 +306,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         String notes=noteTextarea.getText();
         
 
-        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName()), value,mealPriceFloat,notes ,Talabat.getCurrentUser());
+        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName()), value,mealPriceFloat,notes ,Talabat.customer.getUsername());
         
 
 

@@ -1896,9 +1896,12 @@
                         <Component class="javax.swing.JLabel" name="retaurants2">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/pics/asset (3).png"/>
+                              <Image iconType="3" name="/pics/addphoto.png"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retaurants2MouseClicked"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1958,9 +1961,12 @@
                         <Component class="javax.swing.JLabel" name="retaurants3">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/pics/asset (3).png"/>
+                              <Image iconType="3" name="/pics/addphoto.png"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retaurants3MouseClicked"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -2020,9 +2026,12 @@
                         <Component class="javax.swing.JLabel" name="retaurants4">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/pics/asset (3).png"/>
+                              <Image iconType="3" name="/pics/addphoto.png"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retaurants4MouseClicked"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>

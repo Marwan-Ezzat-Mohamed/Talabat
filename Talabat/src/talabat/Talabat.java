@@ -12,31 +12,16 @@ public class Talabat {
     public static MainFrame loginFrame;
     public static Customer[] customers = new Customer[100];
     public static Owner[] owners = new Owner[100];
-    public static String currentUser;
-    public static int currentUserIndex;
     public static String currentOwner;
     public static String currentOwnerRestaurantName;
     public static int currentOwnerIndex;
     public static Customer customer ;
 
-    public static MainFrame getLoginFrame() {
-        return loginFrame;
-    }
+    
 
-    public static Customer[] getCustomers() {
-        return customers;
-    }
 
     public static Owner[] getOwners() {
         return owners;
-    }
-
-    public static String getCurrentUser() {
-        return currentUser;
-    }
-
-    public static int getCurrentUserIndex() {
-        return currentUserIndex;
     }
 
     public static String getCurrentOwner() {
@@ -78,8 +63,7 @@ public class Talabat {
                 System.out.println("Login successful");
                 loginFrame.invalidLoginLabel.setText("");
                 loginFrame.username.setText(customers[i].getUsername());
-                currentUser = customers[i].getUsername();
-                currentUserIndex = i;
+               
                 customer=customers[i];
                 //do some thing;
                 return 1;
