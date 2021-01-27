@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
@@ -401,12 +402,12 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 rows[i][0] = null;
             }
-            System.out.println(ownerIndex);
             rows[i][1] = mealList.get(i).getName();
             rows[i][2] = mealList.get(i).getDescription();
             rows[i][3] = mealList.get(i).getMealPrice();
 
         }
+        
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
         mealSortter = new TableRowSorter<>(mealModel);
         mealsTable.setModel(mealModel);
@@ -4287,7 +4288,8 @@ public class MainFrame extends javax.swing.JFrame {
             
             String customerName = Talabat.customer.getUsername();
 
-            new java.util.Timer().schedule(new java.util.TimerTask() {
+            
+            new java.util.Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
 
@@ -4299,6 +4301,7 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPanel.revalidate();
 
                     updateOrdersTableForCustomer();
+                    createImageMap();
 
                     customerNameLabel.setText(customerName);
                     mainPanel.removeAll();

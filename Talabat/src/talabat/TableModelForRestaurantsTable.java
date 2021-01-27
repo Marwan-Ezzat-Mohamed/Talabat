@@ -25,7 +25,7 @@ public class TableModelForRestaurantsTable extends AbstractTableModel {
         if (column == 0) {
             returnValue = Icon.class;
         } else if (column == 3) {
-            returnValue = getValueAt(0, column).getClass();
+            returnValue = Float.class;
         } else {
             returnValue = String.class;
         }
