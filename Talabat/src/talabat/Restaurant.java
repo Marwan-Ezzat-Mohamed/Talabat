@@ -1,6 +1,5 @@
 package talabat;
 
-import com.sun.imageio.plugins.common.I18N;
 
 public class Restaurant {
 
