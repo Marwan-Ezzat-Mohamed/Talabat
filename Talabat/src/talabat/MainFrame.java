@@ -371,7 +371,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         totalPriceLabelForCustomerCart.setText(String.valueOf(cartTotalPrice));
 
-        TableModelForRestaurantsTable currentUserCartTableModel = new TableModelForRestaurantsTable(rows, columnName);
+        TableModelForCustomerCart currentUserCartTableModel = new TableModelForCustomerCart(rows, columnName);
 
         currentUserCartJtable.setModel(currentUserCartTableModel);
         currentUserCartJtable.setRowHeight(160);
@@ -2386,9 +2386,6 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 homeLogo1MouseClicked(evt);
             }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                homeLogo1MousePressed(evt);
-            }
         });
 
         jLabel90.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
@@ -3951,20 +3948,10 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.revalidate();
     }//GEN-LAST:event_jLabel91MouseClicked
 
-    private void homeLogo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MousePressed
-        // TODO add your handling code here:
-        mainPanel.removeAll();
-        mainPanel.repaint();
-        mainPanel.revalidate();
-
-        // add sign up panel
-        mainPanel.add(homePanel);
-        mainPanel.repaint();
-        mainPanel.revalidate();
-    }//GEN-LAST:event_homeLogo1MousePressed
-
     private void homeLogo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MouseClicked
         // TODO add your handling code here:
+        mainPanel.add(homePanel);
+        mainPanel.nextPanel(30, 10, homePanel, mainPanel.right);
     }//GEN-LAST:event_homeLogo1MouseClicked
 
     private void jLabel87MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel87MousePressed
@@ -4029,7 +4016,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         mainPanel.add(Basket);
         mainPanel.nextPanel(30, 10, Basket, mainPanel.left);
-
+//
         //        mainPanel.removeAll();
         //        mainPanel.repaint();
         //        mainPanel.revalidate();
