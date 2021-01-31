@@ -33,7 +33,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
@@ -118,8 +117,8 @@ public class MainFrame extends javax.swing.JFrame {
 
             if (j == 0) {
                 jLabel2.setText(randomMeal.getName());
-                jLabel3.setText("<html>"+ randomMeal.getDescription() +"</html>");
-               
+                jLabel3.setText("<html>" + randomMeal.getDescription() + "</html>");
+
                 jLabel4.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
                 if (randomMeal.getDatabaseImage() == null) {
                     continue;
@@ -128,7 +127,7 @@ public class MainFrame extends javax.swing.JFrame {
                 meal1pic.setIcon(image);
             } else if (j == 1) {
                 jLabel5.setText(randomMeal.getName());
-                jLabel6.setText("<html>"+ randomMeal.getDescription() +"</html>");
+                jLabel6.setText("<html>" + randomMeal.getDescription() + "</html>");
                 jLabel7.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
                 if (randomMeal.getDatabaseImage() == null) {
                     continue;
@@ -139,7 +138,7 @@ public class MainFrame extends javax.swing.JFrame {
             } else if (j == 2) {
                 jLabel8.setText(randomMeal.getName());
 
-                jLabel9.setText("<html>"+ randomMeal.getDescription() +"</html>");
+                jLabel9.setText("<html>" + randomMeal.getDescription() + "</html>");
                 jLabel10.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
                 if (randomMeal.getDatabaseImage() == null) {
                     continue;
@@ -175,7 +174,7 @@ public class MainFrame extends javax.swing.JFrame {
             if (i == 0) {
                 jLabel12.setText(restaurant.getName());
                 jTextArea1.setText(restaurant.getDescription());
-                
+
                 if (restaurant.getImage() == null) {
                     continue;
                 }
@@ -185,7 +184,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                 jLabel16.setText(restaurant.getName());
                 jTextArea2.setText(restaurant.getDescription());
-                
+
                 if (restaurant.getImage() == null) {
                     continue;
                 }
@@ -195,7 +194,7 @@ public class MainFrame extends javax.swing.JFrame {
             } else if (i == 2) {
                 jLabel14.setText(restaurant.getName());
                 jTextArea3.setText(restaurant.getDescription());
-                
+
                 if (restaurant.getImage() == null) {
                     continue;
                 }
@@ -402,12 +401,12 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 rows[i][0] = null;
             }
+            System.out.println(ownerIndex);
             rows[i][1] = mealList.get(i).getName();
             rows[i][2] = mealList.get(i).getDescription();
             rows[i][3] = mealList.get(i).getMealPrice();
 
         }
-        
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
         mealSortter = new TableRowSorter<>(mealModel);
         mealsTable.setModel(mealModel);
@@ -693,7 +692,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         initComponents();
-        
 
         new java.util.Timer().schedule(new java.util.TimerTask() {
             @Override
@@ -706,7 +704,7 @@ public class MainFrame extends javax.swing.JFrame {
                 endLoading();
             }
 
-        }, 3000);
+        }, 2600);
 
     }
 
@@ -3539,7 +3537,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     Meal_jframe meal = new Meal_jframe();
-    EditMeal edit = new EditMeal();    AddMeal add = new AddMeal();
+    EditMeal edit = new EditMeal();
+    AddMeal add = new AddMeal();
     private void jLabel92KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel92KeyPressed
         // TODO add your handling code here:
         mainPanel.removeAll();
@@ -4026,11 +4025,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void basketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseClicked
         // TODO add your handling code here:
-        updateCurrentUserCartTable();
+        //updateCurrentUserCartTable();
 
         mainPanel.add(Basket);
-        mainPanel.nextPanel(15,4, Basket, mainPanel.left);
-        
+        mainPanel.nextPanel(30, 10, Basket, mainPanel.left);
 
         //        mainPanel.removeAll();
         //        mainPanel.repaint();
@@ -4283,13 +4281,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
         //customer login
         if (Talabat.login() == 1) {
-            createImageMap();
-            setRandomMeaslsAndResturantsInHome();
-            
+
             String customerName = Talabat.customer.getUsername();
 
-            
-            new java.util.Timer().schedule(new TimerTask() {
+            new java.util.Timer().schedule(new java.util.TimerTask() {
                 @Override
                 public void run() {
 
@@ -4300,8 +4295,10 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPanel.repaint();
                     mainPanel.revalidate();
 
+                    updateAllRestaurantsTable();
+                    setRandomMeaslsAndResturantsInHome();
                     updateOrdersTableForCustomer();
-                    createImageMap();
+                    updateCurrentUserCartTable();
 
                     customerNameLabel.setText(customerName);
                     mainPanel.removeAll();

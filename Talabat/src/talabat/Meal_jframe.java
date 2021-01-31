@@ -303,6 +303,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         Meal m = new Meal(mealName.getText(), mealPriceFloat);
         System.out.println("helo reg"+ mealIndex);
         Talabat.customer.getCart().addMeal(m, value);
+        Talabat.loginFrame.updateCurrentUserCartTable();
         String notes=noteTextarea.getText();
         
 
