@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import static talabat.Talabat.customer;
 
 public class Talabat {
 
@@ -64,7 +65,7 @@ public class Talabat {
                 loginFrame.invalidLoginLabel.setText("");
                 loginFrame.username.setText(customers[i].getUsername());
                
-                customer=customers[i];
+                customer=new Customer(customers[i].getMobileNumber(), customers[i].getAddress(), customers[i].getUsername(), inputPassword);
                 //do some thing;
                 return 1;
 
@@ -194,18 +195,15 @@ public class Talabat {
 
     public static Customer[] updateCustomers() {
         Customer newCustomers[] = new Customer[100];
-        Connection myConn = null;
-
+       
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
             // get connection 
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-
-            System.out.println(myConn);
+            
 
             // 2. Create a statement
-            myStmt = myConn.createStatement();
+            myStmt = database.databaseConnection.createStatement();
             myRs = myStmt.executeQuery("select * from customers");
 
             // 4. Process the result set
@@ -214,8 +212,8 @@ public class Talabat {
                 newCustomers[i] = new Customer(myRs.getString("mobile").toString(), myRs.getString("address").toString(), myRs.getString("Username").toString(), myRs.getString("Password").toString());
                 i++;
             }
-        } catch (Exception ex) {
-            System.out.println("2313");
+        } catch (SQLException ex) { 
+            Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return newCustomers;
@@ -268,6 +266,7 @@ public class Talabat {
         customers = updateCustomers();
         owners = updateOwner();
         //customers[0]= new Customer("123", "1233","marwan" ,"123" );
+
 
         loginFrame = new MainFrame();
         loginFrame.show();

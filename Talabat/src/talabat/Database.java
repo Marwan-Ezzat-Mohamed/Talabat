@@ -15,8 +15,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,7 +23,7 @@ import javax.swing.JOptionPane;
 public class Database {
 
     public Connection databaseConnection;
-    private final String databaseUrl="jdbc:mysql://remotemysql.com:3306/RjFI4gANpY";
+    private final String databaseUrl = "jdbc:mysql://remotemysql.com:3306/RjFI4gANpY";
 
     public Database() {
         try {
@@ -34,10 +33,20 @@ public class Database {
         }
     }
 
-   
+    //check lw el connection closed y3mlha reopen
+    public void checkConnection() {
+        try {
+            if (databaseConnection.isClosed()) {
+                DriverManager.getConnection(databaseUrl);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-    
     public ArrayList<Restaurant> returnAllRestaurants() {
+
+        checkConnection();
 
         ArrayList<Restaurant> list = new ArrayList<>();
 
@@ -60,9 +69,10 @@ public class Database {
         }
         return list;
     }
-    
 
     public ArrayList<Order> returnMyOrders(String s) {
+
+        checkConnection();
         String user = s;
         ArrayList<Order> orderList = new ArrayList<>();
 
@@ -92,7 +102,9 @@ public class Database {
     }
 
     public void updateRestaurantImage(InputStream s) {
-        
+
+        checkConnection();
+
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("UPDATE restaurants SET image = ? WHERE name = 'mac';");
@@ -108,6 +120,8 @@ public class Database {
 
     public void addMealToRestaurant(Meal m, String restaurantName, InputStream s) {
 
+        checkConnection();
+
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("insert into meals values(?,?,?,?,?,?);");
@@ -119,7 +133,7 @@ public class Database {
             ps.setString(5, restaurantName);
             ps.setFloat(6, m.getMealPrice());
             ps.executeUpdate();
-            
+
             JOptionPane.showMessageDialog(null, "meal added");
 
         } catch (SQLException ex) {
@@ -129,6 +143,8 @@ public class Database {
     }
 
     public ArrayList<Meal> getRestaurantMeals(String restaurantName) {
+
+        checkConnection();
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
@@ -151,18 +167,16 @@ public class Database {
                 m.setRestaurantName(restaurantName);
                 mealList.add(m);
 
-               
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mealList;
     }
-    
-    
-    
-    
-     public ArrayList<Meal> getAllMealsInAllRestaurants() {
+
+    public ArrayList<Meal> getAllMealsInAllRestaurants() {
+
+        checkConnection();
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
@@ -172,12 +186,12 @@ public class Database {
 
             myStmt = databaseConnection.createStatement();
 
-            myRs = myStmt.executeQuery("select * from meals where restaurantName<> \"NULL\";");
+            myRs = myStmt.executeQuery("select * from meals where restaurantName<> 'null';");
 
             while (myRs.next()) {
 
                 String name = myRs.getString("name");
-                String restaurantName=myRs.getString("restaurantName");
+                String restaurantName = myRs.getString("restaurantName");
                 String description = myRs.getString("description");
                 float price = myRs.getFloat("price");
                 byte[] image = myRs.getBytes("image");
@@ -193,6 +207,8 @@ public class Database {
     }
 
     public int getMealId(String mealName, String restaurantName) {
+
+        checkConnection();
 
         int id = -1;
 
@@ -217,6 +233,8 @@ public class Database {
     //update meal with image
     public void updateMeal(Meal m, InputStream s, int id) {
 
+        checkConnection();
+
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set name = ?,description=?,image=?,price=? where id = ? ;");
@@ -226,7 +244,7 @@ public class Database {
             ps.setBlob(3, s);
             ps.setFloat(4, m.getMealPrice());
             ps.setInt(5, id);
-            
+
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Meal updated");
         } catch (SQLException ex) {
@@ -236,8 +254,10 @@ public class Database {
 
     }
 
-     //update meal without image
+    //update meal without image
     public void updateMeal(Meal m, int id) {
+
+        checkConnection();
 
         try {
 
@@ -248,7 +268,7 @@ public class Database {
             ps.setFloat(3, m.getMealPrice());
             ps.setInt(4, id);
             ps.executeUpdate();
-            
+
             JOptionPane.showMessageDialog(null, "Meal updated");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error please try again");
@@ -257,7 +277,9 @@ public class Database {
 
     }
 
-    public void insertMealIntoCart(int mealId, int quantity,float orderPrice,String notes,String username) {
+    public void insertMealIntoCart(int mealId, int quantity, float orderPrice, String notes, String username) {
+
+        checkConnection();
 
         try {
 
@@ -284,6 +306,8 @@ public class Database {
     }
 
     public void orderCart(String username) {
+
+        checkConnection();
 
         Statement myStmt = null;
         ResultSet myRs;
@@ -315,6 +339,8 @@ public class Database {
 
     public Cart returnCartOfCustomer(String username) {
 
+        checkConnection();
+
         Cart cart = new Cart();
 
         Statement myStmt = null;
@@ -338,6 +364,8 @@ public class Database {
 
     public Meal returnMealFromId(int id) {
 
+        checkConnection();
+
         Statement myStmt = null;
         ResultSet myRs = null;
         Meal m = null;
@@ -349,7 +377,9 @@ public class Database {
 
             if (myRs.next()) {
                 m = new Meal(myRs.getString("name"), myRs.getString("description"), myRs.getFloat("price"), myRs.getBytes("image"), id);
+                m.setRestaurantName(myRs.getString("restaurantName"));
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -357,6 +387,8 @@ public class Database {
     }
 
     public void removeMeal(int mealid, String username) {
+
+        checkConnection();
 
         Statement myStmt = null;
 
@@ -374,7 +406,9 @@ public class Database {
 
     }
 
-    public Order[] returnOrderOfcustomers(String username) {
+    public Order[] returnOrderOfcustomer(String username) {
+
+        checkConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -398,8 +432,6 @@ public class Database {
                 orders[i] = new Order();
             }
 
-            
-            
             while (myRs.next()) {
 
                 int mealId = myRs.getInt("mealID");
@@ -407,9 +439,8 @@ public class Database {
                 int quantity = myRs.getInt("quantity");
                 Date d = myRs.getTimestamp("orderDate");
                 orders[mealOrderNumber].setDate(d);
-                Meal meal=returnMealFromId(mealId);
+                Meal meal = returnMealFromId(mealId);
                 orders[mealOrderNumber].addMeal(meal, quantity, mealOrderNumber);
-                
 
             }
         } catch (SQLException ex) {
@@ -417,52 +448,46 @@ public class Database {
         }
         return orders;
     }
-    
+
     public Order returnOrderOfOwner(String restaurantName) {
+
+        checkConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
         Order order = null;
         try {
-            
 
             myStmt = databaseConnection.createStatement();
 
-            
-
-
             myRs = myStmt.executeQuery("select * from meals , cart where restaurantName='" + restaurantName + "' and orderNumber<>0 and mealId=id order by orderNumber; ");
 
-            
             order = new Order();
-            
+
             while (myRs.next()) {
-                
+
                 int mealId = myRs.getInt("mealID");
                 int quantity = myRs.getInt("quantity");
                 int numberInOrder = myRs.getInt("orderNumber");
-                float orderPrice=myRs.getFloat("orderPrice");
+                float orderPrice = myRs.getFloat("orderPrice");
                 Date d = myRs.getTimestamp("orderDate");
-                String notes=myRs.getString("notes");
-                Meal m =  returnMealFromId(mealId);
+                String notes = myRs.getString("notes");
+                Meal m = returnMealFromId(mealId);
                 m.setMealPrice(orderPrice);
                 m.setNotesForOrder(notes);
-                order .addMeal(m, quantity, d,numberInOrder);
+                order.addMeal(m, quantity, d, numberInOrder);
             }
-            
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return order;
     }
-    
-    public void removeMealFromOwner(int id)
-    {
-        try {
 
-            
+    public void removeMealFromOwner(int id) {
+
+        checkConnection();
+        try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set restaurantName=null where id = ? ;");
 
@@ -475,19 +500,18 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-     public void editRestaurantDescription(String restaurantName, String description) {
+
+    public void editRestaurantDescription(String restaurantName, String description) {
+
+        checkConnection();
 
         try {
-
-            //myStmt.executeUpdate("UPDATE restaurants SET image = " + s + " WHERE name = 'mac';");
             PreparedStatement ps = databaseConnection.prepareStatement("update restaurants set description=? where name = ? ;");
-            
 
             ps.setString(1, description);
             ps.setString(2, restaurantName);
             ps.executeUpdate();
+            
             JOptionPane.showMessageDialog(null, "description edited");
 
         } catch (SQLException ex) {

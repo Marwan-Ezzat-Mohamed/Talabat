@@ -247,6 +247,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         myOrdersTableForOwner.setModel(orderModel);
         myOrdersTableForOwner.setRowHeight(160);
+        
+        //by3ml center ll 7aga fl cell
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        myOrdersTableForOwner.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        myOrdersTableForOwner.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        myOrdersTableForOwner.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        myOrdersTableForOwner.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        myOrdersTableForOwner.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        myOrdersTableForOwner.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+
 
         myOrdersTableForOwner.getColumnModel().getColumn(0).setMaxWidth(60);
         myOrdersTableForOwner.getColumnModel().getColumn(0).setMinWidth(60);
@@ -296,8 +307,17 @@ public class MainFrame extends javax.swing.JFrame {
         }
         TableModelForRestaurantsTable mealModel = new TableModelForRestaurantsTable(rows, columnName);
         mealsOfResturantForOwnerTableSorter = new TableRowSorter<>(mealModel);
+
         mealsOfResturantForOwnerJtable.setModel(mealModel);
         mealsOfResturantForOwnerJtable.setRowHeight(160);
+        
+        //by3ml center ll 7aga fl cell
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        mealsOfResturantForOwnerJtable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+
 
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(0).setMaxWidth(160);
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(0).setMinWidth(160);
@@ -344,11 +364,9 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
-    Cart currentCustomerCart;
-
     public void updateCurrentUserCartTable() {
+        Cart currentCustomerCart = Talabat.getCustomer().loadCart();
 
-        currentCustomerCart = Talabat.getCustomer().viewCart();
         float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
         Object[][] rows = new Object[currentCustomerCart.getNumberOfMeals()][columnName.length];
@@ -375,6 +393,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         currentUserCartJtable.setModel(currentUserCartTableModel);
         currentUserCartJtable.setRowHeight(160);
+        
+        //by3ml center ll 7aga fl cell
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        currentUserCartJtable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        currentUserCartJtable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        currentUserCartJtable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+
 
         currentUserCartJtable.getColumnModel().getColumn(0).setMaxWidth(160);
         currentUserCartJtable.getColumnModel().getColumn(0).setMinWidth(160);
@@ -412,8 +438,11 @@ public class MainFrame extends javax.swing.JFrame {
         mealsTable.setModel(mealModel);
         mealsTable.setRowHeight(160);
 
+        //by3ml center ll 7aga fl cell
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        mealsTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        mealsTable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         mealsTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 
         mealsTable.getColumnModel().getColumn(0).setMaxWidth(160);
@@ -460,7 +489,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void updateOrdersTableForCustomer() {
 
-        Order[] orders = Talabat.customer.viewOrders();
+        Order[] orders = Talabat.customer.loadOrders();
 
         int numberOfmealsOfOrder = 0;
         for (int i = 1; i < orders.length; i++) {
@@ -494,8 +523,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         TableModelForMyOrders orderModel = new TableModelForMyOrders(rows, columnName);
 
+        // by3ml center ll text fl cell
         myOrdersTable.setModel(orderModel);
         myOrdersTable.setRowHeight(160);
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        myOrdersTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        myOrdersTable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        myOrdersTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        myOrdersTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        myOrdersTable.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+
 
         myOrdersTable.getColumnModel().getColumn(0).setMaxWidth(60);
         myOrdersTable.getColumnModel().getColumn(0).setMinWidth(60);
@@ -704,7 +743,7 @@ public class MainFrame extends javax.swing.JFrame {
                 endLoading();
             }
 
-        }, 2600);
+        }, 2800);
 
     }
 
@@ -3913,15 +3952,22 @@ public class MainFrame extends javax.swing.JFrame {
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
         // TODO add your handling code here:
         int index = currentUserCartJtable.getSelectedRow();
-        int mealId = currentCustomerCart.getMeals()[index].getMealId();
-        Talabat.database.removeMeal(mealId, Talabat.customer.getUsername());
+
+        Talabat.customer.getCart().removeMeal(index);
+
         updateCurrentUserCartTable();
     }//GEN-LAST:event_jLabel21MouseClicked
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
 
         Talabat.getCustomer().orderCart();
-        updateCurrentUserCartTable();
+
+        //bafady el cart table kda asr3 bdl ma a3ml call ll database w kda
+        String[] columnName = {"", "Meal Name", "Price", "Quantity"};
+        Object[][] rows = new Object[0][columnName.length];
+        TableModelForCustomerCart currentUserCartTableModel = new TableModelForCustomerCart(rows, columnName);
+        currentUserCartJtable.setModel(currentUserCartTableModel);
+
         updateOrdersTableForCustomer();
     }//GEN-LAST:event_jLabel11MouseClicked
 
@@ -4282,7 +4328,6 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPanel.repaint();
                     mainPanel.revalidate();
 
-                    updateAllRestaurantsTable();
                     setRandomMeaslsAndResturantsInHome();
                     updateOrdersTableForCustomer();
                     updateCurrentUserCartTable();

@@ -263,32 +263,32 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    protected int value = 1, mealIndex, ownerIndex;
+    protected int quantityOfmeal = 1, mealIndex, ownerIndex;
     public float mealPriceFloat;
 
 
     private void plusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_plusMouseClicked
         // TODO add your handling code here:
-        if (value < 20) {
-            value++;
+        if (quantityOfmeal < 20) {
+            quantityOfmeal++;
         }
-        quantityValue.setText(String.valueOf(value));
+        quantityValue.setText(String.valueOf(quantityOfmeal));
         String s = orderPrice.getText();
         s.replace("EGP", "");
         String s1 = s.replace("EGP", "");
-        float totalPrice = mealPriceFloat * value;
+        float totalPrice = mealPriceFloat * quantityOfmeal;
         orderPrice.setText(String.valueOf(totalPrice) + "EGP");
     }//GEN-LAST:event_plusMouseClicked
 
     private void minusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minusMouseClicked
         // TODO add your handling code here:
-        if (value > 1) {
-            value--;
+        if (quantityOfmeal > 1) {
+            quantityOfmeal--;
         }
-        quantityValue.setText(String.valueOf(value));
+        quantityValue.setText(String.valueOf(quantityOfmeal));
         String s = orderPrice.getText();
         String s1 = s.replace("EGP", "");
-        float totalPrice = mealPriceFloat * value;
+        float totalPrice = mealPriceFloat * quantityOfmeal;
         orderPrice.setText(String.valueOf(totalPrice) + "EGP");
     }//GEN-LAST:event_minusMouseClicked
 
@@ -300,16 +300,25 @@ public class Meal_jframe extends javax.swing.JFrame {
         // TODO add your handling code here:
 
        
-        Meal m = new Meal(mealName.getText(), mealPriceFloat);
-        System.out.println("helo reg"+ mealIndex);
-        Talabat.customer.getCart().addMeal(m, value);
-        Talabat.loginFrame.updateCurrentUserCartTable();
         String notes=noteTextarea.getText();
+        String username=Talabat.customer.getUsername();
+        
+        int mealId=Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName());
+        
+        Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username);
+       
+        
+   
+       
+        
+        
+        
+        Talabat.loginFrame.updateCurrentUserCartTable();
         
 
-        Talabat.database.insertMealIntoCart(Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName()), value,mealPriceFloat,notes ,Talabat.customer.getUsername());
         
 
+        
 
     }//GEN-LAST:event_addtoBasketMouseClicked
 
