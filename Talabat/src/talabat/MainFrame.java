@@ -3667,6 +3667,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void ordersForOwner1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwner1MouseClicked
         // TODO add your handling code here:
+        
+       updateOrdersTableForOwner();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+
+        mainPanel.add(MyOrderForOwner);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_ordersForOwner1MouseClicked
 
     private void jLabel45MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel45MouseClicked
@@ -3753,7 +3762,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-        // add login panel
+        
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3765,6 +3774,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void ordersForOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwnerMouseClicked
         // TODO add your handling code here:
+        updateOrdersTableForOwner();
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+
+        // add login panel
+        mainPanel.add(MyOrderForOwner);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }//GEN-LAST:event_ordersForOwnerMouseClicked
 
     private void jLabel41MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel41MouseClicked

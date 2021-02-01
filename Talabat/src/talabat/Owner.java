@@ -16,20 +16,6 @@ public class Owner extends User {
     private String restaurantName;
     private Restaurant restaurant = new Restaurant();
 
-    
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
     public Owner(String username, String password, String restaurantName) {
 
         super(password, username);
@@ -44,30 +30,25 @@ public class Owner extends User {
         }
     }
 
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    
+
     public void addMeal(Meal m, InputStream s) {
 
-        Connection myConn = null;
-        Statement myStmt = null;
-        try {
-            myConn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/RjFI4gANpY", "RjFI4gANpY", "UIY691h8aY");
-            myStmt = myConn.createStatement();
-
-            PreparedStatement ps = myConn.prepareStatement("insert into meals values(?,?,?,?,?,?);");
-
-            ps.setString(1, null);
-            ps.setString(2, m.getName());
-            ps.setString(3, m.getDescription());
-            ps.setBlob(4, s);
-            ps.setString(5, getRestaurantName());
-            ps.setFloat(6, m.getMealPrice());
-            ps.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "meal added");
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error please try again");
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       Talabat.database.addMealToRestaurant(m, restaurantName, s);
+       restaurant.setMealCount(restaurant.getMealCount()+1);
+      
     }
 
     public void removeMeal(String mealName) {

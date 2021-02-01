@@ -9,7 +9,7 @@ public class Cart {
     private float totalPrice = 0;
     private int numberOfMeals;
     private LocalDate orderDate;
-    private String notes;
+    
 
     public int getMaxMeals() {
         return maxMeals;
@@ -31,13 +31,10 @@ public class Cart {
         return orderDate;
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
-    // insert fl array bs 34an lma a3ml intialize fl awl bs
-    public void addMeal(Meal meal, int quantity) {
-        int index = isMealFound(meal);
+    
+    public void addMealIntoMealsArray (Meal meal, int quantity)
+    {
+        int index = mealFoundInMealsArray(meal);
         if (index != -1) {
             totalPrice += meal.getPrice() * quantity;
             meals[index] = meal;
@@ -48,6 +45,11 @@ public class Cart {
         meals[numberOfMeals].setMealsQuantityInCart(quantity);
         totalPrice += meal.getPrice() * quantity;
         numberOfMeals++;
+    }
+    // insert fl array bs 34an lma a3ml intialize fl awl bs
+    public void addMeal(Meal meal, int quantity) {
+        addMealIntoMealsArray(meal, quantity);
+     
 
     }
 
@@ -57,22 +59,11 @@ public class Cart {
         Talabat.database.insertMealIntoCart(id, quantity, price, notes, username);
 
         Meal meal = Talabat.database.returnMealFromId(id);
-
-        int index = isMealFound(meal);
-        if (index != -1) {
-            totalPrice += meal.getPrice() * quantity;
-            meals[index] = meal;
-            meals[index].setMealsQuantityInCart(quantity);
-            return;
-        }
-        meals[numberOfMeals] = meal;
-        meals[numberOfMeals].setMealsQuantityInCart(quantity);
-        totalPrice += meal.getPrice() * quantity;
-        numberOfMeals++;
+        addMealIntoMealsArray(meal, quantity);
 
     }
 
-    public int isMealFound(Meal m) {
+    public int mealFoundInMealsArray(Meal m) {
         for (int i = 0; i < numberOfMeals; i++) {
             if (m.getName().equals(meals[i].getName())) {
                 return i;
@@ -87,12 +78,14 @@ public class Cart {
         if (index == -1) {
             index = 0;
         }
+        
         String mealRestaurantName = meals[index].getRestaurantName();
         int mealId = Talabat.database.getMealId(meals[index].getName(), mealRestaurantName);
+        
         //insert fl database
         Talabat.database.removeMeal(mealId, Talabat.customer.getUsername());
 
-        // insert localy fl array
+        // remove localy mn el array
         numberOfMeals--;
         Meal[] newMeals = new Meal[100];
         int j = 0;
@@ -110,6 +103,6 @@ public class Cart {
         totalPrice = 0;
         numberOfMeals = 0;
         orderDate = null;
-        String notes = null;
+        
     }
 }

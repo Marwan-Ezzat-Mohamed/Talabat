@@ -8,6 +8,19 @@ public class Customer extends User {
     private String mobileNumber, address;
     private Cart cart = new Cart();
     private Order[] orders = new Order[maxOrders];
+    
+    
+    public Customer(String mobileNumber, String address, String user, String pass) {
+        super(pass, user);
+        this.mobileNumber = mobileNumber;
+        this.address = address;
+        this.setPassword(pass);
+        numberOfCustomers++;
+
+        loadCart();
+        loadOrders();
+
+    }
 
     public static int getNumberOfCustomers() {
         return numberOfCustomers;
@@ -32,26 +45,13 @@ public class Customer extends User {
     public Cart getCart() {
         return cart;
     }
-
-    public Customer(String mobileNumber, String address, String user, String pass) {
-        super(pass, user);
-        this.mobileNumber = mobileNumber;
-        this.address = address;
-        this.setPassword(pass);
-        numberOfCustomers++;
-
-        loadCart();
-        loadOrders();
-
-    }
-
+    
+    
+    
     public void orderCart() {
 
         Talabat.database.orderCart(this.getUsername());
         loadOrders();
-        
-        System.out.println("talabat.Customer.orderCart():: "+orders[ordersCount-1].getOrdererdMeals()[0].getName());
-        
         cart.resetCartAfterOrder();
         
     }

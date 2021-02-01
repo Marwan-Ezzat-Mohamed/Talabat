@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Meal {
 
-    private String name, description, notesForOrder,restaurantName;
+    private String name, description, notesForOrder, restaurantName;
 
     public String getRestaurantName() {
         return restaurantName;
@@ -18,10 +18,7 @@ public class Meal {
     private byte[] databaseImage;
     private Date orderDate;
 
-    public Meal(String name, String description, float mealPrice) {
-        this.name = name;
-        this.description = description;
-        this.mealPrice = mealPrice;
+    public Meal() {
     }
 
     public Meal(String name, float mealPrice) {
@@ -29,25 +26,22 @@ public class Meal {
         this.mealPrice = mealPrice;
 
     }
-    
-    public Meal(String name, String description, float price, byte[] image) {
-        this.name = name;
+
+    public Meal(String name, String description, float mealPrice) {
+        this(name, mealPrice);
         this.description = description;
-        this.mealPrice = price;
+    }
+
+    public Meal(String name, String description, float price, byte[] image) {
+        this(name, description, price);
         this.databaseImage = image;
 
     }
 
     public Meal(String name, String description, float price, byte[] image, int id) {
-        this.name = name;
-        this.description = description;
-        this.mealPrice = price;
-        this.databaseImage = image;
+        this(name, description, price, image);
         this.mealId = id;
 
-    }
-
-    public Meal() {
     }
 
     public void setNumberInOrder(int numberInOrder) {
@@ -114,13 +108,13 @@ public class Meal {
         return orderDate;
     }
 
-    
-    public void displayInfo() {
-        System.out.println("Meal name: " + this.name + "\nMeal price: " + this.mealPrice + "\nDescription: " + this.description);
-    }
 
     public float getPrice() {
         return mealPrice;
     }
 
+    
+    public void displayInfo() {
+        System.out.println("Meal name: " + this.name + "\nMeal price: " + this.mealPrice + "\nDescription: " + this.description);
+    }
 }

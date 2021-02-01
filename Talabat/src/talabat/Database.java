@@ -475,7 +475,7 @@ public class Database {
                 Meal m = returnMealFromId(mealId);
                 m.setMealPrice(orderPrice);
                 m.setNotesForOrder(notes);
-                order.addMeal(m, quantity, d, numberInOrder);
+                order.addMeal(m, quantity, numberInOrder,d);
             }
 
         } catch (SQLException ex) {
