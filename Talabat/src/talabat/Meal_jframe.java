@@ -304,7 +304,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         String username=Talabat.customer.getUsername();
         
         int mealId=Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName());
-        
+
         Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username);
        
         
@@ -313,7 +313,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         
         
         
-        Talabat.loginFrame.updateCurrentUserCartTable();
+        Talabat.mainFrame.updateCurrentUserCartTable();
         
 
         

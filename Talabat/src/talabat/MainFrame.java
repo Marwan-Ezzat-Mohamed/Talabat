@@ -46,6 +46,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import static talabat.Talabat.mainFrame;
+import static talabat.Talabat.owner;
 
 /**
  *
@@ -151,9 +153,13 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         // restaurants
-        while (randomRestaurantsSet.size() < 3) {
+        
+        
+        
+        while (randomRestaurantsSet.size() != 3) {
             int randomRestaurant = rand.nextInt(allRestaurantsArrayList.size());
             Restaurant restaurant = allRestaurantsArrayList.get(randomRestaurant);
+            System.out.println(randomRestaurantsSet.size()+" name : "+restaurant.getName()+" decs: "+restaurant.getDescription());
 
             //check if restaurant is found in our list if we found it we dont add it to the list
             Boolean found = false;
@@ -173,7 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             if (i == 0) {
                 jLabel12.setText(restaurant.getName());
-                jTextArea1.setText(restaurant.getDescription());
+                jTextArea3.setText(restaurant.getDescription());
 
                 if (restaurant.getImage() == null) {
                     continue;
@@ -193,7 +199,7 @@ public class MainFrame extends javax.swing.JFrame {
                 retaurants4.setIcon(image);
             } else if (i == 2) {
                 jLabel14.setText(restaurant.getName());
-                jTextArea3.setText(restaurant.getDescription());
+                jTextArea1.setText(restaurant.getDescription());
 
                 if (restaurant.getImage() == null) {
                     continue;
@@ -247,7 +253,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         myOrdersTableForOwner.setModel(orderModel);
         myOrdersTableForOwner.setRowHeight(160);
-        
+
         //by3ml center ll 7aga fl cell
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -257,7 +263,6 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTableForOwner.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         myOrdersTableForOwner.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         myOrdersTableForOwner.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
-
 
         myOrdersTableForOwner.getColumnModel().getColumn(0).setMaxWidth(60);
         myOrdersTableForOwner.getColumnModel().getColumn(0).setMinWidth(60);
@@ -284,7 +289,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void updateRestaurantMealsTableForOwner() {
 
-        mealList = Talabat.database.getRestaurantMeals(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurantName());
+        mealList = Talabat.owner.dispalyMeals();
 
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
@@ -310,14 +315,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         mealsOfResturantForOwnerJtable.setModel(mealModel);
         mealsOfResturantForOwnerJtable.setRowHeight(160);
-        
+
         //by3ml center ll 7aga fl cell
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-
 
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(0).setMaxWidth(160);
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(0).setMinWidth(160);
@@ -365,7 +369,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void updateCurrentUserCartTable() {
-        Cart currentCustomerCart = Talabat.getCustomer().loadCart();
+        Cart currentCustomerCart = Talabat.customer.loadCart();
 
         float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
@@ -393,14 +397,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         currentUserCartJtable.setModel(currentUserCartTableModel);
         currentUserCartJtable.setRowHeight(160);
-        
+
         //by3ml center ll 7aga fl cell
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         currentUserCartJtable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         currentUserCartJtable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         currentUserCartJtable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-
 
         currentUserCartJtable.getColumnModel().getColumn(0).setMaxWidth(160);
         currentUserCartJtable.getColumnModel().getColumn(0).setMinWidth(160);
@@ -526,7 +529,7 @@ public class MainFrame extends javax.swing.JFrame {
         // by3ml center ll text fl cell
         myOrdersTable.setModel(orderModel);
         myOrdersTable.setRowHeight(160);
-        
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         myOrdersTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
@@ -534,7 +537,6 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         myOrdersTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         myOrdersTable.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-
 
         myOrdersTable.getColumnModel().getColumn(0).setMaxWidth(60);
         myOrdersTable.getColumnModel().getColumn(0).setMinWidth(60);
@@ -566,8 +568,9 @@ public class MainFrame extends javax.swing.JFrame {
         allRestaurantsArrayList = Talabat.database.returnAllRestaurants();
         sz = allRestaurantsArrayList.size();
 
-        for (int i = 0; i < sz; i++) {
+        for (int i = 0; i < allRestaurantsArrayList.size(); i++) {
 
+            //System.out.println(i+1 +"name : "+allRestaurantsArrayList.get(i).getName()+" desx: "+allRestaurantsArrayList.get(i).getDescription());
             allRestaurantsImageMap.put(allRestaurantsArrayList.get(i).getName(), allRestaurantsArrayList.get(i));
             nameList[i] = allRestaurantsArrayList.get(i).getName();
 
@@ -721,7 +724,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             InputStream is = new FileInputStream(selectedFile);
 
-            Talabat.database.updateRestaurantImage(is);
+            Talabat.database.updateRestaurantImage(is,Talabat.owner.getRestaurantName());
             resturantIcon1.setIcon(img);
         } //if the user click on save in Jfilechooser
         else if (result == JFileChooser.CANCEL_OPTION) {
@@ -737,10 +740,7 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
 
                 endSplashScreenAnimation();
-                updateAllRestaurantsTable();
-                allMealsList = Talabat.database.getAllMealsInAllRestaurants();
-                setRandomMeaslsAndResturantsInHome();
-                endLoading();
+
             }
 
         }, 2800);
@@ -1552,8 +1552,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/signup.png"))); // NOI18N
         jLabel24.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel24MousePressed(evt);
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel24MouseClicked(evt);
             }
         });
 
@@ -1739,7 +1739,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(signOutLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(Up_panelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                         .addComponent(basket)
                         .addGap(49, 49, 49)
                         .addComponent(my_orders)
@@ -1747,7 +1747,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(all_restaurants)
                         .addGap(35, 35, 35)
                         .addComponent(about)
-                        .addGap(18, 18, Short.MAX_VALUE))
+                        .addGap(18, 68, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Up_panelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Talabat_logo)
@@ -1785,25 +1785,17 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         dwn_panel.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout dwn_panelLayout = new javax.swing.GroupLayout(dwn_panel);
-        dwn_panel.setLayout(dwn_panelLayout);
-        dwn_panelLayout.setHorizontalGroup(
-            dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        dwn_panelLayout.setVerticalGroup(
-            dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 266, Short.MAX_VALUE)
-        );
+        dwn_panel.setPreferredSize(new java.awt.Dimension(1170, 575));
 
         meals_pan.setBackground(new java.awt.Color(255, 255, 255));
+        meals_pan.setPreferredSize(new java.awt.Dimension(1170, 238));
 
         Hot_deals.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         Hot_deals.setText("HOT DEALS");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel1.setPreferredSize(new java.awt.Dimension(330, 161));
 
         meal1pic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
         meal1pic.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1813,7 +1805,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel2.setText("Meal Name");
+        jLabel2.setText("big zack");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Description");
@@ -1828,11 +1820,12 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(meal1pic)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1860,7 +1853,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel5.setText("Meal Name");
+        jLabel5.setText("of");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Description");
@@ -1875,11 +1868,11 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(meal1pic1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1898,6 +1891,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel3.setPreferredSize(new java.awt.Dimension(350, 178));
 
         meal1pic2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
         meal1pic2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1907,10 +1901,10 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel8.setText("Meal Name");
+        jLabel8.setText("pepsi");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel9.setText("Description");
+        jLabel9.setText("pepsi sa2e3");
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setText("25 EGP");
@@ -1922,30 +1916,60 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(meal1pic2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(meal1pic2)
-                        .addGap(0, 5, Short.MAX_VALUE))
+                    .addComponent(meal1pic2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10)))
+                        .addComponent(jLabel9)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel10)
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout meals_panLayout = new javax.swing.GroupLayout(meals_pan);
+        meals_pan.setLayout(meals_panLayout);
+        meals_panLayout.setHorizontalGroup(
+            meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(meals_panLayout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addGroup(meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(meals_panLayout.createSequentialGroup()
+                        .addComponent(Hot_deals)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(meals_panLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
+        );
+        meals_panLayout.setVerticalGroup(
+            meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_panLayout.createSequentialGroup()
+                .addContainerGap(42, Short.MAX_VALUE)
+                .addComponent(Hot_deals)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
         restau_pan.setBackground(new java.awt.Color(255, 255, 255));
+        restau_pan.setPreferredSize(new java.awt.Dimension(1170, 261));
 
         retaurants.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         retaurants.setText("RESTAURANTS");
@@ -1954,7 +1978,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel12.setText("Rest. Name");
+        jLabel12.setText("mt3m");
 
         retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         retaurants2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1973,7 +1997,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea3.setFont(new java.awt.Font("Book Antiqua", 0, 14)); // NOI18N
         jTextArea3.setForeground(new java.awt.Color(0, 0, 0));
         jTextArea3.setLineWrap(true);
-        jTextArea3.setRows(4);
+        jTextArea3.setRows(3);
         jTextArea3.setWrapStyleWord(true);
         jTextArea3.setBorder(null);
         jTextArea3.setCaretColor(new java.awt.Color(255, 255, 255));
@@ -1990,11 +2014,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(retaurants2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2013,7 +2036,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel14.setText("Rest. Name");
+        jLabel14.setText("mac");
 
         retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         retaurants3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2029,7 +2052,8 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setForeground(new java.awt.Color(0, 0, 0));
         jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
+        jTextArea1.setRows(3);
+        jTextArea1.setText("fast food\n");
         jTextArea1.setWrapStyleWord(true);
         jTextArea1.setBorder(null);
         jScrollPane3.setViewportView(jTextArea1);
@@ -2042,8 +2066,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(retaurants3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2062,7 +2087,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel16.setText("Rest. Name");
+        jLabel16.setText("burger king");
 
         retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         retaurants4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2079,7 +2104,8 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea2.setFont(new java.awt.Font("Bodoni MT Black", 0, 14)); // NOI18N
         jTextArea2.setForeground(new java.awt.Color(0, 0, 0));
         jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(4);
+        jTextArea2.setRows(3);
+        jTextArea2.setText("fsdfdsfsdfgsd gfsr srg srg fer");
         jTextArea2.setWrapStyleWord(true);
         jTextArea2.setBorder(null);
         jScrollPane4.setViewportView(jTextArea2);
@@ -2089,11 +2115,13 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(retaurants4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2103,7 +2131,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel7Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addComponent(retaurants4)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -2113,17 +2141,18 @@ public class MainFrame extends javax.swing.JFrame {
         restau_panLayout.setHorizontalGroup(
             restau_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(restau_panLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(retaurants)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(restau_panLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addGroup(restau_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(restau_panLayout.createSequentialGroup()
+                        .addComponent(retaurants)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(restau_panLayout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
         restau_panLayout.setVerticalGroup(
             restau_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2134,43 +2163,23 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout meals_panLayout = new javax.swing.GroupLayout(meals_pan);
-        meals_pan.setLayout(meals_panLayout);
-        meals_panLayout.setHorizontalGroup(
-            meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(meals_panLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(meals_panLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52))
-                    .addGroup(meals_panLayout.createSequentialGroup()
-                        .addComponent(Hot_deals)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(meals_panLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(restau_pan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout dwn_panelLayout = new javax.swing.GroupLayout(dwn_panel);
+        dwn_panel.setLayout(dwn_panelLayout);
+        dwn_panelLayout.setHorizontalGroup(
+            dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(meals_pan, javax.swing.GroupLayout.DEFAULT_SIZE, 1158, Short.MAX_VALUE)
+            .addComponent(restau_pan, javax.swing.GroupLayout.DEFAULT_SIZE, 1158, Short.MAX_VALUE)
         );
-        meals_panLayout.setVerticalGroup(
-            meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_panLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(Hot_deals)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(meals_panLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        dwn_panelLayout.setVerticalGroup(
+            dwn_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dwn_panelLayout.createSequentialGroup()
+                .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(restau_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(55, 55, 55))
         );
 
         javax.swing.GroupLayout homePanelLayout = new javax.swing.GroupLayout(homePanel);
@@ -2178,17 +2187,18 @@ public class MainFrame extends javax.swing.JFrame {
         homePanelLayout.setHorizontalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(Up_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(dwn_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(meals_pan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(homePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dwn_panel, javax.swing.GroupLayout.DEFAULT_SIZE, 1158, Short.MAX_VALUE)
+                .addContainerGap())
         );
         homePanelLayout.setVerticalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homePanelLayout.createSequentialGroup()
                 .addComponent(Up_panel, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(meals_pan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(dwn_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(dwn_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.add(homePanel, "card4");
@@ -3558,7 +3568,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
-        mainPanel.add(loadingscreen);
+        mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
     }
@@ -3667,8 +3677,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void ordersForOwner1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersForOwner1MouseClicked
         // TODO add your handling code here:
-        
-       updateOrdersTableForOwner();
+
+        updateOrdersTableForOwner();
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3710,14 +3720,14 @@ public class MainFrame extends javax.swing.JFrame {
         edit.mealNameLabel.setText(mealList.get(i).getName());
         edit.priceLabel.setText(String.valueOf(mealList.get(i).getMealPrice()));
         edit.mealIndex = i;
+        
+        
 
-        int id = Talabat.database.getMealId(mealList.get(i).getName(), Talabat.getCurrentOwnerRestaurantName());
-        edit.mealId = id;
+        
+        
         if (mealList.get(i).getDatabaseImage() != null) {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
-
             edit.mealImage.setIcon(image);
-
         }
 
         if (!add.isShowing()) {
@@ -3762,7 +3772,6 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
-        
         mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3826,26 +3835,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         if (evt.getClickCount() == 2) {
             String selectedRestaurantName = allRestaurantsjList.getSelectedValue();
+            Restaurant restaurant = allRestaurantsImageMap.get(selectedRestaurantName);
 
-            Owner[] ownersArray = new Owner[Owner.numberOfOwners];
-            ownersArray = Talabat.getOwners();
-
-            for (int i = 0; i < Owner.numberOfOwners; i++) {
-                if (ownersArray[i].getRestaurantName().equals(selectedRestaurantName)) {
-                    //owner index used to get restaurant information
-                    ownerIndex = i;
-                    break;
-                }
-            }
-            String restaurantDescripion = ownersArray[ownerIndex].getRestaurant().getDescription();
+            String restaurantDescripion = restaurant.getDescription();
 
             resturantNameLabel.setText(selectedRestaurantName);
             resturantDescriptionLabel.setText(restaurantDescripion);
 
             //get image of resturant directly from the map
-            if (allRestaurantsImageMap.get(selectedRestaurantName).getImage() != null) {
+            if (restaurant.getImage() != null) {
                 //get image from map
-                ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(selectedRestaurantName).getImage()).getImage());
+                ImageIcon img = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage());
 
                 //convert image to icon of size 160*160
                 ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
@@ -3978,7 +3978,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
 
-        Talabat.getCustomer().orderCart();
+        Talabat.customer.orderCart();
 
         //bafady el cart table kda asr3 bdl ma a3ml call ll database w kda
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
@@ -4062,74 +4062,6 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
     }//GEN-LAST:event_homeLogoMouseClicked
-
-    private void signOutLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signOutLabelMouseClicked
-        // TODO add your handling code here:
-        mainPanel.removeAll();
-        mainPanel.repaint();
-        mainPanel.revalidate();
-
-        mainPanel.add(loginPanel);
-        mainPanel.repaint();
-        mainPanel.revalidate();
-    }//GEN-LAST:event_signOutLabelMouseClicked
-
-    private void basketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseClicked
-        // TODO add your handling code here:
-        //updateCurrentUserCartTable();
-
-        mainPanel.add(Basket);
-        mainPanel.nextPanel(30, 10, Basket, mainPanel.left);
-//
-        //        mainPanel.removeAll();
-        //        mainPanel.repaint();
-        //        mainPanel.revalidate();
-        //
-        //        // add sign up panel
-        //        mainPanel.repaint();
-        //        mainPanel.revalidate();
-    }//GEN-LAST:event_basketMouseClicked
-
-    private void all_restaurantsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_restaurantsMouseClicked
-        // TODO add your handling code here:
-        mainPanel.removeAll();
-        mainPanel.repaint();
-        mainPanel.revalidate();
-
-        mainPanel.add(allRestuarnts);
-        mainPanel.repaint();
-        mainPanel.revalidate();
-    }//GEN-LAST:event_all_restaurantsMouseClicked
-
-    private void my_ordersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMousePressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_my_ordersMousePressed
-
-    private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
-        // TODO add your handling code here:
-        mainPanel.removeAll();
-        mainPanel.repaint();
-        mainPanel.revalidate();
-
-        mainPanel.add(MyOrder);
-        mainPanel.repaint();
-        mainPanel.revalidate();
-    }//GEN-LAST:event_my_ordersMouseClicked
-
-    private void jLabel24MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel24MousePressed
-        // TODO add your handling code here:
-        if (Talabat.signUpForOwner()) {
-            mainPanel.removeAll();
-            mainPanel.repaint();
-            mainPanel.revalidate();
-
-            // add sign up panel
-            mainPanel.add(loginPanel);
-            mainPanel.repaint();
-            mainPanel.revalidate();
-        }
-    }//GEN-LAST:event_jLabel24MousePressed
 
     private void signUpAsCustomerLinkMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpAsCustomerLinkMousePressed
         // TODO add your handling code here:
@@ -4219,12 +4151,20 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel23MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel23MousePressed
         // TODO add your handling code here:
-        if (Talabat.signUpForCustomer()) {
+        
+        String username = signUpUsernameTextField.getText().toString();
+        String password = passwordFieldForSignUp.getText().toString();
+        String confirmPassword = confirmPasswordFieldForSignUp.getText().toString();
+        String mobile = mobileTextFieldForSignUp.getText().toString();
+        String address = addressTextFieldForSignUp.getText().toString();
+        if (Talabat.database.signupForCusotmer(username,password,confirmPassword,mobile,address)) {
             mainPanel.removeAll();
             mainPanel.repaint();
             mainPanel.revalidate();
 
             // add sign up panel
+            signUpLinkButton.setForeground(Color.WHITE);
+           
             mainPanel.add(loginPanel);
             mainPanel.repaint();
             mainPanel.revalidate();
@@ -4274,8 +4214,8 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.revalidate();
 
         // add sign up panel
-        mainPanel.add(loginPanel);
         signUpLinkButton.setForeground(Color.WHITE);
+        mainPanel.add(loginPanel);
         mainPanel.repaint();
         mainPanel.revalidate();
     }//GEN-LAST:event_loginLinkButtonMouseClicked
@@ -4331,7 +4271,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
         //customer login
-        if (Talabat.login() == 1) {
+        if (Talabat.database.login(usernameTextField.getText(), passwordField.getText()) == 1) {
 
             String customerName = Talabat.customer.getUsername();
 
@@ -4339,16 +4279,13 @@ public class MainFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
 
-                    mainPanel.removeAll();
-                    mainPanel.repaint();
-                    mainPanel.revalidate();
-                    mainPanel.add(loadingscreen);
-                    mainPanel.repaint();
-                    mainPanel.revalidate();
-
-                    setRandomMeaslsAndResturantsInHome();
+                    
+                    allMealsList = Talabat.database.getAllMealsInAllRestaurants();
+                  
+                    updateAllRestaurantsTable();
                     updateOrdersTableForCustomer();
                     updateCurrentUserCartTable();
+                    setRandomMeaslsAndResturantsInHome();
 
                     customerNameLabel.setText(customerName);
                     mainPanel.removeAll();
@@ -4361,28 +4298,32 @@ public class MainFrame extends javax.swing.JFrame {
                 }
 
             }, 0);
+            
 
         } //owner login
-        else if (Talabat.login() == 2) {
+        else if (Talabat.database.login(usernameTextField.getText(), passwordField.getText()) == 2) {
             mainPanel.removeAll();
             mainPanel.repaint();
             mainPanel.revalidate();
 
-            // System.out.println(owners[i].restaurantName);
-            resturantNameLabel1.setText(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getName());
+            Restaurant restaurant = Talabat.owner.getRestaurant();
 
-            if (Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getDescription() != null) {
+            resturantNameLabel1.setText(restaurant.getName());
 
-                resturantDescriptionLabel.setText(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getDescription());
+            if (restaurant.getDescription() != null) {
+
+                resturantDescriptionLabel.setText(restaurant.getDescription());
             }
-            if (Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getImage() != null) {
-                ImageIcon image = new ImageIcon(new ImageIcon(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurant().getImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
+            if (restaurant.getImage() != null) {
+                ImageIcon image = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                 resturantIcon1.setIcon(image);
             }
 
-            updateRestaurantMealsJTableForCustomer(Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].getRestaurantName());
+            updateRestaurantMealsJTableForCustomer(restaurant.getName());
 
-            descriptionTextField.setText(Talabat.owner.getRestaurant().getDescription());
+            username1.setText(Talabat.owner.getUsername());
+            jLabel47.setText(Talabat.owner.getUsername());
+            descriptionTextField.setText(restaurant.getDescription());
 
             // add sign up panel
             mainPanel.add(resturantOwnerPanel);
@@ -4390,6 +4331,13 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.revalidate();
             updateRestaurantMealsTableForOwner();
 
+        } else {
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+            mainPanel.add(loginPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
         }
     }//GEN-LAST:event_jLabel22MouseClicked
 
@@ -4428,26 +4376,26 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (Talabat.login() == 1) {
-                mainPanel.removeAll();
-                mainPanel.repaint();
-                mainPanel.revalidate();
-
-                mainPanel.add(homePanel);
-                mainPanel.repaint();
-                mainPanel.revalidate();
-            } else if (Talabat.login() == 2) {
-                mainPanel.removeAll();
-                mainPanel.repaint();
-                mainPanel.revalidate();
-
-                mainPanel.add(resturantOwnerPanel);
-                mainPanel.repaint();
-                mainPanel.revalidate();
-                updateRestaurantMealsTableForOwner();
-            }
-        }
+//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+//            if (Talabat.login() == 1) {
+//                mainPanel.removeAll();
+//                mainPanel.repaint();
+//                mainPanel.revalidate();
+//
+//                mainPanel.add(homePanel);
+//                mainPanel.repaint();
+//                mainPanel.revalidate();
+//            } else if (Talabat.login() == 2) {
+//                mainPanel.removeAll();
+//                mainPanel.repaint();
+//                mainPanel.revalidate();
+//
+//                mainPanel.add(resturantOwnerPanel);
+//                mainPanel.repaint();
+//                mainPanel.revalidate();
+//                updateRestaurantMealsTableForOwner();
+//            }
+//        }
     }//GEN-LAST:event_passwordFieldKeyPressed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
@@ -4466,6 +4414,27 @@ public class MainFrame extends javax.swing.JFrame {
             passwordField.setEchoChar('•');
         }
     }//GEN-LAST:event_showPasswordCheckBoxActionPerformed
+
+    private void jLabel24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel24MouseClicked
+        // TODO add your handling code here:
+        
+        
+        String username = signUpUsernameTextField1.getText().toString();
+        String password = passwordFieldForSignUp1.getText().toString();
+        String confirmPassword = confirmPasswordFieldForSignUp1.getText().toString();
+        String restuarantName = restaurantNameTextFieldForSignUp1.getText().toString();
+        
+        if (Talabat.database.signUpForOwner(username,password,confirmPassword,restuarantName)) {
+            mainPanel.removeAll();
+            mainPanel.repaint();
+            mainPanel.revalidate();
+
+            // add sign up panel
+            mainPanel.add(loginPanel);
+            mainPanel.repaint();
+            mainPanel.revalidate();
+        }
+    }//GEN-LAST:event_jLabel24MouseClicked
 
     private void retaurants4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retaurants4MouseClicked
         // TODO add your handling code here:
@@ -4670,6 +4639,59 @@ public class MainFrame extends javax.swing.JFrame {
             mealFrame.show();
         }
     }//GEN-LAST:event_meal1picMouseClicked
+
+    private void signOutLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signOutLabelMouseClicked
+        // TODO add your handling code here:
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+
+        mainPanel.add(loginPanel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_signOutLabelMouseClicked
+
+    private void basketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseClicked
+        // TODO add your handling code here:
+        //updateCurrentUserCartTable();
+
+        mainPanel.add(Basket);
+        mainPanel.nextPanel(30, 10, Basket, mainPanel.left);
+        //
+        //        mainPanel.removeAll();
+        //        mainPanel.repaint();
+        //        mainPanel.revalidate();
+        //
+        //        // add sign up panel
+        //        mainPanel.repaint();
+        //        mainPanel.revalidate();
+    }//GEN-LAST:event_basketMouseClicked
+
+    private void all_restaurantsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_restaurantsMouseClicked
+        // TODO add your handling code here:
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+
+        mainPanel.add(allRestuarnts);
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_all_restaurantsMouseClicked
+
+    private void my_ordersMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_my_ordersMousePressed
+
+    private void my_ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseClicked
+        // TODO add your handling code here:
+        mainPanel.removeAll();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+
+        mainPanel.add(MyOrder);
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }//GEN-LAST:event_my_ordersMouseClicked
 
     /**
      * @param args the command line arguments

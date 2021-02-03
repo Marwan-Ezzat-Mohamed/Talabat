@@ -279,14 +279,14 @@ public class AddMeal extends javax.swing.JFrame {
         if (selectedFile != null) {
 
             try {
-                Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].addMeal(m,new FileInputStream(selectedFile));
+                Talabat.owner.addMeal(m,new FileInputStream(selectedFile));
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(AddMeal.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
         else{
-            Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].addMeal(m,null);
+            Talabat.owner.addMeal(m,null);
         }
 
         

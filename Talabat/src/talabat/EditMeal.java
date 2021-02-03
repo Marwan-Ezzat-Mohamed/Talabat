@@ -28,7 +28,7 @@ public class EditMeal extends javax.swing.JFrame {
     public EditMeal() {
         initComponents();
     }
-    int mealIndex, mealId;
+    int mealIndex;
     File selectedFile;
 
     /**
@@ -278,7 +278,7 @@ public class EditMeal extends javax.swing.JFrame {
         MainFrame.mealList.get(mealIndex).setMealPrice(Float.parseFloat(priceTextField.getText()));
 
         Meal m = new Meal(mealNameTextField.getText(), descriptionTextField.getText(), Float.parseFloat(priceTextField.getText()));
-        
+
         InputStream is = null;
 
         if (selectedFile != null) {
@@ -287,12 +287,9 @@ public class EditMeal extends javax.swing.JFrame {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(EditMeal.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Talabat.database.updateMeal(m, is, mealId);
-        }
-        else 
-        {
-            System.out.println("talabat.EditMeal.applyChangesbuttonMouseClicked()" +mealId);
-            Talabat.database.updateMeal(m, mealId);
+            Talabat.owner.editMeal(mealIndex, is, m);
+        } else {
+            Talabat.owner.editMeal(mealIndex, m);
         }
 
         mealNameTextField.setText(MainFrame.mealList.get(mealIndex).getName());
@@ -302,8 +299,6 @@ public class EditMeal extends javax.swing.JFrame {
         mealNameLabel.setText(MainFrame.mealList.get(mealIndex).getName());
         priceLabel.setText(String.valueOf(MainFrame.mealList.get(mealIndex).getMealPrice()));
 
-        
-
         this.dispose();
 
 
@@ -311,10 +306,9 @@ public class EditMeal extends javax.swing.JFrame {
 
     private void removeMealbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeMealbuttonMouseClicked
         // TODO add your handling code here:
-        String mealName= MainFrame.mealList.get(mealIndex).getName();
-        Talabat.getOwners()[Talabat.getCurrentOwnerIndex()].removeMeal(mealName);
+        String mealName = MainFrame.mealList.get(mealIndex).getName();
+        Talabat.owner.removeMeal(mealName);
 
-       
         mealNameTextField.setText(null);
         priceTextField.setText(null);
         descriptionTextField.setText(null);

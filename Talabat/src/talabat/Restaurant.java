@@ -3,26 +3,16 @@ package talabat;
 
 public class Restaurant {
 
-    private final int maxSize = 100;
     private static int numberOfRestaurants;
+    private final int maxSize = 100;
     private int mealCount, numberOfOrders;
     private Meal[] meals = new Meal[maxSize];
     private Order[] orders = new Order[maxSize];
     private String name, description;
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setMealCount(int mealCount) {
-        this.mealCount = mealCount;
-    }
     private byte[] Image;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    
+    
     public Restaurant() {
         for (int i = 0; i < maxSize; i++) {
             orders[i] = new Order();
@@ -49,6 +39,23 @@ public class Restaurant {
         this.Image = Image;
         numberOfRestaurants++;
     }
+    public void setImage(byte[] Image) {
+        this.Image = Image;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMealCount(int mealCount) {
+        this.mealCount = mealCount;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    
 
     public Order displayOrders() {
         Order order = Talabat.database.returnOrderOfOwner(this.name);
