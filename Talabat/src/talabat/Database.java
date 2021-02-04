@@ -94,7 +94,7 @@ public class Database {
                     return 2;
 
                 }
-                System.out.println("hello234234");
+               
             }
 
             mainFrame.invalidLoginLabel.setText("Invalid username or password");
@@ -670,7 +670,14 @@ public class Database {
 
             myStmt = databaseConnection.createStatement();
 
-            myRs = myStmt.executeQuery("select * from meals , cart where restaurantName='" + restaurantName + "' and orderNumber<>0 and mealId=id order by orderNumber; ");
+            
+            
+            PreparedStatement ps = databaseConnection.prepareStatement("select * from meals , cart where restaurantName=? and orderNumber<>0 and mealId=id order by orderNumber;");
+
+            ps.setString(1, restaurantName);
+
+           
+            myRs =  ps.executeQuery();
 
             order = new Order();
 
