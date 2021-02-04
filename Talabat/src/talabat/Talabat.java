@@ -17,6 +17,10 @@ public class Talabat {
 
    
     public static void main(String[] args) {
+        
+        //fadl fl database a5ly order y3ml save ll info bta3t el meal kolha fl tabel 34an lw el meal at8yrt mtt8yr4 fl prev orders
+        //fadl el ui
+        
         mainFrame = new MainFrame();
         mainFrame.show();
    
