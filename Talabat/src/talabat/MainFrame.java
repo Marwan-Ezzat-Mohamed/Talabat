@@ -58,7 +58,6 @@ import static talabat.Talabat.owner;
 public class MainFrame extends javax.swing.JFrame {
 
     public String currentPannel;
-    
     ImageIcon icon=new ImageIcon("src/pics/appIcon.png");
     
     /**
@@ -965,16 +964,21 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         About = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
+        talabatLogoForSignUp2 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         Back_about = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Talabat");
@@ -3519,107 +3523,143 @@ public class MainFrame extends javax.swing.JFrame {
 
         About.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel38.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel38.setBackground(new java.awt.Color(255, 119, 39));
         jPanel38.setPreferredSize(new java.awt.Dimension(700, 1209));
+
+        talabatLogoForSignUp2.setFont(new java.awt.Font("DialogInput", 1, 54)); // NOI18N
+        talabatLogoForSignUp2.setForeground(new java.awt.Color(255, 255, 255));
+        talabatLogoForSignUp2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/talabat2x.png"))); // NOI18N
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/bottom_about.png"))); // NOI18N
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/top_about.png"))); // NOI18N
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 106, 24));
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("This project was made possible by:");
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel27.setForeground(new java.awt.Color(255, 106, 24));
-        jLabel27.setText("Habiba Elbadawy");
-
         jLabel28.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(255, 106, 24));
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setText("Marwan Ezzat");
 
         jLabel29.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(255, 106, 24));
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
         jLabel29.setText("Mina Basher");
 
         jLabel30.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel30.setForeground(new java.awt.Color(255, 106, 24));
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setText("Nouran Ebrahim");
 
         jLabel31.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel31.setForeground(new java.awt.Color(255, 106, 24));
+        jLabel31.setForeground(new java.awt.Color(255, 255, 255));
         jLabel31.setText("Nouran Mohammed");
 
         jLabel32.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel32.setForeground(new java.awt.Color(255, 106, 24));
+        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setText("Yossif Mohammed");
 
         Back_about.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        Back_about.setForeground(new java.awt.Color(255, 106, 24));
-        Back_about.setText("Back");
+        Back_about.setForeground(new java.awt.Color(255, 255, 255));
+        Back_about.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/backbtn.png"))); // NOI18N
         Back_about.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Back_aboutMouseClicked(evt);
             }
         });
 
+        jLabel33.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel33.setText("Habiba Elbadawy");
+
+        jLabel34.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel34.setText("Talabat is a leading online food delivery service that operates in Egypt. ");
+
+        jLabel35.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel35.setText("takes just few taps from our platform to place an order through talabat");
+
+        jLabel36.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel36.setText("We seamlessly connect customers with their favorite restaurants. It ");
+
+        jLabel38.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel38.setText("talabat from your favorite place.");
+
         javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
         jPanel38.setLayout(jPanel38Layout);
         jPanel38Layout.setHorizontalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel38Layout.createSequentialGroup()
-                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
+                .addGap(27, 27, 27)
+                .addComponent(Back_about)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel38Layout.createSequentialGroup()
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel38Layout.createSequentialGroup()
+                        .addGap(0, 130, Short.MAX_VALUE)
                         .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel38Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel32)
-                                    .addComponent(jLabel31)
-                                    .addComponent(jLabel30)
-                                    .addComponent(jLabel29)
-                                    .addComponent(jLabel28)
-                                    .addComponent(jLabel27))
-                                .addGap(304, 304, 304))
-                            .addGroup(jPanel38Layout.createSequentialGroup()
-                                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel38Layout.createSequentialGroup()
-                                        .addGap(323, 323, 323)
-                                        .addComponent(jLabel17))
-                                    .addGroup(jPanel38Layout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addComponent(Back_about)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel36)
+                            .addComponent(jLabel34)
+                            .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(talabatLogoForSignUp2)))
+                    .addGroup(jPanel38Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(104, 104, 104)
+                        .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel29)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel30)
+                            .addComponent(jLabel31)
+                            .addComponent(jLabel32))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(240, 240, 240))
+            .addGroup(jPanel38Layout.createSequentialGroup()
+                .addGap(318, 318, 318)
+                .addComponent(jLabel17)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel38Layout.createSequentialGroup()
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel38Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
+                        .addGap(34, 34, 34)
                         .addComponent(Back_about)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
-                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addComponent(talabatLogoForSignUp2)
                         .addGap(43, 43, 43)
-                        .addComponent(jLabel27)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel29)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel30)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel31)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel32)
-                        .addGap(6, 6, 6))
+                        .addComponent(jLabel34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel36)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel35)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel38)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jLabel17)
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel38Layout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addComponent(jLabel13))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel38Layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel33)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel32))))
         );
 
         javax.swing.GroupLayout AboutLayout = new javax.swing.GroupLayout(About);
@@ -3630,7 +3670,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         AboutLayout.setVerticalGroup(
             AboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel38, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)
+            .addComponent(jPanel38, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
         );
 
         mainPanel.add(About, "card6");
@@ -4931,14 +4971,18 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel23;
     public javax.swing.JLabel jLabel24;
     public javax.swing.JLabel jLabel26;
-    public javax.swing.JLabel jLabel27;
     public javax.swing.JLabel jLabel28;
     public javax.swing.JLabel jLabel29;
     public javax.swing.JLabel jLabel3;
     public javax.swing.JLabel jLabel30;
     public javax.swing.JLabel jLabel31;
     public javax.swing.JLabel jLabel32;
+    public javax.swing.JLabel jLabel33;
+    public javax.swing.JLabel jLabel34;
+    public javax.swing.JLabel jLabel35;
+    public javax.swing.JLabel jLabel36;
     public javax.swing.JLabel jLabel37;
+    public javax.swing.JLabel jLabel38;
     public javax.swing.JLabel jLabel39;
     public javax.swing.JLabel jLabel4;
     public javax.swing.JLabel jLabel40;
@@ -5069,6 +5113,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel talabatLogo;
     public javax.swing.JLabel talabatLogoForSignUp;
     public javax.swing.JLabel talabatLogoForSignUp1;
+    public javax.swing.JLabel talabatLogoForSignUp2;
     public javax.swing.JLabel totalPriceLabelForCustomerCart;
     public javax.swing.JLabel userPhoto;
     public javax.swing.JLabel userPhoto1;
