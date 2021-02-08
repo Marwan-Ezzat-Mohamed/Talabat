@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -648,6 +649,8 @@ public class Database {
                 int mealOrderNumber = myRs.getInt("orderNumber");
                 int quantity = myRs.getInt("quantity");
                 Date d = myRs.getTimestamp("orderDate");
+                SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
+                DateFor.format(d);
                 orders[mealOrderNumber].setDate(d);
                 Meal meal = returnMealFromId(mealId);
                 orders[mealOrderNumber].addMeal(meal, quantity, mealOrderNumber);
