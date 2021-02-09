@@ -40,6 +40,11 @@ public class Database {
 
     //check lw el connection closed y3mlha reopen
     public void checkConnection() {
+        
+        if (databaseConnection == null) {
+            JOptionPane.showMessageDialog(null, "Please check your internet connection and try again");
+        }
+        
         try {
             if (databaseConnection.isClosed()) {
                 DriverManager.getConnection(databaseUrl);
@@ -52,14 +57,7 @@ public class Database {
     public int login(String username, String password) {
         checkConnection();
 
-        //add loading screen
-        mainFrame.mainPanel.removeAll();
-        mainFrame.mainPanel.repaint();
-        mainFrame.mainPanel.revalidate();
-        mainFrame.mainPanel.add(Talabat.mainFrame.loadingscreen);
-        mainFrame.mainPanel.repaint();
-        mainFrame.mainPanel.revalidate();
-
+       
         Statement myStmt = null;
         ResultSet myRs = null;
         try {
@@ -95,7 +93,7 @@ public class Database {
                     return 2;
 
                 }
-               
+
             }
 
             mainFrame.invalidLoginLabel.setText("Invalid username or password");
@@ -304,7 +302,7 @@ public class Database {
         return orderList;
     }
 
-    public void updateRestaurantImage(InputStream s,String name) {
+    public void updateRestaurantImage(InputStream s, String name) {
 
         checkConnection();
 
@@ -420,11 +418,8 @@ public class Database {
 
         int id = -1;
 
-        
         ResultSet myRs;
         try {
-
-           
 
             PreparedStatement ps = databaseConnection.prepareStatement("select id from meals where name =? and restaurantName=?;");
             ps.setString(1, mealName);
@@ -673,14 +668,11 @@ public class Database {
 
             myStmt = databaseConnection.createStatement();
 
-            
-            
             PreparedStatement ps = databaseConnection.prepareStatement("select * from meals , cart where restaurantName=? and orderNumber<>0 and mealId=id order by orderNumber;");
 
             ps.setString(1, restaurantName);
 
-           
-            myRs =  ps.executeQuery();
+            myRs = ps.executeQuery();
 
             order = new Order();
 
