@@ -42,6 +42,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -49,6 +50,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import static talabat.Talabat.mainFrame;
 import static talabat.Talabat.owner;
 
@@ -246,11 +248,7 @@ public class MainFrame extends javax.swing.JFrame {
             String Date = DateFor.format(order.getOrdererdMeals()[i].getOrderDate());
             rows[i][5] = Date;
 
-            if (order.getOrdererdMeals()[i].getNotesForOrder() == null) {
-                rows[i][6] = "No notes";
-            } else {
-                rows[i][6] = order.getOrdererdMeals()[i].getNotesForOrder();
-            }
+            rows[i][6] = order.getOrdererdMeals()[i].getNotesForOrder();
 
             prevOrderNumber = order.getOrdererdMeals()[i].getNumberInOrder();
         }
@@ -263,12 +261,13 @@ public class MainFrame extends javax.swing.JFrame {
         //by3ml center ll 7aga fl cell
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
         myOrdersTableForOwner.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         myOrdersTableForOwner.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         myOrdersTableForOwner.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         myOrdersTableForOwner.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         myOrdersTableForOwner.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-        myOrdersTableForOwner.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+        //myOrdersTableForOwner.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
 
         myOrdersTableForOwner.getColumnModel().getColumn(0).setMaxWidth(60);
         myOrdersTableForOwner.getColumnModel().getColumn(0).setMinWidth(60);
@@ -288,8 +287,14 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMaxWidth(160);
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMinWidth(160);
 
-        myOrdersTableForOwner.getColumnModel().getColumn(6).setMaxWidth(160);
-        myOrdersTableForOwner.getColumnModel().getColumn(6).setMinWidth(160);
+       // myOrdersTableForOwner.getColumnModel().getColumn(6).setMaxWidth(160);
+        //myOrdersTableForOwner.getColumnModel().getColumn(6).setMinWidth(160);
+
+        MultilineTableCell render = new MultilineTableCell();
+      
+        myOrdersTableForOwner.getColumnModel().getColumn(6).setCellRenderer(render);
+        
+        
 
     }
 
@@ -3483,8 +3488,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(435, 435, 435)
                         .addComponent(jLabel98))
                     .addGroup(meals_pan9Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 940, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(70, 70, 70)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         meals_pan9Layout.setVerticalGroup(
@@ -4425,6 +4430,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                     resturantNameLabel1.setText(restaurant.getName());
 
+                    System.out.println(".run(): "+restaurant.getDescription());
                     if (restaurant.getDescription() != null) {
 
                         resturantDescriptionLabel.setText(restaurant.getDescription());
@@ -4907,10 +4913,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void myOrdersTableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myOrdersTableMouseMoved
         // TODO add your handling code here:
-        
+
         int row = myOrdersTable.rowAtPoint(evt.getPoint());
         if (row > -1) {
-            
+
             myOrdersTable.clearSelection();
             myOrdersTable.setRowSelectionInterval(row, row);
         } else {
@@ -4921,7 +4927,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void allRestaurantsjListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allRestaurantsjListMouseExited
         // TODO add your handling code here:
         allRestaurantsjList.clearSelection();
-        
+
     }//GEN-LAST:event_allRestaurantsjListMouseExited
 
     private void myOrdersTableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myOrdersTableMouseExited
