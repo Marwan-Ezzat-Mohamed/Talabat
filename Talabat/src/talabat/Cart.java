@@ -54,18 +54,19 @@ public class Cart {
     }
 
     // insert fl array wl database
-    public void addMeal(int id, int quantity, float price, String notes, String username) {
-
-        Talabat.database.insertMealIntoCart(id, quantity, price, notes, username);
+    public void addMeal(int id, int quantity, float price, String notes, String username, String restaurantName) {
 
         Meal meal = Talabat.database.returnMealFromId(id);
+        
+        Talabat.database.insertMealIntoCart(id, quantity, price, notes,username, restaurantName);
+
         addMealIntoMealsArray(meal, quantity);
 
     }
 
     public int mealFoundInMealsArray(Meal m) {
         for (int i = 0; i < numberOfMeals; i++) {
-            if (m.getName().equals(meals[i].getName())) {
+            if (m.getName().equals(meals[i].getName())&&m.getRestaurantName().equals(meals[i].getRestaurantName())) {
                 return i;
             }
         }

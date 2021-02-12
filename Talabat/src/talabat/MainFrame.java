@@ -5,6 +5,7 @@
  */
 package talabat;
 
+import diu.swe.habib.JPanelSlider.JPanelSlider;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -90,7 +91,7 @@ public class MainFrame extends javax.swing.JFrame {
     static ArrayList<Meal> allMealsList;
     static ArrayList<Meal> mealList;
     static ArrayList<Restaurant> allRestaurantsArrayList;
-    static int ownerIndex;
+
     static ArrayList<Meal> randomMealSet = new ArrayList<Meal>();
     static ArrayList<Restaurant> randomRestaurantsSet = new ArrayList<>();
 
@@ -287,14 +288,11 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMaxWidth(160);
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMinWidth(160);
 
-       // myOrdersTableForOwner.getColumnModel().getColumn(6).setMaxWidth(160);
+        // myOrdersTableForOwner.getColumnModel().getColumn(6).setMaxWidth(160);
         //myOrdersTableForOwner.getColumnModel().getColumn(6).setMinWidth(160);
-
         MultilineTableCell render = new MultilineTableCell();
-      
+
         myOrdersTableForOwner.getColumnModel().getColumn(6).setCellRenderer(render);
-        
-        
 
     }
 
@@ -315,7 +313,7 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 rows[i][0] = null;
             }
-            System.out.println(ownerIndex);
+
             rows[i][1] = mealList.get(i).getName();
             rows[i][2] = mealList.get(i).getDescription();
             rows[i][3] = mealList.get(i).getMealPrice();
@@ -383,11 +381,12 @@ public class MainFrame extends javax.swing.JFrame {
         Cart currentCustomerCart = Talabat.customer.loadCart();
 
         float cartTotalPrice = 0;
-        String[] columnName = {"", "Meal Name", "Price", "Quantity"};
+        String[] columnName = {"", "Meal Name", "Restaurant", "Price", "Quantity"};
         Object[][] rows = new Object[currentCustomerCart.getNumberOfMeals()][columnName.length];
 
         for (int i = 0; i < currentCustomerCart.getNumberOfMeals(); i++) {
 
+            System.out.println("el meak: " + currentCustomerCart.getMeals()[i].getName() + "    " + currentCustomerCart.getMeals()[i].getRestaurantName());
             if (currentCustomerCart.getMeals()[i].getDatabaseImage() != null) {
                 ImageIcon image = new ImageIcon(new ImageIcon(currentCustomerCart.getMeals()[i].getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                 rows[i][0] = image;
@@ -397,8 +396,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
             rows[i][1] = currentCustomerCart.getMeals()[i].getName();
-            rows[i][2] = String.valueOf(currentCustomerCart.getMeals()[i].getMealPrice());
-            rows[i][3] = String.valueOf(currentCustomerCart.getMeals()[i].getMealsQuantityInCart());
+            rows[i][2] = currentCustomerCart.getMeals()[i].getRestaurantName();
+            rows[i][3] = String.valueOf(currentCustomerCart.getMeals()[i].getMealPrice());
+            rows[i][4] = String.valueOf(currentCustomerCart.getMeals()[i].getMealsQuantityInCart());
             cartTotalPrice += currentCustomerCart.getMeals()[i].getMealPrice() * currentCustomerCart.getMeals()[i].getMealsQuantityInCart();
 
         }
@@ -415,12 +415,16 @@ public class MainFrame extends javax.swing.JFrame {
         currentUserCartJtable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         currentUserCartJtable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         currentUserCartJtable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        currentUserCartJtable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         currentUserCartJtable.getColumnModel().getColumn(0).setMaxWidth(160);
         currentUserCartJtable.getColumnModel().getColumn(0).setMinWidth(160);
 
         currentUserCartJtable.getColumnModel().getColumn(1).setMaxWidth(200);
         currentUserCartJtable.getColumnModel().getColumn(1).setMinWidth(200);
+
+        currentUserCartJtable.getColumnModel().getColumn(2).setMaxWidth(160);
+        currentUserCartJtable.getColumnModel().getColumn(2).setMinWidth(160);
 
     }
 
@@ -441,7 +445,6 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 rows[i][0] = null;
             }
-            System.out.println(ownerIndex);
             rows[i][1] = mealList.get(i).getName();
             rows[i][2] = mealList.get(i).getDescription();
             rows[i][3] = mealList.get(i).getMealPrice();
@@ -510,7 +513,7 @@ public class MainFrame extends javax.swing.JFrame {
             numberOfmealsOfOrder += orders[i].getNumberOfMealsInCart();
         }
 
-        String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date"};
+        String[] columnName = {"Order No.", "", "Meal Name", "Restaurant", "Price", "Quantity", "Date"};
         Object[][] rows = new Object[numberOfmealsOfOrder][columnName.length];
         int row = 0;
 
@@ -526,11 +529,12 @@ public class MainFrame extends javax.swing.JFrame {
                 }
 
                 rows[row][2] = orders[i].getOrdererdMeals()[j].getName();
-                rows[row][3] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealPrice());
-                rows[row][4] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealsQuantityInCart());
+                rows[row][3] = orders[i].getOrdererdMeals()[j].getRestaurantName();
+                rows[row][4] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealPrice());
+                rows[row][5] = String.valueOf(orders[i].getOrdererdMeals()[j].getMealsQuantityInCart());
                 SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
                 String Date = DateFor.format(orders[i].getDate());
-                rows[row][5] = Date;
+                rows[row][6] = Date;
 
                 row++;
 
@@ -550,6 +554,7 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         myOrdersTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         myOrdersTable.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        myOrdersTable.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
 
         myOrdersTable.getColumnModel().getColumn(0).setMaxWidth(60);
         myOrdersTable.getColumnModel().getColumn(0).setMinWidth(60);
@@ -560,14 +565,17 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.getColumnModel().getColumn(2).setMaxWidth(200);
         myOrdersTable.getColumnModel().getColumn(2).setMinWidth(200);
 
-        myOrdersTable.getColumnModel().getColumn(3).setMaxWidth(100);
-        myOrdersTable.getColumnModel().getColumn(3).setMinWidth(100);
+        myOrdersTable.getColumnModel().getColumn(3).setMaxWidth(160);
+        myOrdersTable.getColumnModel().getColumn(3).setMinWidth(160);
 
         myOrdersTable.getColumnModel().getColumn(4).setMaxWidth(100);
         myOrdersTable.getColumnModel().getColumn(4).setMinWidth(100);
 
-        myOrdersTable.getColumnModel().getColumn(5).setMaxWidth(190);
-        myOrdersTable.getColumnModel().getColumn(5).setMinWidth(190);
+        myOrdersTable.getColumnModel().getColumn(5).setMaxWidth(100);
+        myOrdersTable.getColumnModel().getColumn(5).setMinWidth(100);
+
+        myOrdersTable.getColumnModel().getColumn(6).setMaxWidth(200);
+        myOrdersTable.getColumnModel().getColumn(6).setMinWidth(200);
 
     }
 
@@ -747,6 +755,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         initComponents();
+        passwordField.setEchoChar('•');
 
         new java.util.Timer().schedule(new java.util.TimerTask() {
             @Override
@@ -2403,14 +2412,13 @@ public class MainFrame extends javax.swing.JFrame {
         meals_pan8Layout.setHorizontalGroup(
             meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(meals_pan8Layout.createSequentialGroup()
-                .addGroup(meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(meals_pan8Layout.createSequentialGroup()
-                        .addGap(435, 435, 435)
-                        .addComponent(jLabel89))
-                    .addGroup(meals_pan8Layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(435, 435, 435)
+                .addComponent(jLabel89)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_pan8Layout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 980, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(92, 92, 92))
         );
         meals_pan8Layout.setVerticalGroup(
             meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2571,10 +2579,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
         ));
         currentUserCartJtable.setGridColor(new java.awt.Color(255, 255, 255));
-        currentUserCartJtable.setSelectionBackground(new java.awt.Color(255, 208, 182));
+        currentUserCartJtable.setSelectionBackground(new java.awt.Color(255, 102, 51));
         currentUserCartJtable.setShowVerticalLines(false);
         currentUserCartJtable.getTableHeader().setResizingAllowed(false);
         currentUserCartJtable.getTableHeader().setReorderingAllowed(false);
+        currentUserCartJtable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                currentUserCartJtableMouseMoved(evt);
+            }
+        });
+        currentUserCartJtable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                currentUserCartJtableMouseExited(evt);
+            }
+        });
         jScrollPane1.setViewportView(currentUserCartJtable);
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -2601,9 +2619,9 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 922, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(118, 118, 118))
             .addGroup(BasketLayout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
                 .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BasketLayout.createSequentialGroup()
                         .addComponent(jLabel107)
@@ -2794,7 +2812,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         ));
         mealsTable.setGridColor(new java.awt.Color(255, 255, 255));
-        mealsTable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        mealsTable.setSelectionBackground(new java.awt.Color(255, 102, 51));
         mealsTable.setShowHorizontalLines(false);
         mealsTable.setShowVerticalLines(false);
         mealsTable.getTableHeader().setResizingAllowed(false);
@@ -3223,13 +3241,21 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        mealsOfResturantForOwnerJtable.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        mealsOfResturantForOwnerJtable.setSelectionBackground(new java.awt.Color(255, 102, 51));
         mealsOfResturantForOwnerJtable.setShowVerticalLines(false);
         mealsOfResturantForOwnerJtable.getTableHeader().setResizingAllowed(false);
         mealsOfResturantForOwnerJtable.getTableHeader().setReorderingAllowed(false);
+        mealsOfResturantForOwnerJtable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                mealsOfResturantForOwnerJtableMouseMoved(evt);
+            }
+        });
         mealsOfResturantForOwnerJtable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mealsOfResturantForOwnerJtableMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                mealsOfResturantForOwnerJtableMouseExited(evt);
             }
         });
         jScrollPane7.setViewportView(mealsOfResturantForOwnerJtable);
@@ -3286,12 +3312,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(114, Short.MAX_VALUE))
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGap(188, 188, 188)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
+                        .addGap(7, 7, 7)
                         .addComponent(refreshButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                    .addGroup(jPanel25Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(aboutRest)
                         .addGap(31, 31, 31))))
@@ -3319,7 +3345,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(jPanel25Layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
                                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantOwnerPanelLayout = new javax.swing.GroupLayout(resturantOwnerPanel);
@@ -3472,10 +3498,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
         ));
         myOrdersTableForOwner.setGridColor(new java.awt.Color(255, 255, 255));
-        myOrdersTableForOwner.setSelectionBackground(new java.awt.Color(255, 153, 97));
+        myOrdersTableForOwner.setSelectionBackground(new java.awt.Color(255, 102, 51));
         myOrdersTableForOwner.setShowVerticalLines(false);
         myOrdersTableForOwner.getTableHeader().setResizingAllowed(false);
         myOrdersTableForOwner.getTableHeader().setReorderingAllowed(false);
+        myOrdersTableForOwner.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                myOrdersTableForOwnerMouseMoved(evt);
+            }
+        });
+        myOrdersTableForOwner.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                myOrdersTableForOwnerMouseExited(evt);
+            }
+        });
         jScrollPane9.setViewportView(myOrdersTableForOwner);
 
         javax.swing.GroupLayout meals_pan9Layout = new javax.swing.GroupLayout(meals_pan9);
@@ -3868,6 +3904,8 @@ public class MainFrame extends javax.swing.JFrame {
         if (mealList.get(i).getDatabaseImage() != null) {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
             edit.mealImage.setIcon(image);
+        } else {
+            edit.mealImage.setIcon(null);
         }
 
         if (!add.isShowing()) {
@@ -4027,13 +4065,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
             mealFrame.mealName.setText(mealList.get(newRow).getName());
-
             mealFrame.mealDescription.setText(mealList.get(newRow).getDescription());
-
             mealFrame.orderPrice.setText(String.valueOf(mealList.get(newRow).getMealPrice()) + "EGP");
             mealFrame.mealPriceFloat = mealList.get(newRow).getMealPrice();
-
-            mealFrame.ownerIndex = ownerIndex;
 
             mealFrame.show();
 
@@ -4103,13 +4137,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         Talabat.customer.orderCart();
 
-        //bafady el cart table kda asr3 bdl ma a3ml call ll database w kda
+        //bafady el cart table 
         String[] columnName = {"", "Meal Name", "Price", "Quantity"};
         Object[][] rows = new Object[0][columnName.length];
         TableModelForCustomerCart currentUserCartTableModel = new TableModelForCustomerCart(rows, columnName);
         currentUserCartJtable.setModel(currentUserCartTableModel);
 
         updateOrdersTableForCustomer();
+
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void jLabel92MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel92MouseClicked
@@ -4138,7 +4173,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void homeLogo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MouseClicked
         // TODO add your handling code here:
         mainPanel.add(homePanel);
-        mainPanel.nextPanel(30, 10, homePanel, mainPanel.right);
+        mainPanel.nextPanel(30, 10, homePanel, JPanelSlider.right);
     }//GEN-LAST:event_homeLogo1MouseClicked
 
     private void jLabel87MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel87MousePressed
@@ -4253,6 +4288,7 @@ public class MainFrame extends javax.swing.JFrame {
             passwordFieldForSignUp1.setEchoChar((char) 0);
         } else {
             passwordFieldForSignUp1.setEchoChar('•');
+             
         }
     }//GEN-LAST:event_showPasswordCheckBoxForSignUp1ActionPerformed
 
@@ -4275,17 +4311,18 @@ public class MainFrame extends javax.swing.JFrame {
     private void jLabel23MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel23MousePressed
         // TODO add your handling code here:
 
-        String username = signUpUsernameTextField.getText().toString();
-        String password = passwordFieldForSignUp.getText().toString();
-        String confirmPassword = confirmPasswordFieldForSignUp.getText().toString();
-        String mobile = mobileTextFieldForSignUp.getText().toString();
-        String address = addressTextFieldForSignUp.getText().toString();
+        String username = signUpUsernameTextField.getText();
+        String password = passwordFieldForSignUp.getText();
+        String confirmPassword = confirmPasswordFieldForSignUp.getText();
+        String mobile = mobileTextFieldForSignUp.getText();
+        String address = addressTextFieldForSignUp.getText();
+
         if (Talabat.database.signupForCusotmer(username, password, confirmPassword, mobile, address)) {
             mainPanel.removeAll();
             mainPanel.repaint();
             mainPanel.revalidate();
 
-            // add sign up panel
+            // add login panel
             signUpLinkButton.setForeground(Color.WHITE);
 
             mainPanel.add(loginPanel);
@@ -4430,7 +4467,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                     resturantNameLabel1.setText(restaurant.getName());
 
-                    System.out.println(".run(): "+restaurant.getDescription());
+                    System.out.println(".run(): " + restaurant.getDescription());
                     if (restaurant.getDescription() != null) {
 
                         resturantDescriptionLabel.setText(restaurant.getDescription());
@@ -4935,37 +4972,62 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.clearSelection();
     }//GEN-LAST:event_myOrdersTableMouseExited
 
+    private void currentUserCartJtableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseMoved
+        // TODO add your handling code here:
+        int row = currentUserCartJtable.rowAtPoint(evt.getPoint());
+        if (row > -1) {
+
+            currentUserCartJtable.clearSelection();
+            currentUserCartJtable.setRowSelectionInterval(row, row);
+        } else {
+            currentUserCartJtable.setSelectionBackground(Color.ORANGE);
+        }
+    }//GEN-LAST:event_currentUserCartJtableMouseMoved
+
+    private void currentUserCartJtableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseExited
+        // TODO add your handling code here:
+        currentUserCartJtable.clearSelection();
+    }//GEN-LAST:event_currentUserCartJtableMouseExited
+
+    private void mealsOfResturantForOwnerJtableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseMoved
+        // TODO add your handling code here:
+        int row = mealsOfResturantForOwnerJtable.rowAtPoint(evt.getPoint());
+        if (row > -1) {
+
+            mealsOfResturantForOwnerJtable.clearSelection();
+            mealsOfResturantForOwnerJtable.setRowSelectionInterval(row, row);
+        } else {
+            mealsOfResturantForOwnerJtable.setSelectionBackground(Color.ORANGE);
+        }
+    }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseMoved
+
+    private void mealsOfResturantForOwnerJtableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseExited
+        // TODO add your handling code here:
+        mealsOfResturantForOwnerJtable.clearSelection();
+    }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseExited
+
+    private void myOrdersTableForOwnerMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myOrdersTableForOwnerMouseMoved
+        // TODO add your handling code here:
+        int row = myOrdersTableForOwner.rowAtPoint(evt.getPoint());
+        if (row > -1) {
+
+            myOrdersTableForOwner.clearSelection();
+            myOrdersTableForOwner.setRowSelectionInterval(row, row);
+        } else {
+            myOrdersTableForOwner.setSelectionBackground(Color.ORANGE);
+        }
+    }//GEN-LAST:event_myOrdersTableForOwnerMouseMoved
+
+    private void myOrdersTableForOwnerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myOrdersTableForOwnerMouseExited
+        // TODO add your handling code here:
+        myOrdersTableForOwner.clearSelection();
+    }//GEN-LAST:event_myOrdersTableForOwnerMouseExited
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
 
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new MainFrame().setVisible(true);
         });

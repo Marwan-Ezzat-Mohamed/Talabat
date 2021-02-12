@@ -263,7 +263,7 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    protected int quantityOfmeal = 1, mealIndex, ownerIndex;
+    protected int quantityOfmeal = 1, mealIndex;
     public float mealPriceFloat;
 
 
@@ -305,14 +305,10 @@ public class Meal_jframe extends javax.swing.JFrame {
         
         int mealId=Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName());
 
-        Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username);
-       
-        
-   
-       
-        
-        
-        
+        System.out.println("talabat.Meal_jframe.addtoBasketMouseClicked()::::::::::::::::::::::: "+mealId);
+        String restaurantName=MainFrame.allMealsList.get(mealIndex).getRestaurantName();
+        Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username,restaurantName);
+      
         Talabat.mainFrame.updateCurrentUserCartTable();
         
 
