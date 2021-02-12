@@ -5,6 +5,12 @@
  */
 package talabat;
 
+import OwnerPackage.Owner;
+import OwnerPackage.Restaurant;
+import CstomerPackage.Cart;
+import CstomerPackage.Customer;
+
+
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;

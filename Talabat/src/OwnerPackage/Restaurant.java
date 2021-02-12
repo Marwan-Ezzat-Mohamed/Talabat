@@ -1,5 +1,6 @@
-package talabat;
+package OwnerPackage;
 
+import talabat.*;
 
 public class Restaurant {
 

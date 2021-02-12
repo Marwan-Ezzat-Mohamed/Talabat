@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package talabat;
+import CstomerPackage.*;
+import OwnerPackage.*;
+        
 
 import javax.swing.JLabel;
 
@@ -305,7 +308,6 @@ public class Meal_jframe extends javax.swing.JFrame {
         
         int mealId=Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName());
 
-        System.out.println("talabat.Meal_jframe.addtoBasketMouseClicked()::::::::::::::::::::::: "+mealId);
         String restaurantName=MainFrame.allMealsList.get(mealIndex).getRestaurantName();
         Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username,restaurantName);
       

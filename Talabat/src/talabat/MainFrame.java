@@ -5,6 +5,12 @@
  */
 package talabat;
 
+import CustomModels.MultilineTableCell;
+import CustomModels.TableModelForCustomerCart;
+import CustomModels.TableModelForRestaurantsTable;
+import CustomModels.TableModelForMyOrders;
+import CstomerPackage.Cart;
+import OwnerPackage.Restaurant;
 import diu.swe.habib.JPanelSlider.JPanelSlider;
 import java.awt.Color;
 import java.awt.Component;
@@ -89,7 +95,7 @@ public class MainFrame extends javax.swing.JFrame {
     private TableRowSorter mealSortter;
     static ArrayList<Order> orderList;
     static ArrayList<Meal> allMealsList;
-    static ArrayList<Meal> mealList;
+    public static ArrayList<Meal> mealList;
     static ArrayList<Restaurant> allRestaurantsArrayList;
 
     static ArrayList<Meal> randomMealSet = new ArrayList<Meal>();

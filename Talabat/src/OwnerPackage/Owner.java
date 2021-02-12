@@ -1,9 +1,10 @@
-package talabat;
+package OwnerPackage;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import static talabat.MainFrame.mealList;
-import static talabat.Talabat.owner;
+import talabat.*;
+
+
 
 public class Owner extends User {
 
@@ -57,13 +58,13 @@ public class Owner extends User {
     //overlaoding 
     //update with image
     public void editMeal(int index, Meal m) {
-        int id = Talabat.database.getMealId(mealList.get(index).getName(), Talabat.owner.getRestaurantName());
+        int id = Talabat.database.getMealId(Talabat.mainFrame.mealList.get(index).getName(), Talabat.owner.getRestaurantName());
         Talabat.database.updateMeal(m, id);
     }
 
     //update without image
     public void editMeal(int index, InputStream is, Meal m) {
-        int id = Talabat.database.getMealId(mealList.get(index).getName(), Talabat.owner.getRestaurantName());
+        int id = Talabat.database.getMealId(Talabat.mainFrame.mealList.get(index).getName(), Talabat.owner.getRestaurantName());
         Talabat.database.updateMeal(m, is, id);
     }
 

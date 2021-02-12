@@ -1,17 +1,27 @@
-package talabat;
+package CustomModels;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 
 import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
-public class TableModelForRestaurantsTable extends AbstractTableModel {
-
+/**
+ *
+ * @author Marwan Ezzat
+ */
+public class TableModelForMyOrders extends AbstractTableModel{
     private String[] columns;
     private Object[][] rows;
 
-    public TableModelForRestaurantsTable() {
+    public TableModelForMyOrders() {
     }
 
-    public TableModelForRestaurantsTable(Object[][] data, String[] columnName) {
+    public TableModelForMyOrders(Object[][] data, String[] columnName) {
 
         this.rows = data;
         this.columns = columnName;
@@ -20,17 +30,11 @@ public class TableModelForRestaurantsTable extends AbstractTableModel {
     @Override
     public Class getColumnClass(int column) {
         // 1 is the index of the column image
-
-        Class returnValue = null;
-        if (column == 0) {
-            returnValue = Icon.class;
-        } else if (column == 3) {
-            returnValue = Float.class;
+        if (column == 1) {
+            return Icon.class;
         } else {
-            returnValue = String.class;
+            return String.class;
         }
-
-        return returnValue;
     }
 
     @Override
@@ -49,8 +53,8 @@ public class TableModelForRestaurantsTable extends AbstractTableModel {
         return this.rows[rowIndex][columnIndex];
     }
 
+    @Override
     public String getColumnName(int col) {
         return this.columns[col];
     }
-
 }

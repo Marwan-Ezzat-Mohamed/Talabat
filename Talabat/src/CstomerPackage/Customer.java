@@ -1,4 +1,7 @@
-package talabat;
+package CstomerPackage;
+
+import talabat.*;
+
 
 public class Customer extends User {
 
@@ -63,10 +66,10 @@ public class Customer extends User {
     }
 
     public Order[] loadOrders() {
-        Order[] orders = Talabat.database.returnOrderOfcustomer(super.getUsername());
-        this.orders = orders;
+        Order[] o = Talabat.database.returnOrderOfcustomer(super.getUsername());
+        this.orders = o;
         ordersCount=this.orders.length;
-        return orders;
+        return o;
     }
 
 }
