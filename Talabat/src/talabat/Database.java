@@ -48,6 +48,7 @@ public class Database {
     }
 
     public void restoreConnection() {
+
         if (databaseConnection == null) {
             try {
                 this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
@@ -60,6 +61,7 @@ public class Database {
     //bt4of fe net wala la2
     public boolean checkConnection() {
 
+        restoreConnection();
         try {
             URL url = new URL("http://www.google.com");
             URLConnection connection = url.openConnection();
@@ -79,7 +81,6 @@ public class Database {
         if (!checkConnection()) {
             return 0;
         }
-        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -135,7 +136,6 @@ public class Database {
         ResultSet myRs = null;
 
         boolean foundUser = false;
-        restoreConnection();
 
         try {
 
@@ -194,7 +194,6 @@ public class Database {
 
     public boolean signUpForOwner(String username, String password, String confirmPassword, String restaurantName) {
 
-        restoreConnection();
         Statement myStmt = null;
         ResultSet myRs = null;
 
@@ -275,7 +274,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         ArrayList<Restaurant> list = new ArrayList<>();
 
@@ -304,7 +302,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         String user = s;
         ArrayList<Order> orderList = new ArrayList<>();
@@ -339,7 +336,6 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
 
         try {
 
@@ -360,7 +356,6 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
 
         try {
 
@@ -387,7 +382,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
@@ -424,7 +418,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
@@ -459,7 +452,6 @@ public class Database {
         if (!checkConnection()) {
             return -1;
         }
-        restoreConnection();
 
         int id = -1;
 
@@ -487,7 +479,6 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
 
         try {
 
@@ -514,7 +505,7 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
+
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set name = ?,description=?,price=? where id = ? ;");
@@ -538,7 +529,6 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
 
         try {
 
@@ -569,7 +559,6 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs;
@@ -619,7 +608,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         Cart cart = new Cart();
 
@@ -648,7 +636,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -675,7 +662,7 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
+
         Statement myStmt = null;
 
         try {
@@ -697,7 +684,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -754,7 +740,6 @@ public class Database {
         if (!checkConnection()) {
             return null;
         }
-        restoreConnection();
 
         ResultSet myRs = null;
         Order order = null;
@@ -807,7 +792,7 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
+
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set restaurantName=null where id = ? ;");
@@ -827,7 +812,6 @@ public class Database {
         if (!checkConnection()) {
             return;
         }
-        restoreConnection();
 
         try {
             PreparedStatement ps = databaseConnection.prepareStatement("update restaurants set description=? where name = ? ;");

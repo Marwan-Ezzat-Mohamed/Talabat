@@ -2159,7 +2159,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel12.setText("mt3m");
 
-        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
+        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         retaurants2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants2MouseClicked(evt);
@@ -2222,7 +2222,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel14.setText("mac");
 
-        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
+        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         retaurants3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants3MouseClicked(evt);
@@ -2280,7 +2280,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel16.setText("burger king");
 
-        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
+        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
         retaurants4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants4MouseClicked(evt);
@@ -2718,16 +2718,6 @@ public class MainFrame extends javax.swing.JFrame {
         currentUserCartJtable.setShowVerticalLines(false);
         currentUserCartJtable.getTableHeader().setResizingAllowed(false);
         currentUserCartJtable.getTableHeader().setReorderingAllowed(false);
-        currentUserCartJtable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                currentUserCartJtableMouseMoved(evt);
-            }
-        });
-        currentUserCartJtable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                currentUserCartJtableMouseExited(evt);
-            }
-        });
         jScrollPane1.setViewportView(currentUserCartJtable);
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -5127,40 +5117,6 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.clearSelection();
     }//GEN-LAST:event_myOrdersTableMouseExited
 
-    private void currentUserCartJtableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseMoved
-        // TODO add your handling code here:
-        int row = currentUserCartJtable.rowAtPoint(evt.getPoint());
-        if (row > -1) {
-
-            currentUserCartJtable.clearSelection();
-            currentUserCartJtable.setRowSelectionInterval(row, row);
-        } else {
-            currentUserCartJtable.setSelectionBackground(new Color(255, 102, 51));
-        }
-    }//GEN-LAST:event_currentUserCartJtableMouseMoved
-
-    private void currentUserCartJtableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseExited
-        // TODO add your handling code here:
-        currentUserCartJtable.clearSelection();
-    }//GEN-LAST:event_currentUserCartJtableMouseExited
-
-    private void mealsOfResturantForOwnerJtableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseMoved
-        // TODO add your handling code here:
-        int row = mealsOfResturantForOwnerJtable.rowAtPoint(evt.getPoint());
-        if (row > -1) {
-
-            mealsOfResturantForOwnerJtable.clearSelection();
-            mealsOfResturantForOwnerJtable.setRowSelectionInterval(row, row);
-        } else {
-            mealsOfResturantForOwnerJtable.setSelectionBackground(new Color(255, 102, 51));
-        }
-    }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseMoved
-
-    private void mealsOfResturantForOwnerJtableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseExited
-        // TODO add your handling code here:
-        mealsOfResturantForOwnerJtable.clearSelection();
-    }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseExited
-
     private void myOrdersTableForOwnerMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myOrdersTableForOwnerMouseMoved
         // TODO add your handling code here:
         int row = myOrdersTableForOwner.rowAtPoint(evt.getPoint());
@@ -5309,6 +5265,23 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         jPanel1.setBackground(Color.WHITE);
     }//GEN-LAST:event_jPanel1MouseExited
+
+    private void mealsOfResturantForOwnerJtableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseExited
+        // TODO add your handling code here:
+        mealsOfResturantForOwnerJtable.clearSelection();
+    }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseExited
+
+    private void mealsOfResturantForOwnerJtableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseMoved
+        // TODO add your handling code here:
+        int row = mealsOfResturantForOwnerJtable.rowAtPoint(evt.getPoint());
+        if (row > -1) {
+
+            mealsOfResturantForOwnerJtable.clearSelection();
+            mealsOfResturantForOwnerJtable.setRowSelectionInterval(row, row);
+        } else {
+            mealsOfResturantForOwnerJtable.setSelectionBackground(new Color(255, 102, 51));
+        }
+    }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseMoved
 
     /**
      * @param args the command line arguments
