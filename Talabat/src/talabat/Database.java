@@ -9,9 +9,12 @@ import OwnerPackage.Owner;
 import OwnerPackage.Restaurant;
 import CstomerPackage.Cart;
 import CstomerPackage.Customer;
-
+import java.io.IOException;
 
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,9 +35,10 @@ import static talabat.Talabat.mainFrame;
 public class Database {
 
     public Connection databaseConnection;
-    private final String databaseUrl = "jdbc:mysql://remotemysql.com:3306/RjFI4gANpY?autoReconnect=true&useUnicode=yes";
+    private final String databaseUrl = "jdbc:mysql://remotemysql.com:3306/RjFI4gANpY?autoReconnect=true";
 
     public Database() {
+
         try {
             this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
         } catch (SQLException ex) {
@@ -43,24 +47,39 @@ public class Database {
 
     }
 
-    //check lw el connection closed y3mlha reopen
-    public void checkConnection() {
-
+    public void restoreConnection() {
         if (databaseConnection == null) {
-            JOptionPane.showMessageDialog(null, "Please check your internet connection and try again");
-        }
-
-        try {
-            if (databaseConnection.isClosed()) {
-                DriverManager.getConnection(databaseUrl);
+            try {
+                this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    //bt4of fe net wala la2
+    public boolean checkConnection() {
+
+        try {
+            URL url = new URL("http://www.google.com");
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            return true;
+        } catch (MalformedURLException e) {
+            JOptionPane.showMessageDialog(null, "Please check you internet connection and try again");
+            return false;
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Please check you internet connection and try again");
+            return false;
+        }
+
+    }
+
     public int login(String username, String password) {
-        checkConnection();
+        if (!checkConnection()) {
+            return 0;
+        }
+        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -116,6 +135,7 @@ public class Database {
         ResultSet myRs = null;
 
         boolean foundUser = false;
+        restoreConnection();
 
         try {
 
@@ -174,6 +194,7 @@ public class Database {
 
     public boolean signUpForOwner(String username, String password, String confirmPassword, String restaurantName) {
 
+        restoreConnection();
         Statement myStmt = null;
         ResultSet myRs = null;
 
@@ -251,7 +272,10 @@ public class Database {
 
     public ArrayList<Restaurant> returnAllRestaurants() {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
 
         ArrayList<Restaurant> list = new ArrayList<>();
 
@@ -277,7 +301,11 @@ public class Database {
 
     public ArrayList<Order> returnMyOrders(String s) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
+
         String user = s;
         ArrayList<Order> orderList = new ArrayList<>();
 
@@ -308,7 +336,10 @@ public class Database {
 
     public void updateRestaurantImage(InputStream s, String name) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
 
         try {
 
@@ -326,7 +357,10 @@ public class Database {
 
     public void addMealToRestaurant(Meal m, String restaurantName, InputStream s) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
 
         try {
 
@@ -350,7 +384,10 @@ public class Database {
 
     public ArrayList<Meal> getRestaurantMeals(String restaurantName) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
@@ -384,7 +421,10 @@ public class Database {
 
     public ArrayList<Meal> getAllMealsInAllRestaurants() {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
@@ -416,7 +456,10 @@ public class Database {
 
     public int getMealId(String mealName, String restaurantName) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return -1;
+        }
+        restoreConnection();
 
         int id = -1;
 
@@ -441,7 +484,10 @@ public class Database {
     //update meal with image
     public void updateMeal(Meal m, InputStream s, int id) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
 
         try {
 
@@ -465,8 +511,10 @@ public class Database {
     //update meal without image
     public void updateMeal(Meal m, int id) {
 
-        checkConnection();
-
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set name = ?,description=?,price=? where id = ? ;");
@@ -487,7 +535,10 @@ public class Database {
 
     public void insertMealIntoCart(int mealId, int quantity, float orderPrice, String notes, String username, String restaurantName) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
 
         try {
 
@@ -515,7 +566,10 @@ public class Database {
 
     public void orderCart(String username) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs;
@@ -562,7 +616,10 @@ public class Database {
 
     public Cart returnCartOfCustomer(String username) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
 
         Cart cart = new Cart();
 
@@ -578,9 +635,9 @@ public class Database {
 
                 cart.addMeal((returnMealFromId(myRs.getInt("mealId"))), myRs.getInt("quantity"));
                 Meal m = returnMealFromId(myRs.getInt("mealId"));
-                
+
             }
-        } catch (SQLException ex) { 
+        } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cart;
@@ -588,7 +645,10 @@ public class Database {
 
     public Meal returnMealFromId(int id) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -612,8 +672,10 @@ public class Database {
 
     public void removeMeal(int mealid, String username) {
 
-        checkConnection();
-
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
         Statement myStmt = null;
 
         try {
@@ -632,7 +694,10 @@ public class Database {
 
     public Order[] returnOrderOfcustomer(String username) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
 
         Statement myStmt = null;
         ResultSet myRs = null;
@@ -686,7 +751,10 @@ public class Database {
 
     public Order returnOrderOfOwner(String restaurantName) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return null;
+        }
+        restoreConnection();
 
         ResultSet myRs = null;
         Order order = null;
@@ -736,7 +804,10 @@ public class Database {
 
     public void removeMealFromOwner(int id) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("update meals set restaurantName=null where id = ? ;");
@@ -753,7 +824,10 @@ public class Database {
 
     public void editRestaurantDescription(String restaurantName, String description) {
 
-        checkConnection();
+        if (!checkConnection()) {
+            return;
+        }
+        restoreConnection();
 
         try {
             PreparedStatement ps = databaseConnection.prepareStatement("update restaurants set description=? where name = ? ;");

@@ -61,10 +61,6 @@ import javax.swing.table.TableCellRenderer;
 import static talabat.Talabat.mainFrame;
 import static talabat.Talabat.owner;
 
-/**
- *
- * @author Marwan Ezzat
- */
 public class MainFrame extends javax.swing.JFrame {
 
     public String currentPannel;
@@ -82,10 +78,10 @@ public class MainFrame extends javax.swing.JFrame {
             g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             int w = getWidth();
             int h = getHeight();
-            Color color1 = new Color(254, 89, 2);  //t2el
+            Color color1 = new Color(254, 70, 2);  //t2el
             Color color2 = new Color(255, 122, 49); //5afef
 
-            GradientPaint gp = new GradientPaint(1300, 0, color1, 0, h, color2);
+            GradientPaint gp = new GradientPaint(600, -1, color1, 0, h, color2);
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, w, h);
         }
@@ -102,6 +98,22 @@ public class MainFrame extends javax.swing.JFrame {
     static ArrayList<Restaurant> randomRestaurantsSet = new ArrayList<>();
 
     boolean allResturantsIsSorted;
+
+    public void resetColorsForHomePanel() {
+        basket.setForeground(Color.white);
+        my_orders.setForeground(Color.white);
+        all_restaurants.setForeground(Color.white);
+        about.setForeground(Color.white);
+        ImageIcon icon = new ImageIcon("src/pics/logout.png");
+        signOutLabel.setIcon(icon);
+        jPanel1.setBackground(Color.WHITE);
+        jPanel2.setBackground(Color.WHITE);
+        jPanel3.setBackground(Color.WHITE);
+        jPanel5.setBackground(Color.WHITE);
+        jPanel6.setBackground(Color.WHITE);
+        jPanel7.setBackground(Color.WHITE);
+
+    }
 
     public void setRandomMeaslsAndResturantsInHome() {
 
@@ -156,7 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
                 jLabel8.setText(randomMeal.getName());
 
                 jLabel9.setText("<html>" + randomMeal.getDescription() + "</html>");
-                jLabel10.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
+                jLabel25.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
                 if (randomMeal.getDatabaseImage() == null) {
                     continue;
                 }
@@ -226,6 +238,9 @@ public class MainFrame extends javax.swing.JFrame {
     public void updateOrdersTableForOwner() {
 
         Order order = Talabat.owner.getRestaurant().displayOrders();
+        if (order == null) {
+            return;
+        }
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date", "Notes"};
         Object[][] rows = new Object[order.getNumberOfMealsInCart()][columnName.length];
 
@@ -306,6 +321,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         mealList = Talabat.owner.dispalyMeals();
 
+        if (mealList == null) {
+            return;
+        }
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
         for (int i = 0; i < mealList.size(); i++) {
@@ -385,6 +403,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void updateCurrentUserCartTable() {
         Cart currentCustomerCart = Talabat.customer.loadCart();
+        if (currentCustomerCart == null) {
+            return;
+        }
 
         float cartTotalPrice = 0;
         String[] columnName = {"", "Meal Name", "Restaurant", "Price", "Quantity"};
@@ -438,6 +459,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         mealList = Talabat.database.getRestaurantMeals(restaurantName);
 
+        if (mealList == null) {
+            return;
+        }
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
         for (int i = 0; i < mealList.size(); i++) {
@@ -514,6 +538,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         Order[] orders = Talabat.customer.loadOrders();
 
+        if (orders == null) {
+            return;
+        }
         int numberOfmealsOfOrder = 0;
         for (int i = 1; i < orders.length; i++) {
             numberOfmealsOfOrder += orders[i].getNumberOfMealsInCart();
@@ -593,6 +620,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void createImageMap() {
 
         allRestaurantsArrayList = Talabat.database.returnAllRestaurants();
+        if (allRestaurantsArrayList == null) {
+            return;
+        }
         sz = allRestaurantsArrayList.size();
 
         for (int i = 0; i < allRestaurantsArrayList.size(); i++) {
@@ -869,6 +899,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         restau_pan = new javax.swing.JPanel();
         retaurants = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -1142,6 +1173,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel22.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel22MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel22MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel22MouseExited(evt);
             }
         });
 
@@ -1733,6 +1770,12 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 aboutMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                aboutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                aboutMouseExited(evt);
+            }
         });
 
         my_orders.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1743,6 +1786,12 @@ public class MainFrame extends javax.swing.JFrame {
         my_orders.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 my_ordersMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                my_ordersMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                my_ordersMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 my_ordersMousePressed(evt);
@@ -1758,6 +1807,12 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 all_restaurantsMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                all_restaurantsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                all_restaurantsMouseExited(evt);
+            }
         });
 
         basket.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1769,14 +1824,27 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 basketMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                basketMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                basketMouseExited(evt);
+            }
         });
 
         signOutLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         signOutLabel.setForeground(new java.awt.Color(51, 51, 51));
         signOutLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/logout.png"))); // NOI18N
+        signOutLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 signOutLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                signOutLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                signOutLabelMouseExited(evt);
             }
         });
 
@@ -1862,8 +1930,16 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.setPreferredSize(new java.awt.Dimension(330, 161));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel1MouseExited(evt);
+            }
+        });
 
-        meal1pic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        meal1pic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         meal1pic.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 meal1picMouseClicked(evt);
@@ -1875,6 +1951,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Description");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel3MouseExited(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("25 EGP");
@@ -1910,8 +1991,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel2MouseExited(evt);
+            }
+        });
 
-        meal1pic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        meal1pic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         meal1pic1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 meal1pic1MouseClicked(evt);
@@ -1958,8 +2047,16 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel3.setPreferredSize(new java.awt.Dimension(350, 178));
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel3MouseExited(evt);
+            }
+        });
 
-        meal1pic2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        meal1pic2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         meal1pic2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 meal1pic2MouseClicked(evt);
@@ -1975,6 +2072,9 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setText("25 EGP");
 
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel25.setText("25 EGP");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -1986,7 +2086,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                        .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -1994,12 +2095,16 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(meal1pic2)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(meal1pic2)
+                        .addGap(18, 18, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel9)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel25)
+                        .addGap(27, 27, 27)))
                 .addComponent(jLabel10)
                 .addContainerGap())
         );
@@ -2042,11 +2147,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel5MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel5MouseExited(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel12.setText("mt3m");
 
-        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         retaurants2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants2MouseClicked(evt);
@@ -2097,11 +2210,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel6MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel6MouseExited(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel14.setText("mac");
 
-        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         retaurants3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants3MouseClicked(evt);
@@ -2135,23 +2256,31 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addComponent(retaurants3)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3))
+                    .addComponent(retaurants3))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel7MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel7MouseExited(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel16.setText("burger king");
 
-        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         retaurants4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants4MouseClicked(evt);
@@ -2186,12 +2315,12 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4))
                     .addComponent(retaurants4))
                 .addGap(15, 15, 15))
         );
@@ -2603,6 +2732,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/remove.png"))); // NOI18N
+        jLabel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel21.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel21MouseClicked(evt);
@@ -2914,7 +3044,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel116.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel116.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/rest3x.png"))); // NOI18N
         jLabel116.setText("   All Restraunts");
-        jLabel116.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel116.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 90, 0));
@@ -2925,6 +3055,7 @@ public class MainFrame extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        allRestaurantsjList.setSelectionBackground(new java.awt.Color(255, 102, 51));
         allRestaurantsjList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 allRestaurantsjListMouseMoved(evt);
@@ -3629,6 +3760,7 @@ public class MainFrame extends javax.swing.JFrame {
         Back_about.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Back_about.setForeground(new java.awt.Color(255, 255, 255));
         Back_about.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/backbtn.png"))); // NOI18N
+        Back_about.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Back_about.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Back_aboutMouseClicked(evt);
@@ -3847,6 +3979,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.repaint();
         mainPanel.revalidate();
 
+        resetColorsForHomePanel();
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -3911,7 +4044,9 @@ public class MainFrame extends javax.swing.JFrame {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
             edit.mealImage.setIcon(image);
         } else {
-            edit.mealImage.setIcon(null);
+
+            ImageIcon defualtImage = new ImageIcon("src/pics/addphoto.png");
+            edit.mealImage.setIcon(defualtImage);
         }
 
         if (!add.isShowing()) {
@@ -3992,7 +4127,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
-
+        resetColorsForHomePanel();
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4001,6 +4136,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void allRestaurantsjListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allRestaurantsjListMouseClicked
 
         if (evt.getClickCount() == 2) {
+            if (!Talabat.database.checkConnection()) {
+                return;
+            }
             String selectedRestaurantName = allRestaurantsjList.getSelectedValue();
             Restaurant restaurant = allRestaurantsImageMap.get(selectedRestaurantName);
 
@@ -4043,6 +4181,9 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (evt.getClickCount() == 2) {
+            if (!Talabat.database.checkConnection()) {
+                return;
+            }
             Meal_jframe mealFrame = new Meal_jframe();
 
             int oldRow = mealsTable.getSelectedRow();
@@ -4052,13 +4193,11 @@ public class MainFrame extends javax.swing.JFrame {
                 if (mealList.get(newRow).getName().equals(allMealsList.get(j).getName())) {
                     if (mealList.get(newRow).getRestaurantName().equals(allMealsList.get(j).getRestaurantName())) {
                         mealFrame.mealIndex = j;
-                        System.out.println("talabat.MainFrame.mealsTableMouseClicked()::::" + j);
                         break;
                     }
                 }
 
             }
-            System.out.println("talabat.MainFrame.mealsTableMouseClicked()" + mealList.get(newRow).getName());
 
             if (mealList.get(newRow).getDatabaseImage() != null) {
 
@@ -4124,7 +4263,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
-
+        resetColorsForHomePanel();
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4132,6 +4271,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
         // TODO add your handling code here:
+        if (!Talabat.database.checkConnection()) {
+            return;
+        }
         int index = currentUserCartJtable.getSelectedRow();
 
         Talabat.customer.getCart().removeMeal(index);
@@ -4141,6 +4283,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
 
+        if (!Talabat.database.checkConnection()) {
+            return;
+        }
         Talabat.customer.orderCart();
 
         //bafady el cart table 
@@ -4178,6 +4323,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void homeLogo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeLogo1MouseClicked
         // TODO add your handling code here:
+        resetColorsForHomePanel();
         mainPanel.add(homePanel);
         mainPanel.nextPanel(30, 10, homePanel, JPanelSlider.right);
     }//GEN-LAST:event_homeLogo1MouseClicked
@@ -4221,7 +4367,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.removeAll();
         mainPanel.repaint();
         mainPanel.revalidate();
-
+        resetColorsForHomePanel();
         mainPanel.add(homePanel);
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -4294,7 +4440,7 @@ public class MainFrame extends javax.swing.JFrame {
             passwordFieldForSignUp1.setEchoChar((char) 0);
         } else {
             passwordFieldForSignUp1.setEchoChar('•');
-             
+
         }
     }//GEN-LAST:event_showPasswordCheckBoxForSignUp1ActionPerformed
 
@@ -4462,6 +4608,8 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPanel.removeAll();
                     mainPanel.repaint();
                     mainPanel.revalidate();
+                    resetColorsForHomePanel();
+
                     mainPanel.add(homePanel);
                     mainPanel.repaint();
                     mainPanel.revalidate();
@@ -4887,6 +5035,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.revalidate();
 
         if (currentPannel == "home") {
+            resetColorsForHomePanel();
             mainPanel.add(homePanel);
 
         } else if (currentPannel == "login") {
@@ -4963,7 +5112,7 @@ public class MainFrame extends javax.swing.JFrame {
             myOrdersTable.clearSelection();
             myOrdersTable.setRowSelectionInterval(row, row);
         } else {
-            myOrdersTable.setSelectionBackground(Color.ORANGE);
+            myOrdersTable.setSelectionBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_myOrdersTableMouseMoved
 
@@ -4986,7 +5135,7 @@ public class MainFrame extends javax.swing.JFrame {
             currentUserCartJtable.clearSelection();
             currentUserCartJtable.setRowSelectionInterval(row, row);
         } else {
-            currentUserCartJtable.setSelectionBackground(Color.ORANGE);
+            currentUserCartJtable.setSelectionBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_currentUserCartJtableMouseMoved
 
@@ -5003,7 +5152,7 @@ public class MainFrame extends javax.swing.JFrame {
             mealsOfResturantForOwnerJtable.clearSelection();
             mealsOfResturantForOwnerJtable.setRowSelectionInterval(row, row);
         } else {
-            mealsOfResturantForOwnerJtable.setSelectionBackground(Color.ORANGE);
+            mealsOfResturantForOwnerJtable.setSelectionBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseMoved
 
@@ -5020,7 +5169,7 @@ public class MainFrame extends javax.swing.JFrame {
             myOrdersTableForOwner.clearSelection();
             myOrdersTableForOwner.setRowSelectionInterval(row, row);
         } else {
-            myOrdersTableForOwner.setSelectionBackground(Color.ORANGE);
+            myOrdersTableForOwner.setSelectionBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_myOrdersTableForOwnerMouseMoved
 
@@ -5028,6 +5177,138 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         myOrdersTableForOwner.clearSelection();
     }//GEN-LAST:event_myOrdersTableForOwnerMouseExited
+
+    private void basketMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseEntered
+        // TODO add your handling code here:
+        basket.setForeground(new Color(255, 102, 51));
+    }//GEN-LAST:event_basketMouseEntered
+
+    private void basketMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_basketMouseExited
+        // TODO add your handling code here:
+
+        basket.setForeground(Color.white);
+    }//GEN-LAST:event_basketMouseExited
+
+    private void my_ordersMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseExited
+        // TODO add your handling code here:
+        my_orders.setForeground(Color.white);
+    }//GEN-LAST:event_my_ordersMouseExited
+
+    private void my_ordersMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_ordersMouseEntered
+        // TODO add your handling code here:
+        my_orders.setForeground(new Color(255, 102, 51));
+    }//GEN-LAST:event_my_ordersMouseEntered
+
+    private void all_restaurantsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_restaurantsMouseEntered
+        // TODO add your handling code here:
+        all_restaurants.setForeground(new Color(255, 102, 51));
+    }//GEN-LAST:event_all_restaurantsMouseEntered
+
+    private void all_restaurantsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_all_restaurantsMouseExited
+        // TODO add your handling code here:
+        all_restaurants.setForeground(Color.white);
+    }//GEN-LAST:event_all_restaurantsMouseExited
+
+    private void aboutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutMouseEntered
+        // TODO add your handling code here:
+        about.setForeground(new Color(255, 102, 51));
+    }//GEN-LAST:event_aboutMouseEntered
+
+    private void aboutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutMouseExited
+        // TODO add your handling code here:
+        about.setForeground(Color.white);
+    }//GEN-LAST:event_aboutMouseExited
+
+    private void jLabel22MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseEntered
+        // TODO add your handling code here:
+        ImageIcon icon = new ImageIcon("src/pics/login_selected.png");
+        jLabel22.setIcon(icon);
+    }//GEN-LAST:event_jLabel22MouseEntered
+
+    private void jLabel22MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseExited
+        // TODO add your handling code here:
+        ImageIcon icon = new ImageIcon("src/pics/login.png");
+        jLabel22.setIcon(icon);
+    }//GEN-LAST:event_jLabel22MouseExited
+
+    private void signOutLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signOutLabelMouseEntered
+        // TODO add your handling code here:
+        ImageIcon icon = new ImageIcon("src/pics/logout_selected.png");
+        signOutLabel.setIcon(icon);
+    }//GEN-LAST:event_signOutLabelMouseEntered
+
+    private void signOutLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signOutLabelMouseExited
+        // TODO add your handling code here:
+        ImageIcon icon = new ImageIcon("src/pics/logout.png");
+        signOutLabel.setIcon(icon);
+    }//GEN-LAST:event_signOutLabelMouseExited
+
+    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
+        // TODO add your handling code here:
+        jPanel1.setBackground(new Color(255, 102, 51));
+    }//GEN-LAST:event_jPanel1MouseEntered
+
+    private void jLabel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseExited
+        // TODO add your handling code here:
+        jPanel1.setBackground(Color.white);
+    }//GEN-LAST:event_jLabel3MouseExited
+
+    private void jPanel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseEntered
+        // TODO add your handling code here:
+        jPanel2.setBackground(new Color(255, 102, 51));
+    }//GEN-LAST:event_jPanel2MouseEntered
+
+    private void jPanel2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseExited
+        // TODO add your handling code here:
+        jPanel2.setBackground(Color.WHITE);
+    }//GEN-LAST:event_jPanel2MouseExited
+
+    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
+        // TODO add your handling code here:
+        jPanel3.setBackground(Color.WHITE);
+    }//GEN-LAST:event_jPanel3MouseExited
+
+    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
+        // TODO add your handling code here:
+        jPanel3.setBackground(new Color(255, 102, 51));
+    }//GEN-LAST:event_jPanel3MouseEntered
+
+    private void jPanel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseEntered
+        // TODO add your handling code here:
+        jPanel5.setBackground(new Color(255, 102, 51));
+    }//GEN-LAST:event_jPanel5MouseEntered
+
+    private void jPanel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseExited
+        // TODO add your handling code here:
+        jPanel5.setBackground(Color.WHITE);
+    }//GEN-LAST:event_jPanel5MouseExited
+
+    private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
+        // TODO add your handling code here:
+        jPanel6.setBackground(new Color(255, 102, 51));
+    }//GEN-LAST:event_jPanel6MouseEntered
+
+    private void jPanel6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseExited
+        // TODO add your handling code here:
+        jPanel6.setBackground(Color.WHITE);
+
+    }//GEN-LAST:event_jPanel6MouseExited
+
+    private void jPanel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseEntered
+        // TODO add your handling code here:
+        jPanel7.setBackground(new Color(255, 102, 51));
+
+    }//GEN-LAST:event_jPanel7MouseEntered
+
+    private void jPanel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseExited
+        // TODO add your handling code here:
+        jPanel7.setBackground(Color.WHITE);
+    }//GEN-LAST:event_jPanel7MouseExited
+
+    private void jPanel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseExited
+        // TODO add your handling code here:
+        jPanel1.setBackground(Color.WHITE);
+    }//GEN-LAST:event_jPanel1MouseExited
 
     /**
      * @param args the command line arguments
@@ -5099,6 +5380,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel22;
     public javax.swing.JLabel jLabel23;
     public javax.swing.JLabel jLabel24;
+    public javax.swing.JLabel jLabel25;
     public javax.swing.JLabel jLabel26;
     public javax.swing.JLabel jLabel28;
     public javax.swing.JLabel jLabel29;

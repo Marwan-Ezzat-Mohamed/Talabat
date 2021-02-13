@@ -13,6 +13,7 @@ public class Cart {
     private int numberOfMeals;
     private LocalDate orderDate;
     
+    
 
     public int getMaxMeals() {
         return maxMeals;

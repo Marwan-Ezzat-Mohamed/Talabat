@@ -2,7 +2,6 @@ package CstomerPackage;
 
 import talabat.*;
 
-
 public class Customer extends User {
 
     public int ordersCount;
@@ -11,8 +10,7 @@ public class Customer extends User {
     private String mobileNumber, address;
     private Cart cart = new Cart();
     private Order[] orders = new Order[maxOrders];
-    
-    
+
     public Customer(String mobileNumber, String address, String user, String pass) {
         super(pass, user);
         this.mobileNumber = mobileNumber;
@@ -48,15 +46,14 @@ public class Customer extends User {
     public Cart getCart() {
         return cart;
     }
-    
-    
-    
+
     public void orderCart() {
 
+        
         Talabat.database.orderCart(this.getUsername());
         loadOrders();
         cart.resetCartAfterOrder();
-        
+
     }
 
     public Cart loadCart() {
@@ -68,7 +65,7 @@ public class Customer extends User {
     public Order[] loadOrders() {
         Order[] o = Talabat.database.returnOrderOfcustomer(super.getUsername());
         this.orders = o;
-        ordersCount=this.orders.length;
+        ordersCount = this.orders.length;
         return o;
     }
 

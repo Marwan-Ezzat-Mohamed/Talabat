@@ -202,7 +202,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         mealDescription.setText("Description");
 
         mealImage.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        mealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/asset (2).png"))); // NOI18N
+        mealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -308,6 +308,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         
         int mealId=Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName());
 
+        if(mealId==-1)return;
         String restaurantName=MainFrame.allMealsList.get(mealIndex).getRestaurantName();
         Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username,restaurantName);
       
