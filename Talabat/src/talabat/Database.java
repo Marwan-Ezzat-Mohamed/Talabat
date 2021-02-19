@@ -39,16 +39,18 @@ public class Database {
 
     public Database() {
 
+        
         try {
             this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     public void restoreConnection() {
 
+        // lw el user 48al el app mn 8er net y3ml connection m3 el database
         if (databaseConnection == null) {
             try {
                 this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
@@ -56,6 +58,16 @@ public class Database {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        // b3ml ay select statment 34an yrg3 el connection
+        try {
+            Statement myStmt = null;
+            myStmt = databaseConnection.createStatement();
+            myStmt.executeQuery("select 1;");
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     //bt4of fe net wala la2

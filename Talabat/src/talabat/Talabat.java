@@ -5,6 +5,7 @@ import OwnerPackage.Owner;
 import CstomerPackage.Customer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 import javax.swing.UIManager;
 
@@ -37,7 +38,6 @@ public class Talabat {
         
         //bt8ayar el design
         changeLookAndFell();
-        
         
         mainFrame = new MainFrame();
         mainFrame.show();

@@ -19,11 +19,7 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.List;
-import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,29 +33,20 @@ import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Action;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import static talabat.Talabat.mainFrame;
-import static talabat.Talabat.owner;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -89,16 +76,51 @@ public class MainFrame extends javax.swing.JFrame {
 
     private TableRowSorter mealsOfResturantForOwnerTableSorter;
     private TableRowSorter mealSortter;
-    static ArrayList<Order> orderList;
-    static ArrayList<Meal> allMealsList;
+    public static ArrayList<Order> orderList;
+    public static ArrayList<Meal> allMealsList;
     public static ArrayList<Meal> mealList;
-    static ArrayList<Restaurant> allRestaurantsArrayList;
+    public static ArrayList<Restaurant> allRestaurantsArrayList;
 
-    static ArrayList<Meal> randomMealSet = new ArrayList<Meal>();
-    static ArrayList<Restaurant> randomRestaurantsSet = new ArrayList<>();
+    public static ArrayList<Meal> randomMealSet = new ArrayList<Meal>();
+    public static ArrayList<Restaurant> randomRestaurantsSet = new ArrayList<>();
+    public static Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
+    public static boolean allResturantsIsSorted;
 
-    boolean allResturantsIsSorted;
+    public static String[] nameList = new String[100];
+    public static int sz;
 
+    //file chooser lma el owner y8yr soret el mt3m
+    public void openFileChooserForRestImageEditing() throws FileNotFoundException {
+
+        JFileChooser fileChooser = new JFileChooser();
+
+        //by5aly el defualt view details badal list
+        Action details = fileChooser.getActionMap().get("viewTypeDetails");
+        details.actionPerformed(null);
+
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        //fileChooser.setFileView();
+
+        //filter the files
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png");
+        fileChooser.addChoosableFileFilter(filter);
+        int result = fileChooser.showSaveDialog(null);
+
+        //if the user click on save in Jfilechooser
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String path = selectedFile.getAbsolutePath();
+            ImageIcon img = ResizeImage(path);
+
+            InputStream is = new FileInputStream(selectedFile);
+
+            Talabat.database.updateRestaurantImage(is, Talabat.owner.getRestaurantName());
+            resturantIcon1.setIcon(img);
+        } //if the user click on save in Jfilechooser
+
+    }
+
+    //lama el user yrg3 mn ay panel ll home y3ml reset ll colors 34an lama b8yrha lama y3ml click 
     public void resetColorsForHomePanel() {
         basket.setForeground(Color.white);
         my_orders.setForeground(Color.white);
@@ -259,7 +281,8 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][1] = image;
 
             } else {
-                rows[i][1] = null;
+                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                rows[i][1] = image;
             }
 
             rows[i][2] = order.getOrdererdMeals()[i].getName();
@@ -309,8 +332,6 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMaxWidth(160);
         myOrdersTableForOwner.getColumnModel().getColumn(5).setMinWidth(160);
 
-        // myOrdersTableForOwner.getColumnModel().getColumn(6).setMaxWidth(160);
-        //myOrdersTableForOwner.getColumnModel().getColumn(6).setMinWidth(160);
         MultilineTableCell render = new MultilineTableCell();
 
         myOrdersTableForOwner.getColumnModel().getColumn(6).setCellRenderer(render);
@@ -320,24 +341,21 @@ public class MainFrame extends javax.swing.JFrame {
     public void updateRestaurantMealsTableForOwner() {
 
         mealList = Talabat.owner.dispalyMeals();
-
         if (mealList == null) {
             return;
         }
+
         String[] columnName = {"", "Meal Name", "Description", "Price"};
         Object[][] rows = new Object[mealList.size()][columnName.length];
         for (int i = 0; i < mealList.size(); i++) {
 
             if (mealList.get(i).getDatabaseImage() != null) {
-
                 ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
-
                 rows[i][0] = image;
-
             } else {
-                rows[i][0] = null;
+                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                rows[i][0] = image;
             }
-
             rows[i][1] = mealList.get(i).getName();
             rows[i][2] = mealList.get(i).getDescription();
             rows[i][3] = mealList.get(i).getMealPrice();
@@ -419,7 +437,8 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][0] = image;
 
             } else {
-                rows[i][0] = null;
+                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                rows[i][0] = image;
             }
 
             rows[i][1] = currentCustomerCart.getMeals()[i].getName();
@@ -473,7 +492,8 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][0] = image;
 
             } else {
-                rows[i][0] = null;
+                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                rows[i][0] = image;
             }
             rows[i][1] = mealList.get(i).getName();
             rows[i][2] = mealList.get(i).getDescription();
@@ -558,7 +578,8 @@ public class MainFrame extends javax.swing.JFrame {
                     ImageIcon image = new ImageIcon(new ImageIcon(orders[i].getOrdererdMeals()[j].getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                     rows[row][1] = image;
                 } else {
-                    rows[row][1] = null;
+                    ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                    rows[row][1] = image;
                 }
 
                 rows[row][2] = orders[i].getOrdererdMeals()[j].getName();
@@ -611,11 +632,6 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.getColumnModel().getColumn(6).setMinWidth(200);
 
     }
-
-    Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
-
-    String[] nameList = new String[100];
-    int sz;
 
     private void createImageMap() {
 
@@ -676,6 +692,9 @@ public class MainFrame extends javax.swing.JFrame {
                     ImageIcon image = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get((String) value).getImage()).getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH));
                     label.setIcon(image);
 
+                } else {
+                    ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                    label.setIcon(image);
                 }
                 String labelText = null;
                 if (r.getDescription() == null) {
@@ -752,7 +771,6 @@ public class MainFrame extends javax.swing.JFrame {
 
             }
         });
-        System.out.println("done loading");
 
     }
 
@@ -762,31 +780,6 @@ public class MainFrame extends javax.swing.JFrame {
         Image newImg = img.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(newImg);
         return image;
-    }
-
-    public void openFileChooserForRestImageEditing() throws FileNotFoundException {
-        JFileChooser file = new JFileChooser();
-        file.setCurrentDirectory(new File(System.getProperty("user.home")));
-
-        //filter the files
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "gif", "png");
-        file.addChoosableFileFilter(filter);
-        int result = file.showSaveDialog(null);
-
-        //if the user click on save in Jfilechooser
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = file.getSelectedFile();
-            String path = selectedFile.getAbsolutePath();
-            ImageIcon img = ResizeImage(path);
-
-            InputStream is = new FileInputStream(selectedFile);
-
-            Talabat.database.updateRestaurantImage(is, Talabat.owner.getRestaurantName());
-            resturantIcon1.setIcon(img);
-        } //if the user click on save in Jfilechooser
-        else if (result == JFileChooser.CANCEL_OPTION) {
-            System.out.println("No File Selected");
-        }
     }
 
     public MainFrame() {
