@@ -2711,6 +2711,16 @@ public class MainFrame extends javax.swing.JFrame {
         currentUserCartJtable.setShowVerticalLines(false);
         currentUserCartJtable.getTableHeader().setResizingAllowed(false);
         currentUserCartJtable.getTableHeader().setReorderingAllowed(false);
+        currentUserCartJtable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                currentUserCartJtableMouseMoved(evt);
+            }
+        });
+        currentUserCartJtable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                currentUserCartJtableMouseExited(evt);
+            }
+        });
         jScrollPane1.setViewportView(currentUserCartJtable);
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -2936,9 +2946,17 @@ public class MainFrame extends javax.swing.JFrame {
         mealsTable.setShowVerticalLines(false);
         mealsTable.getTableHeader().setResizingAllowed(false);
         mealsTable.getTableHeader().setReorderingAllowed(false);
+        mealsTable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                mealsTableMouseMoved(evt);
+            }
+        });
         mealsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mealsTableMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                mealsTableMouseExited(evt);
             }
         });
         jScrollPane6.setViewportView(mealsTable);
@@ -5275,6 +5293,41 @@ public class MainFrame extends javax.swing.JFrame {
             mealsOfResturantForOwnerJtable.setSelectionBackground(new Color(255, 102, 51));
         }
     }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseMoved
+
+    private void mealsTableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsTableMouseMoved
+        // TODO add your handling code here:
+        int row = mealsTable.rowAtPoint(evt.getPoint());
+        if (row > -1) {
+
+            mealsTable.clearSelection();
+            mealsTable.setRowSelectionInterval(row, row);
+        } else {
+            mealsTable.setSelectionBackground(new Color(255, 102, 51));
+        }
+        
+    }//GEN-LAST:event_mealsTableMouseMoved
+
+    private void mealsTableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsTableMouseExited
+        // TODO add your handling code here:
+         mealsTable.clearSelection();
+    }//GEN-LAST:event_mealsTableMouseExited
+
+    private void currentUserCartJtableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseMoved
+        // TODO add your handling code here:
+        int row = currentUserCartJtable.rowAtPoint(evt.getPoint());
+        if (row > -1) {
+
+            currentUserCartJtable.clearSelection();
+            currentUserCartJtable.setRowSelectionInterval(row, row);
+        } else {
+            currentUserCartJtable.setSelectionBackground(new Color(255, 102, 51));
+        }
+    }//GEN-LAST:event_currentUserCartJtableMouseMoved
+
+    private void currentUserCartJtableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseExited
+        // TODO add your handling code here:
+        currentUserCartJtable.clearSelection();
+    }//GEN-LAST:event_currentUserCartJtableMouseExited
 
     /**
      * @param args the command line arguments
