@@ -5,6 +5,7 @@
  */
 package talabat;
 
+import CustomModels.*;
 import CustomModels.MultilineTableCell;
 import CustomModels.TableModelForCustomerCart;
 import CustomModels.TableModelForRestaurantsTable;
@@ -89,6 +90,63 @@ public class MainFrame extends javax.swing.JFrame {
     public static String[] nameList = new String[100];
     public static int sz;
 
+    
+    //helper functions 
+    
+
+    private void createRestaurantsImageMap() {
+
+        allRestaurantsArrayList = Talabat.database.returnAllRestaurants();
+        if (allRestaurantsArrayList == null) {
+            return;
+        }
+        sz = allRestaurantsArrayList.size();
+
+        for (int i = 0; i < allRestaurantsArrayList.size(); i++) {
+
+            //System.out.println(i+1 +"name : "+allRestaurantsArrayList.get(i).getName()+" desx: "+allRestaurantsArrayList.get(i).getDescription());
+            allRestaurantsImageMap.put(allRestaurantsArrayList.get(i).getName(), allRestaurantsArrayList.get(i));
+            nameList[i] = allRestaurantsArrayList.get(i).getName();
+
+        }
+
+        //3mlt array gded 34an el size yb2a mazbot 34an lw 5leto 100 msln el scroll ely fl grid hyb2a byscroll f page fadya
+        String[] s = new String[sz];
+
+        //copy name list to s...    for loop can be used instead 
+        System.arraycopy(nameList, 0, s, 0, sz);
+
+        allRestaurantsjList.setBorder(new EmptyBorder(10, 10, 10, 10));
+        allRestaurantsjList.setFixedCellWidth(220);
+        allRestaurantsjList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = s;
+
+            @Override
+            public int getSize() {
+                return strings.length;
+            }
+
+            @Override
+            public String getElementAt(int i) {
+                return strings[i];
+            }
+        });
+
+    }
+
+    
+
+    
+
+    public ImageIcon ResizeImage(String ImagePath) {
+        ImageIcon MyImage = new ImageIcon(ImagePath);
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+    }
+
+    
     //file chooser lma el owner y8yr soret el mt3m
     public void openFileChooserForRestImageEditing() throws FileNotFoundException {
 
@@ -136,127 +194,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7.setBackground(Color.WHITE);
 
     }
-
-    public void setRandomMeaslsAndResturantsInHome() {
-
-        //meals
-        Random rand = new Random();
-        while (randomMealSet.size() < 3) {
-
-            //get random meal from a restaurant
-            int randomMeal = rand.nextInt(allMealsList.size());
-            Meal meal = allMealsList.get(randomMeal);
-
-            //check if meal is found in our list if we found it we dont add it to the list
-            Boolean found = false;
-            for (int i = 0; i < randomMealSet.size(); i++) {
-                if (randomMealSet.get(i).getName().equals(meal.getName())) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                randomMealSet.add(meal);
-            }
-
-        }
-
-        //set the meals in home page
-        for (int j = 0; j < randomMealSet.size(); j++) {
-
-            Meal randomMeal = randomMealSet.get(j);
-
-            if (j == 0) {
-                jLabel2.setText(randomMeal.getName());
-                jLabel3.setText("<html>" + randomMeal.getDescription() + "</html>");
-
-                jLabel4.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
-                if (randomMeal.getDatabaseImage() == null) {
-                    continue;
-                }
-                ImageIcon image = new ImageIcon(new ImageIcon(randomMeal.getDatabaseImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
-                meal1pic.setIcon(image);
-            } else if (j == 1) {
-                jLabel5.setText(randomMeal.getName());
-                jLabel6.setText("<html>" + randomMeal.getDescription() + "</html>");
-                jLabel7.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
-                if (randomMeal.getDatabaseImage() == null) {
-                    continue;
-                }
-                ImageIcon image = new ImageIcon(new ImageIcon(randomMeal.getDatabaseImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
-
-                meal1pic1.setIcon(image);
-            } else if (j == 2) {
-                jLabel8.setText(randomMeal.getName());
-
-                jLabel9.setText("<html>" + randomMeal.getDescription() + "</html>");
-                jLabel25.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
-                if (randomMeal.getDatabaseImage() == null) {
-                    continue;
-                }
-                ImageIcon image = new ImageIcon(new ImageIcon(randomMeal.getDatabaseImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
-                meal1pic2.setIcon(image);
-
-            }
-
-        }
-
-        // restaurants
-        while (randomRestaurantsSet.size() != 3) {
-            int randomRestaurant = rand.nextInt(allRestaurantsArrayList.size());
-            Restaurant restaurant = allRestaurantsArrayList.get(randomRestaurant);
-            System.out.println(randomRestaurantsSet.size() + " name : " + restaurant.getName() + " decs: " + restaurant.getDescription());
-
-            //check if restaurant is found in our list if we found it we dont add it to the list
-            Boolean found = false;
-            for (int i = 0; i < randomRestaurantsSet.size(); i++) {
-                if (randomRestaurantsSet.get(i).getName().equals(restaurant.getName())) {
-                    found = true;
-                }
-            }
-            if (!found) {
-                randomRestaurantsSet.add(restaurant);
-            }
-        }
-
-        // set the restaurants in home page
-        for (int i = 0; i < randomRestaurantsSet.size(); i++) {
-            Restaurant restaurant = randomRestaurantsSet.get(i);
-
-            if (i == 0) {
-                jLabel12.setText(restaurant.getName());
-                jTextArea3.setText(restaurant.getDescription());
-
-                if (restaurant.getImage() == null) {
-                    continue;
-                }
-                ImageIcon image = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
-                retaurants2.setIcon(image);
-            } else if (i == 1) {
-
-                jLabel16.setText(restaurant.getName());
-                jTextArea2.setText(restaurant.getDescription());
-
-                if (restaurant.getImage() == null) {
-                    continue;
-                }
-                ImageIcon image = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
-
-                retaurants4.setIcon(image);
-            } else if (i == 2) {
-                jLabel14.setText(restaurant.getName());
-                jTextArea1.setText(restaurant.getDescription());
-
-                if (restaurant.getImage() == null) {
-                    continue;
-                }
-                ImageIcon image = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
-                retaurants3.setIcon(image);
-            }
-        }
-
-    }
-
+    //table renderers
     public void updateOrdersTableForOwner() {
 
         Order order = Talabat.owner.getRestaurant().displayOrders();
@@ -419,7 +357,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
-    public void updateCurrentUserCartTable() {
+    public void updateCartForCustomer() {
         Cart currentCustomerCart = Talabat.customer.loadCart();
         if (currentCustomerCart == null) {
             return;
@@ -474,7 +412,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void updateRestaurantMealsJTableForCustomer(String restaurantName) {
+    public void updateRestaurantMealsForCustomer(String restaurantName) {
 
         mealList = Talabat.database.getRestaurantMeals(restaurantName);
 
@@ -554,7 +492,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    public void updateOrdersTableForCustomer() {
+    public void updateOrdersForCustomer() {
 
         Order[] orders = Talabat.customer.loadOrders();
 
@@ -632,96 +570,13 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.getColumnModel().getColumn(6).setMinWidth(200);
 
     }
-
-    private void createImageMap() {
-
-        allRestaurantsArrayList = Talabat.database.returnAllRestaurants();
-        if (allRestaurantsArrayList == null) {
-            return;
-        }
-        sz = allRestaurantsArrayList.size();
-
-        for (int i = 0; i < allRestaurantsArrayList.size(); i++) {
-
-            //System.out.println(i+1 +"name : "+allRestaurantsArrayList.get(i).getName()+" desx: "+allRestaurantsArrayList.get(i).getDescription());
-            allRestaurantsImageMap.put(allRestaurantsArrayList.get(i).getName(), allRestaurantsArrayList.get(i));
-            nameList[i] = allRestaurantsArrayList.get(i).getName();
-
-        }
-
-        //3mlt array gded 34an el size yb2a mazbot 34an lw 5leto 100 msln el scroll ely fl grid hyb2a byscroll f page fadya
-        String[] s = new String[sz];
-
-        //copy name list to s for loop can be used instead 
-        System.arraycopy(nameList, 0, s, 0, sz);
-
-        allRestaurantsjList.setBorder(new EmptyBorder(10, 10, 10, 10));
-        allRestaurantsjList.setFixedCellWidth(220);
-        allRestaurantsjList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = s;
-
-            @Override
-            public int getSize() {
-                return strings.length;
-            }
-
-            @Override
-            public String getElementAt(int i) {
-                return strings[i];
-            }
-        });
-
-    }
-
-    public class allRestaurantsListRenderModel extends DefaultListCellRenderer {
-
-        Font font = new Font("helvitica", Font.BOLD, 20);
-
-        @Override
-        public Component getListCellRendererComponent(
-                JList list, Object value, int index,
-                boolean isSelected, boolean cellHasFocus) {
-
-            JLabel label = (JLabel) super.getListCellRendererComponent(
-                    list, value, index, isSelected, cellHasFocus);
-
-            Restaurant r = allRestaurantsImageMap.get((String) value);
-
-            if (r != null) {
-                if (allRestaurantsImageMap.get((String) value).getImage() != null) {
-                    ImageIcon image = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get((String) value).getImage()).getImage().getScaledInstance(170, 170, Image.SCALE_SMOOTH));
-                    label.setIcon(image);
-
-                } else {
-                    ImageIcon image = new ImageIcon("src/pics/no_photo.png");
-                    label.setIcon(image);
-                }
-                String labelText = null;
-                if (r.getDescription() == null) {
-                    labelText = "<html> <div style='text-align: center;'>" + r.getName() + "</div></html>";
-                } else {
-                    labelText = "<html> <div style='text-align: center;'>" + r.getName() + "<br>" + r.getDescription() + "</div></html>";
-                }
-                label.setText(labelText);
-            }
-
-            label.setHorizontalAlignment(SwingConstants.CENTER);
-            label.setVerticalAlignment(SwingConstants.CENTER);
-
-            label.setHorizontalTextPosition(JLabel.CENTER);
-            label.setVerticalTextPosition(JLabel.BOTTOM);
-            label.setFont(font);
-
-            //setHorizontalAlignment(JLabel.CENTER);
-            return label;
-        }
-
-    }
-
+    
+    
     public void updateAllRestaurantsTable() {
 
-        createImageMap();
+        createRestaurantsImageMap();
 
+       
         allRestaurantsjList.setCellRenderer(new allRestaurantsListRenderModel());
         allRestaurantsjList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         allRestaurantsjList.setVisibleRowCount(0);
@@ -773,15 +628,131 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
     }
+    
+   
+    //home renderer
+    public void generatetRandomMeaslsAndResturantsInHome() {
 
-    public ImageIcon ResizeImage(String ImagePath) {
-        ImageIcon MyImage = new ImageIcon(ImagePath);
-        Image img = MyImage.getImage();
-        Image newImg = img.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
-        ImageIcon image = new ImageIcon(newImg);
-        return image;
+        //meals
+        Random rand = new Random();
+        while (randomMealSet.size() < 3) {
+
+            //get random meal from a restaurant
+            int randomMeal = rand.nextInt(allMealsList.size());
+            Meal meal = allMealsList.get(randomMeal);
+
+            //check if meal is found in our list if we found it we dont add it to the list
+            Boolean found = false;
+            for (int i = 0; i < randomMealSet.size(); i++) {
+                if (randomMealSet.get(i).getName().equals(meal.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                randomMealSet.add(meal);
+            }
+
+        }
+
+        //set the meals in home page
+        for (int j = 0; j < randomMealSet.size(); j++) {
+
+            Meal randomMeal = randomMealSet.get(j);
+
+            if (j == 0) {
+                jLabel2.setText(randomMeal.getName());
+                jLabel3.setText("<html>" + randomMeal.getDescription() + "</html>");
+
+                jLabel4.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
+                if (randomMeal.getDatabaseImage() == null) {
+                    continue;
+                }
+                ImageIcon image = new ImageIcon(new ImageIcon(randomMeal.getDatabaseImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
+                meal1pic.setIcon(image);
+            } else if (j == 1) {
+                jLabel5.setText(randomMeal.getName());
+                jLabel6.setText("<html>" + randomMeal.getDescription() + "</html>");
+                jLabel7.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
+                if (randomMeal.getDatabaseImage() == null) {
+                    continue;
+                }
+                ImageIcon image = new ImageIcon(new ImageIcon(randomMeal.getDatabaseImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
+
+                meal1pic1.setIcon(image);
+            } else if (j == 2) {
+                jLabel8.setText(randomMeal.getName());
+
+                jLabel9.setText("<html>" + randomMeal.getDescription() + "</html>");
+                jLabel25.setText(String.valueOf(randomMeal.getMealPrice()) + "EGP");
+                if (randomMeal.getDatabaseImage() == null) {
+                    continue;
+                }
+                ImageIcon image = new ImageIcon(new ImageIcon(randomMeal.getDatabaseImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
+                meal1pic2.setIcon(image);
+
+            }
+
+        }
+
+        // restaurants
+        while (randomRestaurantsSet.size() != 3) {
+            int randomRestaurant = rand.nextInt(allRestaurantsArrayList.size());
+            Restaurant restaurant = allRestaurantsArrayList.get(randomRestaurant);
+            System.out.println(randomRestaurantsSet.size() + " name : " + restaurant.getName() + " decs: " + restaurant.getDescription());
+
+            //check if restaurant is found in our list if we found it we dont add it to the list
+            Boolean found = false;
+            for (int i = 0; i < randomRestaurantsSet.size(); i++) {
+                if (randomRestaurantsSet.get(i).getName().equals(restaurant.getName())) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                randomRestaurantsSet.add(restaurant);
+            }
+        }
+
+        // set the restaurants in home page
+        for (int i = 0; i < randomRestaurantsSet.size(); i++) {
+            Restaurant restaurant = randomRestaurantsSet.get(i);
+
+            if (i == 0) {
+                jLabel12.setText(restaurant.getName());
+                jTextArea3.setText(restaurant.getDescription());
+
+                if (restaurant.getImage() == null) {
+                    continue;
+                }
+                ImageIcon image = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
+                retaurants2.setIcon(image);
+            } else if (i == 1) {
+
+                jLabel16.setText(restaurant.getName());
+                jTextArea2.setText(restaurant.getDescription());
+
+                if (restaurant.getImage() == null) {
+                    continue;
+                }
+                ImageIcon image = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
+
+                retaurants4.setIcon(image);
+            } else if (i == 2) {
+                jLabel14.setText(restaurant.getName());
+                jTextArea1.setText(restaurant.getDescription());
+
+                if (restaurant.getImage() == null) {
+                    continue;
+                }
+                ImageIcon image = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage().getScaledInstance(161, 161, Image.SCALE_SMOOTH));
+                retaurants3.setIcon(image);
+            }
+        }
+
     }
 
+    
+    
     public MainFrame() {
         initComponents();
         passwordField.setEchoChar('•');
@@ -789,12 +760,10 @@ public class MainFrame extends javax.swing.JFrame {
         new java.util.Timer().schedule(new java.util.TimerTask() {
             @Override
             public void run() {
-
                 endSplashScreenAnimation();
-
             }
 
-        }, 2800);
+        }, 3000);
 
     }
 
@@ -4170,7 +4139,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.revalidate();
 
             System.out.println("selected restaurant is : " + selectedRestaurantName);
-            updateRestaurantMealsJTableForCustomer(selectedRestaurantName);
+            updateRestaurantMealsForCustomer(selectedRestaurantName);
         }
     }//GEN-LAST:event_allRestaurantsjListMouseClicked
 
@@ -4279,7 +4248,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         Talabat.customer.getCart().removeMeal(index);
 
-        updateCurrentUserCartTable();
+        updateCartForCustomer();
     }//GEN-LAST:event_jLabel21MouseClicked
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
@@ -4295,7 +4264,7 @@ public class MainFrame extends javax.swing.JFrame {
         TableModelForCustomerCart currentUserCartTableModel = new TableModelForCustomerCart(rows, columnName);
         currentUserCartJtable.setModel(currentUserCartTableModel);
 
-        updateOrdersTableForCustomer();
+        updateOrdersForCustomer();
 
     }//GEN-LAST:event_jLabel11MouseClicked
 
@@ -4601,9 +4570,9 @@ public class MainFrame extends javax.swing.JFrame {
                     allMealsList = Talabat.database.getAllMealsInAllRestaurants();
 
                     updateAllRestaurantsTable();
-                    updateOrdersTableForCustomer();
-                    updateCurrentUserCartTable();
-                    setRandomMeaslsAndResturantsInHome();
+                    generatetRandomMeaslsAndResturantsInHome();
+                    updateCartForCustomer();
+                    updateOrdersForCustomer();
 
                     customerNameLabel.setText(customerName);
                     mainPanel.removeAll();
@@ -4619,10 +4588,8 @@ public class MainFrame extends javax.swing.JFrame {
                 else if (accountType == 2) {
 
                     Restaurant restaurant = Talabat.owner.getRestaurant();
-
                     resturantNameLabel1.setText(restaurant.getName());
-
-                    System.out.println(".run(): " + restaurant.getDescription());
+                    
                     if (restaurant.getDescription() != null) {
 
                         resturantDescriptionLabel.setText(restaurant.getDescription());
@@ -4655,8 +4622,6 @@ public class MainFrame extends javax.swing.JFrame {
                     mainPanel.repaint();
                     mainPanel.revalidate();
                 }
-                //endSplashScreenAnimation();
-
             }
 
         }, 0);
@@ -4791,7 +4756,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.repaint();
             mainPanel.revalidate();
 
-            updateRestaurantMealsJTableForCustomer(resturantName);
+            updateRestaurantMealsForCustomer(resturantName);
         }
     }//GEN-LAST:event_retaurants4MouseClicked
 
@@ -4827,7 +4792,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.repaint();
             mainPanel.revalidate();
 
-            updateRestaurantMealsJTableForCustomer(resturantName);
+            updateRestaurantMealsForCustomer(resturantName);
         }
     }//GEN-LAST:event_retaurants3MouseClicked
 
@@ -4863,7 +4828,7 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.repaint();
             mainPanel.revalidate();
 
-            updateRestaurantMealsJTableForCustomer(resturantName);
+            updateRestaurantMealsForCustomer(resturantName);
         }
     }//GEN-LAST:event_retaurants2MouseClicked
 

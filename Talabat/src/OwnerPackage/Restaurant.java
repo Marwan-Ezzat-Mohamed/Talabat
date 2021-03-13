@@ -40,6 +40,16 @@ public class Restaurant {
         this.Image = Image;
         numberOfRestaurants++;
     }
+    
+    
+    
+     public Order displayOrders() {
+        Order order = Talabat.database.returnOrderOfOwner(this.name);
+        return order;
+    }
+
+    
+    //getters and setters
     public void setImage(byte[] Image) {
         this.Image = Image;
     }
@@ -56,13 +66,7 @@ public class Restaurant {
         this.description = description;
     }
 
-    
-
-    public Order displayOrders() {
-        Order order = Talabat.database.returnOrderOfOwner(this.name);
-        return order;
-    }
-
+  
     public static int getNumberOfRestaurants() {
         return numberOfRestaurants;
     }

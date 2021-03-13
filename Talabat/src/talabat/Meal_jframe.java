@@ -312,7 +312,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         String restaurantName=MainFrame.allMealsList.get(mealIndex).getRestaurantName();
         Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username,restaurantName);
       
-        Talabat.mainFrame.updateCurrentUserCartTable();
+        Talabat.mainFrame.updateCartForCustomer();
         
 
         

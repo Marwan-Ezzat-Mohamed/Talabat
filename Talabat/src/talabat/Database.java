@@ -106,7 +106,11 @@ public class Database {
                     mainFrame.invalidLoginLabel.setText("");
                     mainFrame.username.setText(username);
                     String address = myRs.getString("address"), mobile = myRs.getString("mobile");
-                    Talabat.customer = new Customer(mobile, address, username, password);
+                    try {
+                        Talabat.customer = new Customer(mobile, address, username, password);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return 1;
                 }
                 System.out.println("hello");
@@ -122,7 +126,11 @@ public class Database {
                     mainFrame.invalidLoginLabel.setText("");
 
                     String restaurantName = myRs.getString("restaurantName");
-                    Talabat.owner = new Owner(username, password, restaurantName);
+                    try {
+                        Talabat.owner = new Owner(username, password, restaurantName);
+                    } catch (Exception ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     Talabat.owner.getRestaurant().setImage(myRs.getBytes("image"));
                     Talabat.owner.getRestaurant().setDescription(myRs.getString("description"));
 
@@ -147,6 +155,14 @@ public class Database {
         Statement myStmt = null;
         ResultSet myRs = null;
 
+        try {
+            Customer customer=new Customer(mobile, address, username, password);
+        } catch (Exception ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        
         boolean foundUser = false;
 
         try {
@@ -186,7 +202,8 @@ public class Database {
             mainFrame.invalidLoginLabelForSignUp.setText("username already exits login?");
             return false;
 
-        } else {
+        } 
+        else {
 
             mainFrame.invalidLoginLabel.setText("");
             try {

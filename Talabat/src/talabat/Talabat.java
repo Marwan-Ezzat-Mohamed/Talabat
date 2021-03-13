@@ -15,7 +15,7 @@ public class Talabat {
     public static MainFrame mainFrame;
     public static Owner owner;
     public static Customer customer ;
-    public static Database database= new Database();
+    public static Database database;
 
     
     public static void changeLookAndFell()
@@ -38,7 +38,7 @@ public class Talabat {
         
         //bt8ayar el design
         changeLookAndFell();
-        
+        database=new Database();
         mainFrame = new MainFrame();
         mainFrame.show();
    

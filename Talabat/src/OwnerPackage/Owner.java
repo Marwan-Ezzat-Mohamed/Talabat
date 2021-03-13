@@ -12,7 +12,7 @@ public class Owner extends User {
     private String restaurantName;
     private Restaurant restaurant = new Restaurant();
 
-    public Owner(String username, String password, String restaurantName) {
+    public Owner(String username, String password, String restaurantName) throws Exception {
 
         super(password, username);
 

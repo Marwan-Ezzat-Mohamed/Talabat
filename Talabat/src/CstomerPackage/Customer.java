@@ -11,7 +11,7 @@ public class Customer extends User {
     private Cart cart = new Cart();
     private Order[] orders = new Order[maxOrders];
 
-    public Customer(String mobileNumber, String address, String user, String pass) {
+    public Customer(String mobileNumber, String address, String user, String pass) throws Exception {
         super(pass, user);
         this.mobileNumber = mobileNumber;
         this.address = address;
