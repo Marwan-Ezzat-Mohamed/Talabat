@@ -1,19 +1,12 @@
 package CustomModels;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 
 import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author Marwan Ezzat
- */
+
 public class TableModelForMyOrders extends AbstractTableModel{
     private String[] columns;
     private Object[][] rows;

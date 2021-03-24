@@ -2,19 +2,14 @@ package talabat;
 
 import java.lang.Exception;
 
-abstract public class User extends Exception {
+abstract public class User {
 
     private final String username;
     private String password;
 
     public User(String password, String username) throws Exception {
-        if (!setPassword(password)) {
-            throw new passwordIsWeakException();
-        } else {
-            this.password = password;
-            this.username = username;
-        }
-
+        setPassword(password);
+        this.username = username;
     }
 
     public String getUsername() {
@@ -26,20 +21,15 @@ abstract public class User extends Exception {
         return password;
     }
 
-    public final boolean setPassword(String password) {
+    
+    public final void setPassword(String password) throws Exception {
         if (password.length() <= 1) {
-            return false;
+            throw new passwordIsWeakException();
         }
         this.password = password;
-        return true;
     }
-
-    public class passwordIsWeakException extends Exception {
-
-        public passwordIsWeakException() {
-            super("password must be at least 8 chars");
-        }
-
-    }
+    
+    
+    
 
 }

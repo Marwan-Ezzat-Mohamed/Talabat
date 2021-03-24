@@ -38,6 +38,7 @@ public class Talabat {
         
         //bt8ayar el design
         changeLookAndFell();
+        
         database=new Database();
         mainFrame = new MainFrame();
         mainFrame.show();

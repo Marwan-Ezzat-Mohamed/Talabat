@@ -317,9 +317,6 @@ public class EditMeal extends javax.swing.JFrame {
         priceLabel.setText(null);
         mealImage.setIcon(null);
 
-        mealNameTextField.setEditable(false);
-        priceTextField.setEditable(false);
-        descriptionTextField.setEditable(false);
         this.dispose();
 
     }//GEN-LAST:event_removeMealbuttonMouseClicked

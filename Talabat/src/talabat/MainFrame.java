@@ -44,15 +44,17 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 public class MainFrame extends javax.swing.JFrame {
 
     public String currentPannel;
-    ImageIcon icon = new ImageIcon("src/pics/appIcon.png");
+    ImageIcon appIcon = new ImageIcon("src/pics/appIcon.png");
 
     /**
      * Creates new form LoginFrame
@@ -81,18 +83,23 @@ public class MainFrame extends javax.swing.JFrame {
     public static ArrayList<Meal> allMealsList;
     public static ArrayList<Meal> mealList;
     public static ArrayList<Restaurant> allRestaurantsArrayList;
-
     public static ArrayList<Meal> randomMealSet = new ArrayList<Meal>();
     public static ArrayList<Restaurant> randomRestaurantsSet = new ArrayList<>();
     public static Map<String, Restaurant> allRestaurantsImageMap = new HashMap<>();
+
     public static boolean allResturantsIsSorted;
 
     public static String[] nameList = new String[100];
     public static int sz;
 
-    
+    public static ImageIcon noImageIcon = new ImageIcon("src/pics/no_photo.png");
+
     //helper functions 
-    
+    private void centerTableHeader(JTable table) {
+        TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
+        JLabel headerLabel = (JLabel) rendererFromHeader;
+        headerLabel.setHorizontalAlignment(JLabel.CENTER);
+    }
 
     private void createRestaurantsImageMap() {
 
@@ -134,10 +141,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    
-
-    
-
     public ImageIcon ResizeImage(String ImagePath) {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
@@ -146,7 +149,6 @@ public class MainFrame extends javax.swing.JFrame {
         return image;
     }
 
-    
     //file chooser lma el owner y8yr soret el mt3m
     public void openFileChooserForRestImageEditing() throws FileNotFoundException {
 
@@ -194,6 +196,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7.setBackground(Color.WHITE);
 
     }
+
     //table renderers
     public void updateOrdersTableForOwner() {
 
@@ -219,7 +222,7 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][1] = image;
 
             } else {
-                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                ImageIcon image = noImageIcon;
                 rows[i][1] = image;
             }
 
@@ -242,6 +245,7 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTableForOwner.setRowHeight(160);
 
         //by3ml center ll 7aga fl cell
+        centerTableHeader(myOrdersTableForOwner);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
@@ -291,7 +295,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                 rows[i][0] = image;
             } else {
-                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                ImageIcon image = noImageIcon;
                 rows[i][0] = image;
             }
             rows[i][1] = mealList.get(i).getName();
@@ -306,6 +310,7 @@ public class MainFrame extends javax.swing.JFrame {
         mealsOfResturantForOwnerJtable.setRowHeight(160);
 
         //by3ml center ll 7aga fl cell
+        centerTableHeader(mealsOfResturantForOwnerJtable);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         mealsOfResturantForOwnerJtable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
@@ -375,7 +380,7 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][0] = image;
 
             } else {
-                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                ImageIcon image = noImageIcon;
                 rows[i][0] = image;
             }
 
@@ -394,6 +399,7 @@ public class MainFrame extends javax.swing.JFrame {
         currentUserCartJtable.setRowHeight(160);
 
         //by3ml center ll 7aga fl cell
+        centerTableHeader(currentUserCartJtable);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         currentUserCartJtable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
@@ -430,7 +436,7 @@ public class MainFrame extends javax.swing.JFrame {
                 rows[i][0] = image;
 
             } else {
-                ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                ImageIcon image = noImageIcon;
                 rows[i][0] = image;
             }
             rows[i][1] = mealList.get(i).getName();
@@ -444,6 +450,7 @@ public class MainFrame extends javax.swing.JFrame {
         mealsTable.setRowHeight(160);
 
         //by3ml center ll 7aga fl cell
+        centerTableHeader(mealsTable);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         mealsTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
@@ -516,7 +523,7 @@ public class MainFrame extends javax.swing.JFrame {
                     ImageIcon image = new ImageIcon(new ImageIcon(orders[i].getOrdererdMeals()[j].getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
                     rows[row][1] = image;
                 } else {
-                    ImageIcon image = new ImageIcon("src/pics/no_photo.png");
+                    ImageIcon image = noImageIcon;
                     rows[row][1] = image;
                 }
 
@@ -538,6 +545,8 @@ public class MainFrame extends javax.swing.JFrame {
         // by3ml center ll text fl cell
         myOrdersTable.setModel(orderModel);
         myOrdersTable.setRowHeight(160);
+
+        centerTableHeader(myOrdersTable);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -570,13 +579,11 @@ public class MainFrame extends javax.swing.JFrame {
         myOrdersTable.getColumnModel().getColumn(6).setMinWidth(200);
 
     }
-    
-    
+
     public void updateAllRestaurantsTable() {
 
         createRestaurantsImageMap();
 
-       
         allRestaurantsjList.setCellRenderer(new allRestaurantsListRenderModel());
         allRestaurantsjList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         allRestaurantsjList.setVisibleRowCount(0);
@@ -628,8 +635,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
     }
-    
-   
+
     //home renderer
     public void generatetRandomMeaslsAndResturantsInHome() {
 
@@ -751,8 +757,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
 
-    
-    
     public MainFrame() {
         initComponents();
         passwordField.setEchoChar('•');
@@ -763,7 +767,7 @@ public class MainFrame extends javax.swing.JFrame {
                 endSplashScreenAnimation();
             }
 
-        }, 3000);
+        }, 2900);
 
     }
 
@@ -992,7 +996,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Talabat");
-        setIconImage(icon.getImage());
+        setIconImage(appIcon.getImage());
         setResizable(false);
 
         mainPanel.setBorder(null);
@@ -1067,9 +1071,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         invalidLoginLabel.setForeground(new java.awt.Color(255, 255, 102));
 
-        showPasswordCheckBox.setBackground(new java.awt.Color(255, 102, 0));
         showPasswordCheckBox.setForeground(new java.awt.Color(255, 255, 255));
         showPasswordCheckBox.setText("Show Password");
+        showPasswordCheckBox.setOpaque(false);
         showPasswordCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showPasswordCheckBoxActionPerformed(evt);
@@ -1908,10 +1912,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("big zack");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setText("Description");
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -1919,7 +1923,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel4.setText("25 EGP");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1969,13 +1973,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel5.setText("of");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel6.setText("Description");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel7.setText("25 EGP");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -2025,16 +2029,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel8.setText("pepsi");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel9.setText("pepsi sa2e3");
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setText("25 EGP");
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel25.setText("25 EGP");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -2118,10 +2122,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel12.setText("mt3m");
 
-        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         retaurants2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants2MouseClicked(evt);
@@ -2134,7 +2138,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTextArea3.setEditable(false);
         jTextArea3.setColumns(20);
-        jTextArea3.setFont(new java.awt.Font("Book Antiqua", 0, 14)); // NOI18N
+        jTextArea3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTextArea3.setLineWrap(true);
         jTextArea3.setRows(3);
         jTextArea3.setWrapStyleWord(true);
@@ -2181,10 +2185,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel14.setText("mac");
 
-        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         retaurants3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants3MouseClicked(evt);
@@ -2195,6 +2199,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(3);
         jTextArea1.setText("fast food\n");
@@ -2239,10 +2244,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel16.setText("burger king");
 
-        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
+        retaurants4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
         retaurants4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 retaurants4MouseClicked(evt);
@@ -2253,7 +2258,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Bodoni MT Black", 0, 14)); // NOI18N
+        jTextArea2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(3);
         jTextArea2.setText("fsdfdsfsdfgsd gfsr srg srg fer");
@@ -2680,16 +2685,6 @@ public class MainFrame extends javax.swing.JFrame {
         currentUserCartJtable.setShowVerticalLines(false);
         currentUserCartJtable.getTableHeader().setResizingAllowed(false);
         currentUserCartJtable.getTableHeader().setReorderingAllowed(false);
-        currentUserCartJtable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                currentUserCartJtableMouseMoved(evt);
-            }
-        });
-        currentUserCartJtable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                currentUserCartJtableMouseExited(evt);
-            }
-        });
         jScrollPane1.setViewportView(currentUserCartJtable);
 
         jLabel21.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -3386,8 +3381,7 @@ public class MainFrame extends javax.swing.JFrame {
         aboutRest.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         aboutRest.setForeground(new java.awt.Color(230, 81, 0));
         aboutRest.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        aboutRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/aboutclr.png"))); // NOI18N
-        aboutRest.setText("About");
+        aboutRest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/aboutForowner.png"))); // NOI18N
         aboutRest.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         aboutRest.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -3415,44 +3409,42 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel25Layout.createSequentialGroup()
                         .addGap(530, 530, 530)
-                        .addComponent(Hot_deals6)))
-                .addContainerGap(114, Short.MAX_VALUE))
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addGap(188, 188, 188)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Hot_deals6))
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(refreshButton))
-                    .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(aboutRest)
-                        .addGap(31, 31, 31))))
+                        .addGap(188, 188, 188)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel25Layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(refreshButton))
+                            .addGroup(jPanel25Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(aboutRest)))))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(aboutRest)
+                .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Hot_deals6)
+                .addGap(33, 33, 33)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchMealsTextField1))
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Hot_deals6)
-                        .addGap(33, 33, 33)
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(searchMealsTextField1))
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel25Layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel25Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(76, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(aboutRest))
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantOwnerPanelLayout = new javax.swing.GroupLayout(resturantOwnerPanel);
@@ -3640,8 +3632,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_pan9Layout.createSequentialGroup()
                 .addComponent(jLabel98)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
@@ -4122,7 +4114,7 @@ public class MainFrame extends javax.swing.JFrame {
                 //get image from map
                 ImageIcon img = new ImageIcon(new ImageIcon(restaurant.getImage()).getImage());
 
-                //convert image to icon of size 160*160
+                //convert image to appIcon of size 160*160
                 ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 resturantIcon.setIcon(image);
@@ -4133,12 +4125,10 @@ public class MainFrame extends javax.swing.JFrame {
             mainPanel.removeAll();
             mainPanel.repaint();
             mainPanel.revalidate();
-
             mainPanel.add(resturantPanel);
             mainPanel.repaint();
             mainPanel.revalidate();
 
-            System.out.println("selected restaurant is : " + selectedRestaurantName);
             updateRestaurantMealsForCustomer(selectedRestaurantName);
         }
     }//GEN-LAST:event_allRestaurantsjListMouseClicked
@@ -4589,7 +4579,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                     Restaurant restaurant = Talabat.owner.getRestaurant();
                     resturantNameLabel1.setText(restaurant.getName());
-                    
+
                     if (restaurant.getDescription() != null) {
 
                         resturantDescriptionLabel.setText(restaurant.getDescription());
@@ -4740,7 +4730,7 @@ public class MainFrame extends javax.swing.JFrame {
                 //get image from map
                 ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(resturantName).getImage()).getImage());
 
-                //convert image to icon of size 160*160
+                //convert image to appIcon of size 160*160
                 ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 resturantIcon.setIcon(image);
@@ -4776,7 +4766,7 @@ public class MainFrame extends javax.swing.JFrame {
                 //get image from map
                 ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(resturantName).getImage()).getImage());
 
-                //convert image to icon of size 160*160
+                //convert image to appIcon of size 160*160
                 ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 resturantIcon.setIcon(image);
@@ -4812,7 +4802,7 @@ public class MainFrame extends javax.swing.JFrame {
                 //get image from map
                 ImageIcon img = new ImageIcon(new ImageIcon(allRestaurantsImageMap.get(resturantName).getImage()).getImage());
 
-                //convert image to icon of size 160*160
+                //convert image to appIcon of size 160*160
                 ImageIcon image = new ImageIcon(img.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
 
                 resturantIcon.setIcon(image);
@@ -5269,30 +5259,13 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             mealsTable.setSelectionBackground(new Color(255, 102, 51));
         }
-        
+
     }//GEN-LAST:event_mealsTableMouseMoved
 
     private void mealsTableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsTableMouseExited
         // TODO add your handling code here:
-         mealsTable.clearSelection();
+        mealsTable.clearSelection();
     }//GEN-LAST:event_mealsTableMouseExited
-
-    private void currentUserCartJtableMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseMoved
-        // TODO add your handling code here:
-        int row = currentUserCartJtable.rowAtPoint(evt.getPoint());
-        if (row > -1) {
-
-            currentUserCartJtable.clearSelection();
-            currentUserCartJtable.setRowSelectionInterval(row, row);
-        } else {
-            currentUserCartJtable.setSelectionBackground(new Color(255, 102, 51));
-        }
-    }//GEN-LAST:event_currentUserCartJtableMouseMoved
-
-    private void currentUserCartJtableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_currentUserCartJtableMouseExited
-        // TODO add your handling code here:
-        currentUserCartJtable.clearSelection();
-    }//GEN-LAST:event_currentUserCartJtableMouseExited
 
     /**
      * @param args the command line arguments

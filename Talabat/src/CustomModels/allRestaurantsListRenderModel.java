@@ -49,7 +49,6 @@ public class allRestaurantsListRenderModel extends DefaultListCellRenderer {
             label.setVerticalTextPosition(JLabel.BOTTOM);
             label.setFont(font);
 
-            //setHorizontalAlignment(JLabel.CENTER);
             return label;
         }
 

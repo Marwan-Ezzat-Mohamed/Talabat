@@ -35,17 +35,22 @@ import static talabat.Talabat.mainFrame;
 public class Database {
 
     public Connection databaseConnection;
-    private final String databaseUrl = "jdbc:mysql://remotemysql.com:3306/RjFI4gANpY?autoReconnect=true";
+    private final String onlineDatabase = "jdbc:mysql://remotemysql.com:3306/RjFI4gANpY?autoReconnect=true";
+    private final String onlineDatabaseUsername = "RjFI4gANpY";
+    private final String onlineDatabasePassword = "UIY691h8aY";
+
+    // 34an lw mafe4 net youm el mona24a 
+    private final String localDatabase = "jdbc:mysql://localhost:3306/talabat";
+    private final String localDatabaseUsername = "root";
+    private final String localDatabasePassword = "01003494703Mn";
 
     public Database() {
-
-        
         try {
-            this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
+            this.databaseConnection = DriverManager.getConnection(onlineDatabase, onlineDatabaseUsername, onlineDatabasePassword);
+            System.out.println("connected");
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     public void restoreConnection() {
@@ -53,7 +58,7 @@ public class Database {
         // lw el user 48al el app mn 8er net y3ml connection m3 el database
         if (databaseConnection == null) {
             try {
-                this.databaseConnection = DriverManager.getConnection(databaseUrl, "RjFI4gANpY", "UIY691h8aY");
+                this.databaseConnection = DriverManager.getConnection(onlineDatabase, "RjFI4gANpY", "UIY691h8aY");
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -67,13 +72,14 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     //bt4of fe net wala la2
     public boolean checkConnection() {
 
         restoreConnection();
+
+        // commment lw local database
         try {
             URL url = new URL("http://www.google.com");
             URLConnection connection = url.openConnection();
@@ -87,6 +93,31 @@ public class Database {
             return false;
         }
 
+//        return true;   //uncomment lw local database
+    }
+
+    private boolean checkIfUserExists(String username) {
+
+        try {
+            PreparedStatement myStmt = databaseConnection.prepareStatement("select * from customers");
+            ResultSet myRs = myStmt.executeQuery();
+            while (myRs.next()) {
+                if (myRs.getString("username").equals(username)) {
+                    return true;
+                }
+            }
+            
+            myRs = myStmt.executeQuery("select * from owners");
+            while (myRs.next()) {
+                if (myRs.getString("username").equals(username)) {
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
     }
 
     public int login(String username, String password) {
@@ -94,53 +125,57 @@ public class Database {
             return 0;
         }
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        Statement sqlStmt = null;
+        ResultSet customersInDatabase = null;
+        ResultSet ownersInDatabase = null;
         try {
 
-            myStmt = databaseConnection.createStatement();
-            myRs = myStmt.executeQuery("select * from customers");
+            sqlStmt = databaseConnection.createStatement();
+            customersInDatabase = sqlStmt.executeQuery("select * from customers");
 
-            while (myRs.next()) {
-                if (myRs.getString("username").equals(username) && myRs.getString("password").equals(password)) {
+            while (customersInDatabase.next()) {
+                if (customersInDatabase.getString("username").equals(username) && customersInDatabase.getString("password").equals(password)) {
+
+                    //reset el label 
                     mainFrame.invalidLoginLabel.setText("");
+                    //set el username fl home page lma y3ml login
                     mainFrame.username.setText(username);
-                    String address = myRs.getString("address"), mobile = myRs.getString("mobile");
+
+                    String address = customersInDatabase.getString("address"), mobile = customersInDatabase.getString("mobile");
+
                     try {
                         Talabat.customer = new Customer(mobile, address, username, password);
                     } catch (Exception ex) {
                         Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null, "password must be at least 8 chars");
                     }
                     return 1;
                 }
-                System.out.println("hello");
             }
 
             //check for owner
-            myStmt = databaseConnection.createStatement();
-            myRs = myStmt.executeQuery("select * from owners , restaurants where owners.restaurantName=restaurants.name;");
+            ownersInDatabase = sqlStmt.executeQuery("select * from owners , restaurants where owners.restaurantName=restaurants.name;");
 
-            while (myRs.next()) {
-                if (myRs.getString("username").equals(username) && myRs.getString("password").equals(password)) {
-                    System.out.println("Login successful");
+            while (ownersInDatabase.next()) {
+                if (ownersInDatabase.getString("username").equals(username) && ownersInDatabase.getString("password").equals(password)) {
+                    //reset el label 
                     mainFrame.invalidLoginLabel.setText("");
 
-                    String restaurantName = myRs.getString("restaurantName");
+                    String restaurantName = ownersInDatabase.getString("restaurantName");
                     try {
                         Talabat.owner = new Owner(username, password, restaurantName);
                     } catch (Exception ex) {
                         Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    Talabat.owner.getRestaurant().setImage(myRs.getBytes("image"));
-                    Talabat.owner.getRestaurant().setDescription(myRs.getString("description"));
+                    Talabat.owner.getRestaurant().setImage(ownersInDatabase.getBytes("image"));
+                    Talabat.owner.getRestaurant().setDescription(ownersInDatabase.getString("description"));
 
                     return 2;
-
                 }
-
             }
-
+            // lw mla2a4 el user aw owner by3mld de 
             mainFrame.invalidLoginLabel.setText("Invalid username or password");
+
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             mainFrame.invalidLoginLabel.setText("unexpected error occurred please try again later");
@@ -152,46 +187,22 @@ public class Database {
 
     public boolean signupForCusotmer(String username, String password, String confirmPassword, String mobile, String address) {
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        PreparedStatement sqlStmt;
+        ResultSet usersInDatabase;
 
         try {
-            Customer customer=new Customer(mobile, address, username, password);
+            //34an y4of el password week wala la2
+            Customer customer = new Customer(mobile, address, username, password);
         } catch (Exception ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
-        
-        boolean foundUser = false;
 
-        try {
+        //bydawr 3l user fl database 34an ytcheck lw el user mwgod abl kda
+        boolean foundUser = checkIfUserExists(username);
 
-            myStmt = databaseConnection.createStatement();
-            myRs = myStmt.executeQuery("select * from customers");
-
-            while (myRs.next()) {
-                System.out.println(myRs.getString("username"));
-                if (myRs.getString("username").equals(username)) {
-                    foundUser = true;
-                }
-            }
-
-            myRs = myStmt.executeQuery("select * from owners");
-
-            while (myRs.next()) {
-                System.out.println(myRs.getString("username"));
-                if (myRs.getString("username").equals(username)) {
-                    foundUser = true;
-                }
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            mainFrame.invalidLoginLabel.setText("unexpected error occurred please try again later");
-            return false;
-        }
-
+       
+        // htfhmo mn el errors
         if (address.equals("") || username.equals("") || password.equals("") || confirmPassword.equals("") || mobile.equals("")) {
             mainFrame.invalidLoginLabelForSignUp.setText("you must fill all the fields");
             return false;
@@ -199,18 +210,22 @@ public class Database {
             mainFrame.invalidLoginLabelForSignUp.setText("passwords don't match");
             return false;
         } else if (foundUser) {
-            mainFrame.invalidLoginLabelForSignUp.setText("username already exits login?");
+            mainFrame.invalidLoginLabelForSignUp.setText("username already exists login?");
             return false;
 
-        } 
-        else {
+        } else {
 
+            //kolo tmam fa n7oto fl database b2a
             mainFrame.invalidLoginLabel.setText("");
             try {
 
-                myStmt = databaseConnection.createStatement();
-                String st = "INSERT INTO customers Values( '" + username + "','" + password + "','" + mobile + "','" + address + "');";
-                myStmt.executeUpdate(st);
+                sqlStmt = databaseConnection.prepareStatement("INSERT INTO customers Values(?,?,?,?);");
+                sqlStmt.setString(1, username);
+                sqlStmt.setString(2, password);
+                sqlStmt.setString(3, mobile);
+                sqlStmt.setString(4, address);
+                sqlStmt.execute();
+
                 return true;
             } catch (SQLException ex) {
                 Logger.getLogger(Talabat.class.getName()).log(Level.SEVERE, null, ex);
@@ -223,30 +238,15 @@ public class Database {
 
     public boolean signUpForOwner(String username, String password, String confirmPassword, String restaurantName) {
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        PreparedStatement restaurntsInDatabase;
+        ResultSet myRs;
 
-        boolean foundUser = false;
+        boolean foundUser = checkIfUserExists(username);
         boolean foundResraurant = false;
 
         try {
-
-            myStmt = databaseConnection.createStatement();
-            myRs = myStmt.executeQuery("select * from customers");
-            while (myRs.next()) {
-                if (myRs.getString("username").equals(username)) {
-                    foundUser = true;
-                }
-            }
-
-            myRs = myStmt.executeQuery("select * from owners");
-            while (myRs.next()) {
-                if (myRs.getString("username").equals(username)) {
-                    foundUser = true;
-                }
-            }
-
-            myRs = myStmt.executeQuery("select * from restaurants");
+            restaurntsInDatabase = databaseConnection.prepareStatement("select * from restaurants");
+            myRs = restaurntsInDatabase.executeQuery();
             while (myRs.next()) {
                 if (myRs.getString("name").equals(restaurantName)) {
                     foundResraurant = true;
@@ -258,19 +258,19 @@ public class Database {
             mainFrame.invalidLoginLabel.setText("unexpected error occurred please try again later");
             return false;
         }
-
+        
         if (restaurantName.equals("") || username.equals("") || password.equals("") || confirmPassword.equals("")) {
-            mainFrame.invalidLoginLabelForSignUp.setText("you must fill all the fields.");
+            mainFrame.invalidLoginLabelForSignUp1.setText("you must fill all the fields.");
             return false;
         } else if (!password.equals(confirmPassword)) {
-            mainFrame.invalidLoginLabelForSignUp.setText("passwords don't match.");
+            mainFrame.invalidLoginLabelForSignUp1.setText("passwords don't match.");
             return false;
         } else if (foundUser) {
-            mainFrame.invalidLoginLabelForSignUp.setText("username already exits.");
+            mainFrame.invalidLoginLabelForSignUp1.setText("username already exists.");
             return false;
 
         } else if (foundResraurant) {
-            mainFrame.invalidLoginLabelForSignUp.setText("restaurant name already.");
+            mainFrame.invalidLoginLabelForSignUp1.setText("restaurant name already exists.");
             return false;
         } else {
 
@@ -306,52 +306,47 @@ public class Database {
 
         ArrayList<Restaurant> list = new ArrayList<>();
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        Statement sqlStmt ;
+        ResultSet restaurntsInDatabase ;
+        
         try {
 
-            myStmt = databaseConnection.createStatement();
-            myRs = myStmt.executeQuery("select * from restaurants");
+            sqlStmt = databaseConnection.createStatement();
+            restaurntsInDatabase = sqlStmt.executeQuery("select * from restaurants");
 
-            //Process the result set
             Restaurant r;
-            while (myRs.next()) {
-                r = new Restaurant(myRs.getString("name"), myRs.getBytes("image"), myRs.getString("description"));
-
+            while (restaurntsInDatabase.next()) {
+                r = new Restaurant(restaurntsInDatabase.getString("name"), restaurntsInDatabase.getBytes("image"), restaurntsInDatabase.getString("description"));
                 list.add(r);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return list;
     }
 
-    public ArrayList<Order> returnMyOrders(String s) {
+    public ArrayList<Order> returnMyOrders(String user) {
 
         if (!checkConnection()) {
             return null;
         }
-
-        String user = s;
+        
         ArrayList<Order> orderList = new ArrayList<>();
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        Statement sqlStmt ;
+        ResultSet ordersInDatabase ;
         try {
 
-            myStmt = databaseConnection.createStatement();
-
-            //Execute SQL query
-            myRs = myStmt.executeQuery("select * from orders where username='" + user + "';");
+            sqlStmt = databaseConnection.createStatement();
+            ordersInDatabase = sqlStmt.executeQuery("select * from orders where username='" + user + "';");
 
             //Process the result set
             Order o;
             Cart c = new Cart();
-            c.addMeal(new Meal("kofta", 20.0f), 2);
 
-            while (myRs.next()) {
+            while (ordersInDatabase.next()) {
                 o = new Order();
-
                 orderList.add(o);
             }
         } catch (SQLException ex) {
@@ -414,22 +409,22 @@ public class Database {
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
-        ResultSet myRs = null;
+        ResultSet mealsOfRestaurantInDatabase ;
         try {
 
             PreparedStatement ps = databaseConnection.prepareStatement("select * from meals where restaurantName =?;");
 
             ps.setString(1, restaurantName);
 
-            myRs = ps.executeQuery();
+            mealsOfRestaurantInDatabase = ps.executeQuery();
 
-            while (myRs.next()) {
+            while (mealsOfRestaurantInDatabase.next()) {
 
-                int id = myRs.getInt("id");
-                String name = myRs.getString("name");
-                String description = myRs.getString("description");
-                float price = myRs.getFloat("price");
-                byte[] image = myRs.getBytes("image");
+                String name = mealsOfRestaurantInDatabase.getString("name");
+                String description = mealsOfRestaurantInDatabase.getString("description");
+                int id = mealsOfRestaurantInDatabase.getInt("id");
+                float price = mealsOfRestaurantInDatabase.getFloat("price");
+                byte[] image = mealsOfRestaurantInDatabase.getBytes("image");
 
                 Meal m = new Meal(name, description, price, image, id);
                 m.setRestaurantName(restaurantName);
@@ -450,12 +445,11 @@ public class Database {
 
         ArrayList<Meal> mealList = new ArrayList<>();
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        Statement myStmt;
+        ResultSet myRs;
         try {
 
             myStmt = databaseConnection.createStatement();
-
             myRs = myStmt.executeQuery("select * from meals where restaurantName<> 'null';");
 
             while (myRs.next()) {
@@ -465,7 +459,7 @@ public class Database {
                 String description = myRs.getString("description");
                 float price = myRs.getFloat("price");
                 byte[] image = myRs.getBytes("image");
-
+                
                 Meal m = new Meal(name, description, price, image);
                 m.setRestaurantName(restaurantName);
                 mealList.add(m);
@@ -589,7 +583,7 @@ public class Database {
             return;
         }
 
-        Statement myStmt = null;
+        Statement myStmt ;
         ResultSet myRs;
         try {
 
@@ -640,8 +634,8 @@ public class Database {
 
         Cart cart = new Cart();
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        Statement myStmt ;
+        ResultSet myRs ;
         try {
 
             myStmt = databaseConnection.createStatement();
@@ -651,7 +645,7 @@ public class Database {
             while (myRs.next()) {
 
                 cart.addMeal((returnMealFromId(myRs.getInt("mealId"))), myRs.getInt("quantity"));
-                Meal m = returnMealFromId(myRs.getInt("mealId"));
+               
 
             }
         } catch (SQLException ex) {
@@ -666,8 +660,8 @@ public class Database {
             return null;
         }
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
+        Statement myStmt ;
+        ResultSet myRs ;
         Meal m = null;
         try {
 
@@ -692,7 +686,7 @@ public class Database {
             return;
         }
 
-        Statement myStmt = null;
+        Statement myStmt ;
 
         try {
 
@@ -714,9 +708,9 @@ public class Database {
             return null;
         }
 
-        Statement myStmt = null;
-        ResultSet myRs = null;
-        Order[] orders = null;
+        Statement myStmt ;
+        ResultSet myRs ;
+        Order[] orders = null ;
         try {
 
             myStmt = databaseConnection.createStatement();
@@ -726,7 +720,7 @@ public class Database {
             if (myRs.next()) {
                 maxOrderNumber = myRs.getInt(1);
             }
-            myRs = null;
+        
             myRs = myStmt.executeQuery("select * from cart where cartOwner = '" + username + "' and orderNumber<>0; ");
 
             orders = new Order[maxOrderNumber + 1];
@@ -770,7 +764,7 @@ public class Database {
             return null;
         }
 
-        ResultSet myRs = null;
+        ResultSet myRs ;
         Order order = null;
         try {
 
