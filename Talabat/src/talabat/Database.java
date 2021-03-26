@@ -45,12 +45,14 @@ public class Database {
     private final String localDatabasePassword = "01003494703Mn";
 
     public Database() {
+        
         try {
             this.databaseConnection = DriverManager.getConnection(onlineDatabase, onlineDatabaseUsername, onlineDatabasePassword);
             System.out.println("connected");
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+       
     }
 
     public void restoreConnection() {
@@ -125,9 +127,9 @@ public class Database {
             return 0;
         }
 
-        Statement sqlStmt = null;
-        ResultSet customersInDatabase = null;
-        ResultSet ownersInDatabase = null;
+        Statement sqlStmt ;
+        ResultSet customersInDatabase ;
+        ResultSet ownersInDatabase ;
         try {
 
             sqlStmt = databaseConnection.createStatement();
@@ -188,7 +190,7 @@ public class Database {
     public boolean signupForCusotmer(String username, String password, String confirmPassword, String mobile, String address) {
 
         PreparedStatement sqlStmt;
-        ResultSet usersInDatabase;
+        
 
         try {
             //34an y4of el password week wala la2
@@ -343,8 +345,7 @@ public class Database {
 
             //Process the result set
             Order o;
-            Cart c = new Cart();
-
+            
             while (ordersInDatabase.next()) {
                 o = new Order();
                 orderList.add(o);

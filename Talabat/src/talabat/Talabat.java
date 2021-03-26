@@ -42,7 +42,6 @@ public class Talabat {
         database=new Database();
         mainFrame = new MainFrame();
         mainFrame.show();
-        ///fgd dfgfd 
    
     }
 

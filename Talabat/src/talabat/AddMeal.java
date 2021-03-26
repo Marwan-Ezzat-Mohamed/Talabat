@@ -52,13 +52,12 @@ public class AddMeal extends javax.swing.JFrame {
         mealName1 = new javax.swing.JLabel();
         addMealNameTextBox = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        addMealDescriptionTextBox = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         addMealPriceTextBox = new javax.swing.JTextField();
         addMealLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        addMealDescriptionTextBox = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
-        mealName = new javax.swing.JLabel();
-        mealDescription = new javax.swing.JLabel();
         addMealImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -83,13 +82,6 @@ public class AddMeal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Description");
 
-        addMealDescriptionTextBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        addMealDescriptionTextBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addMealDescriptionTextBoxActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Price");
 
@@ -108,6 +100,12 @@ public class AddMeal extends javax.swing.JFrame {
             }
         });
 
+        addMealDescriptionTextBox.setColumns(20);
+        addMealDescriptionTextBox.setLineWrap(true);
+        addMealDescriptionTextBox.setRows(5);
+        addMealDescriptionTextBox.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(addMealDescriptionTextBox);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -119,15 +117,15 @@ public class AddMeal extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(mealName1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(addMealDescriptionTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                     .addComponent(addMealNameTextBox)
                     .addComponent(addMealPriceTextBox))
                 .addGap(30, 30, 30))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(144, 144, 144)
                 .addComponent(addMealLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,11 +134,15 @@ public class AddMeal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mealName1)
                     .addComponent(addMealNameTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(addMealDescriptionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(jLabel1)
+                        .addGap(56, 56, 56))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(addMealPriceTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -150,15 +152,6 @@ public class AddMeal extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(230, 81, 0));
-
-        mealName.setBackground(new java.awt.Color(230, 81, 0));
-        mealName.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
-        mealName.setForeground(new java.awt.Color(255, 255, 255));
-        mealName.setText("Meal name");
-
-        mealDescription.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        mealDescription.setForeground(new java.awt.Color(255, 255, 255));
-        mealDescription.setText("Description");
 
         addMealImage.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         addMealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/addphoto.png"))); // NOI18N
@@ -175,24 +168,13 @@ public class AddMeal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addMealImage)
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mealName)
-                    .addComponent(mealDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 170, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addMealImage, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(mealName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(mealDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(addMealImage, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -236,10 +218,6 @@ public class AddMeal extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_addMealNameTextBoxActionPerformed
-
-    private void addMealDescriptionTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMealDescriptionTextBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addMealDescriptionTextBoxActionPerformed
 
     private void addMealPriceTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMealPriceTextBoxActionPerformed
         // TODO add your handling code here:
@@ -324,7 +302,7 @@ public class AddMeal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JTextField addMealDescriptionTextBox;
+    public javax.swing.JTextArea addMealDescriptionTextBox;
     public javax.swing.JLabel addMealImage;
     public javax.swing.JLabel addMealLabel;
     public javax.swing.JTextField addMealNameTextBox;
@@ -335,8 +313,7 @@ public class AddMeal extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
-    public javax.swing.JLabel mealDescription;
-    public javax.swing.JLabel mealName;
+    public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JLabel mealName1;
     // End of variables declaration//GEN-END:variables
 }

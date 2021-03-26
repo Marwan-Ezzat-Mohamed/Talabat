@@ -48,8 +48,9 @@ public class Meal_jframe extends javax.swing.JFrame {
         addtoBasket = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         mealName = new javax.swing.JLabel();
-        mealDescription = new javax.swing.JLabel();
         mealImage = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        mealDescription = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Meal Options");
@@ -153,13 +154,13 @@ public class Meal_jframe extends javax.swing.JFrame {
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel3Layout.createSequentialGroup()
                                 .add(note)
-                                .add(297, 297, 297))
+                                .add(297, 309, Short.MAX_VALUE))
                             .add(jScrollPane1)
                             .add(jPanel3Layout.createSequentialGroup()
                                 .add(total)
-                                .add(45, 45, 45)
-                                .add(orderPrice, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 109, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 40, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(orderPrice, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(addtoBasket)))
                         .add(54, 54, 54))))
         );
@@ -193,16 +194,26 @@ public class Meal_jframe extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(230, 81, 0));
 
         mealName.setBackground(new java.awt.Color(230, 81, 0));
-        mealName.setFont(new java.awt.Font("Tahoma", 1, 30)); // NOI18N
+        mealName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         mealName.setForeground(new java.awt.Color(255, 255, 255));
-        mealName.setText("Meal name");
-
-        mealDescription.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        mealDescription.setForeground(new java.awt.Color(255, 255, 255));
-        mealDescription.setText("Description");
+        mealName.setText("Double Quarter Pound Sandwich");
 
         mealImage.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         mealImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/no_photo.png"))); // NOI18N
+
+        jScrollPane2.setBorder(null);
+
+        mealDescription.setEditable(false);
+        mealDescription.setBackground(new java.awt.Color(230, 81, 0));
+        mealDescription.setColumns(20);
+        mealDescription.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        mealDescription.setForeground(new java.awt.Color(255, 255, 255));
+        mealDescription.setLineWrap(true);
+        mealDescription.setRows(5);
+        mealDescription.setWrapStyleWord(true);
+        mealDescription.setBorder(null);
+        mealDescription.setCaretColor(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setViewportView(mealDescription);
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -213,22 +224,24 @@ public class Meal_jframe extends javax.swing.JFrame {
                 .add(mealImage)
                 .add(26, 26, 26)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(mealName)
-                    .add(mealDescription, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 151, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(0, 0, Short.MAX_VALUE))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(mealName)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jScrollPane2)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(mealImage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                    .add(mealImage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel2Layout.createSequentialGroup()
                         .add(9, 9, 9)
                         .add(mealName)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(mealDescription, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 26, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jScrollPane2)))
                 .addContainerGap())
         );
 
@@ -248,7 +261,7 @@ public class Meal_jframe extends javax.swing.JFrame {
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -366,7 +379,8 @@ public class Meal_jframe extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
     public javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JLabel mealDescription;
+    public javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JTextArea mealDescription;
     public javax.swing.JLabel mealImage;
     public javax.swing.JLabel mealName;
     public javax.swing.JLabel minus;
