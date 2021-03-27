@@ -4088,10 +4088,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void addMealButoonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMealButoonMouseClicked
         // TODO add your handling code here:
-
-        if (!edit.isShowing()) {
-            add.show();
-        }
+        AddMeal addMealFrame=new AddMeal();
+        addMealFrame.show();
+        
     }//GEN-LAST:event_addMealButoonMouseClicked
 
     private void resturantIcon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resturantIcon1MouseClicked

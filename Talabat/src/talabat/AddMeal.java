@@ -268,7 +268,7 @@ public class AddMeal extends javax.swing.JFrame {
         }
 
         
-        this.dispose();
+        
 
     }//GEN-LAST:event_addMealLabelMouseClicked
 
