@@ -18,8 +18,7 @@ public class Meal {
     private byte[] databaseImage;
     private Date orderDate;
 
-    public Meal() {
-    }
+    
 
     public Meal(String name, float mealPrice) {
         this.name = name;

@@ -296,12 +296,11 @@ public class EditMeal extends javax.swing.JFrame {
 
     private void applyChangesbuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyChangesbuttonMouseClicked
         // TODO add your handling code here:
-        MainFrame.mealList.get(mealIndex).setName(mealNameTextField.getText());
-        MainFrame.mealList.get(mealIndex).setDescription(descriptionTextField.getText());
-        MainFrame.mealList.get(mealIndex).setMealPrice(Float.parseFloat(priceTextField.getText()));
+        
 
-        Meal m = new Meal(mealNameTextField.getText(), descriptionTextField.getText(), Float.parseFloat(priceTextField.getText()));
+        Meal m = new Meal(mealNameTextField.getText(),descriptionTextField.getText(),Float.parseFloat(priceTextField.getText()));
 
+        
         InputStream is = null;
 
         if (selectedFile != null) {
@@ -321,6 +320,11 @@ public class EditMeal extends javax.swing.JFrame {
         mealDescriptionLabel.setText(MainFrame.mealList.get(mealIndex).getDescription());
         mealNameLabel.setText(MainFrame.mealList.get(mealIndex).getName());
         priceLabel.setText(String.valueOf(MainFrame.mealList.get(mealIndex).getMealPrice()));
+        
+        
+        MainFrame.mealList.get(mealIndex).setName(mealNameTextField.getText());
+        MainFrame.mealList.get(mealIndex).setDescription(descriptionTextField.getText());
+        MainFrame.mealList.get(mealIndex).setMealPrice(Float.parseFloat(priceTextField.getText()));
 
         this.dispose();
 

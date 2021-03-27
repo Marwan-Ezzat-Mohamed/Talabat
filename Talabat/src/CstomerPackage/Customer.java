@@ -56,17 +56,16 @@ public class Customer extends User {
 
     }
 
-    public Cart loadCart() {
-        Cart c = Talabat.database.returnCartOfCustomer(this.getUsername());
-        this.cart = c;
-        return c;
+    public Cart loadCart() { 
+        this.cart =Talabat.database.returnCartOfCustomer(this.getUsername());
+        return this.cart;
     }
 
     public Order[] loadOrders() {
-        Order[] o = Talabat.database.returnOrderOfcustomer(super.getUsername());
-        this.orders = o;
+        
+        this.orders = Talabat.database.returnOrderOfcustomer(super.getUsername());
         ordersCount = this.orders.length;
-        return o;
+        return this.orders;
     }
 
 }

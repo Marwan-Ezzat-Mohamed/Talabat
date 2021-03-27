@@ -59,6 +59,9 @@ public class Owner extends User {
     //update with image
     public void editMeal(int index, Meal m) {
         int id = Talabat.database.getMealId(Talabat.mainFrame.mealList.get(index).getName(), Talabat.owner.getRestaurantName());
+       
+       
+        System.out.println(Talabat.mainFrame.mealList.get(index).getName()+":: "+Talabat.mainFrame.mealList.get(index).getPrice()+":::id: "+id);
         Talabat.database.updateMeal(m, id);
     }
 

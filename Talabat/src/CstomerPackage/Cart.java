@@ -53,8 +53,6 @@ public class Cart {
     // insert fl array bs 34an lma a3ml intialize fl awl bs
     public void addMeal(Meal meal, int quantity) {
         addMealIntoMealsArray(meal, quantity);
-     
-
     }
 
     // insert fl array wl database
@@ -87,7 +85,7 @@ public class Cart {
         String mealRestaurantName = meals[index].getRestaurantName();
         int mealId = Talabat.database.getMealId(meals[index].getName(), mealRestaurantName);
         
-        //insert fl database
+        //remove mn database
         Talabat.database.removeMeal(mealId, Talabat.customer.getUsername());
 
         // remove localy mn el array
@@ -101,6 +99,7 @@ public class Cart {
             newMeals[j++] = meals[i];
         }
         meals = newMeals;
+        
     }
 
     public void resetCartAfterOrder() {

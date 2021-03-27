@@ -40,7 +40,7 @@ public class Database {
     private final String onlineDatabasePassword = "UIY691h8aY";
 
     // 34an lw mafe4 net youm el mona24a 
-    private final String localDatabase = "jdbc:mysql://localhost:3306/talabat";
+    private final String localDatabase = "jdbc:mysql://localhost:3306/rjfi4ganpy";
     private final String localDatabaseUsername = "root";
     private final String localDatabasePassword = "01003494703Mn";
 
@@ -376,7 +376,7 @@ public class Database {
         }
     }
 
-    public void addMealToRestaurant(Meal m, String restaurantName, InputStream s) {
+    public void addMealToRestaurant(Meal m, String restaurantName, InputStream image) {
 
         if (!checkConnection()) {
             return;
@@ -389,7 +389,7 @@ public class Database {
             ps.setString(1, null);
             ps.setString(2, m.getName());
             ps.setString(3, m.getDescription());
-            ps.setBlob(4, s);
+            ps.setBlob(4, image);
             ps.setString(5, restaurantName);
             ps.setFloat(6, m.getMealPrice());
             ps.executeUpdate();
@@ -451,7 +451,7 @@ public class Database {
         try {
 
             myStmt = databaseConnection.createStatement();
-            myRs = myStmt.executeQuery("select * from meals where restaurantName<> 'null';");
+            myRs = myStmt.executeQuery("select * from meals where restaurantName is not null");
 
             while (myRs.next()) {
 
@@ -473,7 +473,10 @@ public class Database {
 
     public int getMealId(String mealName, String restaurantName) {
 
+        
+         System.out.println("namne "+ mealName+"  ::"+restaurantName);
         if (!checkConnection()) {
+            System.out.println("checkconnnnnnn");
             return -1;
         }
 
@@ -645,7 +648,7 @@ public class Database {
 
             while (myRs.next()) {
 
-                cart.addMeal((returnMealFromId(myRs.getInt("mealId"))), myRs.getInt("quantity"));
+                cart.addMealIntoMealsArray((returnMealFromId(myRs.getInt("mealId"))), myRs.getInt("quantity"));
                
 
             }

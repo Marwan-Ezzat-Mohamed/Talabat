@@ -9,7 +9,6 @@ import javax.swing.ImageIcon;
 
 import javax.swing.UIManager;
 
-
 public class Talabat {
 
     public static MainFrame mainFrame;
@@ -18,7 +17,7 @@ public class Talabat {
     public static Database database;
 
     
-    public static void changeLookAndFell()
+    public static void changeLookAndFeel()
     {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -37,7 +36,7 @@ public class Talabat {
         //fadl el ui :D ya mina
         
         //bt8ayar el design
-        changeLookAndFell();
+        changeLookAndFeel();
         
         database=new Database();
         mainFrame = new MainFrame();
