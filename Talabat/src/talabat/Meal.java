@@ -18,7 +18,9 @@ public class Meal {
     private byte[] databaseImage;
     private Date orderDate;
 
-    
+    public Meal() {
+
+    }
 
     public Meal(String name, float mealPrice) {
         this.name = name;
@@ -107,12 +109,10 @@ public class Meal {
         return orderDate;
     }
 
-
     public float getPrice() {
         return mealPrice;
     }
 
-    
     public void displayInfo() {
         System.out.println("Meal name: " + this.name + "\nMeal price: " + this.mealPrice + "\nDescription: " + this.description);
     }

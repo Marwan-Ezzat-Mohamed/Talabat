@@ -17,18 +17,12 @@ public class Restaurant {
     public Restaurant() {
         for (int i = 0; i < maxSize; i++) {
             orders[i] = new Order();
-          //  meals[i] = new Meal();
+            meals[i] = new Meal();
         }
         numberOfRestaurants++;
     }
 
-    public Restaurant(String name, Meal m) {
-        //call the main constructor
-        this();
-        this.name = name;
-        this.meals[mealCount++] = m;
-    }
-
+   
     public Restaurant(String name, byte[] Image, String description) {
         //call the main constructor
         this();

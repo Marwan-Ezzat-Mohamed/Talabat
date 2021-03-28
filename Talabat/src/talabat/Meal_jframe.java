@@ -32,17 +32,16 @@ public class Meal_jframe extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPasswordField1 = new javax.swing.JPasswordField();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         quantity = new javax.swing.JLabel();
-        size = new javax.swing.JLabel();
         orderPrice = new javax.swing.JLabel();
         note = new javax.swing.JLabel();
         total = new javax.swing.JLabel();
         quantityValue = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         noteTextarea = new javax.swing.JTextArea();
-        sizeCheckbox = new javax.swing.JComboBox<>();
         plus = new javax.swing.JLabel();
         minus = new javax.swing.JLabel();
         addtoBasket = new javax.swing.JLabel();
@@ -51,6 +50,8 @@ public class Meal_jframe extends javax.swing.JFrame {
         mealImage = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         mealDescription = new javax.swing.JTextArea();
+
+        jPasswordField1.setText("jPasswordField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Meal Options");
@@ -70,9 +71,6 @@ public class Meal_jframe extends javax.swing.JFrame {
 
         quantity.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         quantity.setText("Quantity");
-
-        size.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        size.setText("Size");
 
         orderPrice.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         orderPrice.setText("50");
@@ -94,16 +92,6 @@ public class Meal_jframe extends javax.swing.JFrame {
         noteTextarea.setRows(4);
         noteTextarea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(noteTextarea);
-
-        sizeCheckbox.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        sizeCheckbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Small", "Medium ", "Large" }));
-        sizeCheckbox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sizeCheckbox.setOpaque(false);
-        sizeCheckbox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sizeCheckboxActionPerformed(evt);
-            }
-        });
 
         plus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/plus.png"))); // NOI18N
         plus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -137,32 +125,26 @@ public class Meal_jframe extends javax.swing.JFrame {
                 .add(50, 50, 50)
                 .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel3Layout.createSequentialGroup()
+                        .add(total)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(orderPrice, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(66, 66, 66)
+                        .add(addtoBasket))
+                    .add(jPanel3Layout.createSequentialGroup()
+                        .add(note)
+                        .add(351, 363, Short.MAX_VALUE))
+                    .add(jPanel3Layout.createSequentialGroup()
                         .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(size)
-                            .add(quantity))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jScrollPane1)
                             .add(jPanel3Layout.createSequentialGroup()
+                                .add(quantity)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(minus)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(quantityValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(plus))
-                            .add(sizeCheckbox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(51, 51, 51))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel3Layout.createSequentialGroup()
-                                .add(note)
-                                .add(297, 309, Short.MAX_VALUE))
-                            .add(jScrollPane1)
-                            .add(jPanel3Layout.createSequentialGroup()
-                                .add(total)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(orderPrice, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(addtoBasket)))
-                        .add(54, 54, 54))))
+                                .add(plus)))
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -173,22 +155,18 @@ public class Meal_jframe extends javax.swing.JFrame {
                         .add(quantityValue)
                         .add(minus)
                         .add(plus))
-                    .add(jPanel3Layout.createSequentialGroup()
-                        .add(quantity)
-                        .add(29, 29, 29)
-                        .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(size)
-                            .add(sizeCheckbox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 28, Short.MAX_VALUE)
+                    .add(quantity))
+                .add(36, 36, 36)
                 .add(note)
                 .add(18, 18, 18)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(total)
-                    .add(orderPrice)
-                    .add(addtoBasket))
-                .add(44, 44, 44))
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                .add(59, 59, 59)
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(addtoBasket)
+                    .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(total)
+                        .add(orderPrice)))
+                .add(19, 19, 19))
         );
 
         jPanel2.setBackground(new java.awt.Color(230, 81, 0));
@@ -249,11 +227,11 @@ public class Meal_jframe extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -261,7 +239,7 @@ public class Meal_jframe extends javax.swing.JFrame {
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -291,7 +269,6 @@ public class Meal_jframe extends javax.swing.JFrame {
         quantityValue.setText(String.valueOf(quantityOfmeal));
         String s = orderPrice.getText();
         s.replace("EGP", "");
-        String s1 = s.replace("EGP", "");
         float totalPrice = mealPriceFloat * quantityOfmeal;
         orderPrice.setText(String.valueOf(totalPrice) + "EGP");
     }//GEN-LAST:event_plusMouseClicked
@@ -302,15 +279,9 @@ public class Meal_jframe extends javax.swing.JFrame {
             quantityOfmeal--;
         }
         quantityValue.setText(String.valueOf(quantityOfmeal));
-        String s = orderPrice.getText();
-        String s1 = s.replace("EGP", "");
         float totalPrice = mealPriceFloat * quantityOfmeal;
         orderPrice.setText(String.valueOf(totalPrice) + "EGP");
     }//GEN-LAST:event_minusMouseClicked
-
-    private void sizeCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sizeCheckboxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sizeCheckboxActionPerformed
 
     private void addtoBasketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addtoBasketMouseClicked
         // TODO add your handling code here:
@@ -322,6 +293,7 @@ public class Meal_jframe extends javax.swing.JFrame {
         int mealId=Talabat.database.getMealId(MainFrame.allMealsList.get(mealIndex).getName(), MainFrame.allMealsList.get(mealIndex).getRestaurantName());
 
         if(mealId==-1)return;
+        
         String restaurantName=MainFrame.allMealsList.get(mealIndex).getRestaurantName();
         Talabat.customer.getCart().addMeal(mealId, quantityOfmeal,mealPriceFloat,notes ,username,restaurantName);
       
@@ -378,6 +350,7 @@ public class Meal_jframe extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel3;
+    public javax.swing.JPasswordField jPasswordField1;
     public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JTextArea mealDescription;
@@ -390,8 +363,6 @@ public class Meal_jframe extends javax.swing.JFrame {
     public javax.swing.JLabel plus;
     public javax.swing.JLabel quantity;
     public javax.swing.JLabel quantityValue;
-    public javax.swing.JLabel size;
-    public javax.swing.JComboBox<String> sizeCheckbox;
     public javax.swing.JLabel total;
     // End of variables declaration//GEN-END:variables
 

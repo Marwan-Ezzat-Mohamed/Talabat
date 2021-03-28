@@ -5,7 +5,6 @@ import talabat.*;
 public class Customer extends User {
 
     public int ordersCount;
-    public static int numberOfCustomers;
     private final int maxOrders = 100;
     private String mobileNumber, address;
     private Cart cart = new Cart();
@@ -16,15 +15,10 @@ public class Customer extends User {
         this.mobileNumber = mobileNumber;
         this.address = address;
         this.setPassword(pass);
-        numberOfCustomers++;
 
         loadCart();
         loadOrders();
 
-    }
-
-    public static int getNumberOfCustomers() {
-        return numberOfCustomers;
     }
 
     public String getMobileNumber() {

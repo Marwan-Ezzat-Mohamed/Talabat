@@ -4047,29 +4047,29 @@ public class MainFrame extends javax.swing.JFrame {
     private void mealsOfResturantForOwnerJtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseClicked
         // TODO add your handling code here:
 
+        EditMeal editMeal= new EditMeal();
         int ii = mealsOfResturantForOwnerJtable.getSelectedRow();
         int i = mealsOfResturantForOwnerTableSorter.convertRowIndexToModel(ii);
-        edit.mealNameTextField.setText(mealList.get(i).getName());
-        edit.priceTextField.setText(String.valueOf(mealList.get(i).getMealPrice()));
-        edit.descriptionTextField.setText(mealList.get(i).getDescription());
-        edit.mealDescriptionLabel.setText(mealList.get(i).getDescription());
+        editMeal.mealNameTextField.setText(mealList.get(i).getName());
+        editMeal.priceTextField.setText(String.valueOf(mealList.get(i).getMealPrice()));
+        editMeal.descriptionTextField.setText(mealList.get(i).getDescription());
+        editMeal.mealDescriptionLabel.setText(mealList.get(i).getDescription());
 
-        edit.mealNameLabel.setText(mealList.get(i).getName());
-        edit.priceLabel.setText(String.valueOf(mealList.get(i).getMealPrice()));
-        edit.mealIndex = i;
+        editMeal.mealNameLabel.setText(mealList.get(i).getName());
+        editMeal.priceLabel.setText(String.valueOf(mealList.get(i).getMealPrice()));
+        editMeal.mealIndex = i;
 
         if (mealList.get(i).getDatabaseImage() != null) {
             ImageIcon image = new ImageIcon(new ImageIcon(mealList.get(i).getDatabaseImage()).getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH));
-            edit.mealImage.setIcon(image);
+            editMeal.mealImage.setIcon(image);
         } else {
 
             ImageIcon defualtImage = new ImageIcon("src/pics/addphoto.png");
-            edit.mealImage.setIcon(defualtImage);
+            editMeal.mealImage.setIcon(defualtImage);
         }
+        editMeal.show();
 
-        if (!add.isShowing()) {
-            edit.show();
-        }
+       
 
     }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseClicked
 
@@ -4931,7 +4931,6 @@ public class MainFrame extends javax.swing.JFrame {
                 if (randomMealSet.get(0).getName().equals(allMealsList.get(j).getName())) {
                     if (randomMealSet.get(0).getRestaurantName().equals(allMealsList.get(j).getRestaurantName())) {
                         mealFrame.mealIndex = j;
-                        System.out.println("randomMealSet.get(0).getName()" + allMealsList.get(j).getName());
                         break;
                     }
                 }

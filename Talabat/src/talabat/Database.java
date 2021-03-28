@@ -490,16 +490,17 @@ public class Database {
             ps.setString(2, restaurantName);
             myRs = ps.executeQuery();
 
-            while (myRs.next()) {
+           if (myRs.next()) {
                 id = myRs.getInt("id");
-
-            }
+           }
+            
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
     }
 
+    //overloading
     //update meal with image
     public void updateMeal(Meal m, InputStream s, int id) {
 
@@ -720,6 +721,8 @@ public class Database {
             myStmt = databaseConnection.createStatement();
 
             myRs = myStmt.executeQuery("select max(orderNumber) from cart where cartOwner='" + username + "';");
+            
+            //select max(orderNumber) from cart where cartOwner='marwan';
             int maxOrderNumber = 0;
             if (myRs.next()) {
                 maxOrderNumber = myRs.getInt(1);
