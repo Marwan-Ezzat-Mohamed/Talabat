@@ -12,16 +12,8 @@ public class Owner extends User {
     private Restaurant restaurant = new Restaurant();
 
     public Owner(String username, String password, String restaurantName) throws Exception {
-
         super(password, username);
-
-
         restaurant.setName(restaurantName);
-
-        
-        for (int i = 0; i < 100; i++) {
-            this.restaurant.getOrders()[i] = new Order();
-        }
     }
 
    

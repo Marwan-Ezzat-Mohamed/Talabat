@@ -5,6 +5,10 @@ import java.util.Date;
 public class Meal {
 
     private String name, description, notesForOrder, restaurantName;
+    private float mealPrice;
+    private int mealId, numberInOrder, mealsQuantityInCart;
+    private byte[] databaseImage;
+    private Date orderDate;
 
     public String getRestaurantName() {
         return restaurantName;
@@ -13,10 +17,6 @@ public class Meal {
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
     }
-    private float mealPrice;
-    private int mealId, numberInOrder, mealsQuantityInCart;
-    private byte[] databaseImage;
-    private Date orderDate;
 
     public Meal() {
 
