@@ -14,8 +14,7 @@ public class Customer extends User {
         super(pass, user);
         this.mobileNumber = mobileNumber;
         this.address = address;
-        this.setPassword(pass);
-
+       
         loadCart();
         loadOrders();
 
