@@ -4,7 +4,7 @@ import talabat.*;
 
 public class Restaurant {
 
-    private static int numberOfRestaurants;
+   
     private final int maxSize = 100;
     private int mealCount, numberOfOrders;
     private Meal[] meals = new Meal[maxSize];
@@ -19,7 +19,7 @@ public class Restaurant {
             orders[i] = new Order();
             meals[i] = new Meal();
         }
-        numberOfRestaurants++;
+        
     }
 
    
@@ -57,10 +57,6 @@ public class Restaurant {
     }
 
   
-    public static int getNumberOfRestaurants() {
-        return numberOfRestaurants;
-    }
-
     public int getMealCount() {
         return mealCount;
     }
