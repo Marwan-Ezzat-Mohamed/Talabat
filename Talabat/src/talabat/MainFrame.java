@@ -110,10 +110,10 @@ public class MainFrame extends javax.swing.JFrame {
         sz = allRestaurantsArrayList.size();
 
         for (int i = 0; i < allRestaurantsArrayList.size(); i++) {
+            Restaurant restaurant = allRestaurantsArrayList.get(i);
 
-            //System.out.println(i+1 +"name : "+allRestaurantsArrayList.get(i).getName()+" desx: "+allRestaurantsArrayList.get(i).getDescription());
-            allRestaurantsImageMap.put(allRestaurantsArrayList.get(i).getName(), allRestaurantsArrayList.get(i));
-            nameList[i] = allRestaurantsArrayList.get(i).getName();
+            allRestaurantsImageMap.put(restaurant.getName(), restaurant);
+            nameList[i] = restaurant.getName();
 
         }
 
@@ -174,7 +174,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             InputStream is = new FileInputStream(selectedFile);
 
-            Talabat.database.updateRestaurantImage(is, Talabat.owner.getRestaurantName());
+            Talabat.database.updateRestaurantImage(is, Talabat.owner.getRestaurant().getName());
             resturantIcon1.setIcon(img);
         } //if the user click on save in Jfilechooser
 
@@ -610,7 +610,7 @@ public class MainFrame extends javax.swing.JFrame {
                 String[] nList = new String[sz];
                 int i = 0;
                 for (String s : nameList) {
-                    String normal=filter;
+                    String normal = filter;
                     String lowerCase = filter.toLowerCase();
                     String upperCase = filter.toUpperCase();
                     if (s != null) {
@@ -910,6 +910,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel89 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         myOrdersTable = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         Basket = new javax.swing.JPanel();
         jPanel41 = new javax.swing.JPanel();
@@ -925,6 +926,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         currentUserCartJtable = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         resturantPanel = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
@@ -951,6 +953,7 @@ public class MainFrame extends javax.swing.JFrame {
         SearchTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         allRestaurantsjList = new javax.swing.JList<>();
+        jLabel6 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
@@ -989,6 +992,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel98 = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         myOrdersTableForOwner = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         About = new javax.swing.JPanel();
         jPanel38 = new javax.swing.JPanel();
@@ -2563,6 +2567,13 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(myOrdersTable);
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/rfrsh.png"))); // NOI18N
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout meals_pan8Layout = new javax.swing.GroupLayout(meals_pan8);
         meals_pan8.setLayout(meals_pan8Layout);
         meals_pan8Layout.setHorizontalGroup(
@@ -2572,16 +2583,20 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabel89)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_pan8Layout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 980, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(92, 92, 92))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addGap(26, 26, 26))
         );
         meals_pan8Layout.setVerticalGroup(
             meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_pan8Layout.createSequentialGroup()
                 .addComponent(jLabel89)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(meals_pan8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -2750,6 +2765,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/rfrsh.png"))); // NOI18N
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout BasketLayout = new javax.swing.GroupLayout(Basket);
         Basket.setLayout(BasketLayout);
         BasketLayout.setHorizontalGroup(
@@ -2768,15 +2790,20 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(BasketLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
                 .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BasketLayout.createSequentialGroup()
-                        .addComponent(jLabel107)
-                        .addGap(137, 137, 137)
+                        .addGap(53, 53, 53)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(totalPriceLabelForCustomerCart, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addComponent(jLabel21))
+                            .addGroup(BasketLayout.createSequentialGroup()
+                                .addComponent(jLabel107)
+                                .addGap(137, 137, 137)
+                                .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(totalPriceLabelForCustomerCart, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(jLabel21)))
+                    .addGroup(BasketLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel9)))
                 .addContainerGap(81, Short.MAX_VALUE))
         );
         BasketLayout.setVerticalGroup(
@@ -2787,21 +2814,21 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel93)
                     .addComponent(jLabel111))
+                .addGap(54, 54, 54)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
                 .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BasketLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(BasketLayout.createSequentialGroup()
-                        .addGap(270, 270, 270)
+                        .addComponent(jLabel9)
+                        .addGap(128, 128, 128)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel107)
                             .addComponent(totalPriceLabelForCustomerCart))
                         .addGap(81, 81, 81)
                         .addGroup(BasketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel21)
-                            .addComponent(jLabel11))))
+                            .addComponent(jLabel11)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -3095,6 +3122,13 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(allRestaurantsjList);
 
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/rfrsh.png"))); // NOI18N
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
         jPanel24Layout.setHorizontalGroup(
@@ -3113,9 +3147,11 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(jPanel24Layout.createSequentialGroup()
                         .addGap(103, 103, 103)
                         .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE))))
-                .addGap(88, 88, 88))
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 921, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 921, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addGap(35, 35, 35))
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3128,8 +3164,14 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SearchTextField))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
+                .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel24Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel24Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 44, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantPanel1Layout = new javax.swing.GroupLayout(resturantPanel1);
@@ -3450,11 +3492,6 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGap(395, 395, 395)
-                        .addComponent(jLabel37)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchMealsTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel25Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel31, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3462,19 +3499,24 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGap(42, 42, 42)
                                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGap(530, 530, 530)
+                        .addGap(531, 531, 531)
                         .addComponent(Hot_deals6))
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
+                        .addGap(189, 189, 189)
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(refreshButton)
                             .addGroup(jPanel25Layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(refreshButton))
-                            .addGroup(jPanel25Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
+                                .addGap(17, 17, 17)
                                 .addComponent(aboutRest)))))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchMealsTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(427, 427, 427))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3483,22 +3525,22 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Hot_deals6)
-                .addGap(33, 33, 33)
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchMealsTextField1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(searchMealsTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel37))
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
+                        .addGap(72, 72, 72)
                         .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(aboutRest))
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(115, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout resturantOwnerPanelLayout = new javax.swing.GroupLayout(resturantOwnerPanel);
@@ -3667,6 +3709,13 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane9.setViewportView(myOrdersTableForOwner);
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pics/rfrsh.png"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout meals_pan9Layout = new javax.swing.GroupLayout(meals_pan9);
         meals_pan9.setLayout(meals_pan9Layout);
         meals_pan9Layout.setHorizontalGroup(
@@ -3678,15 +3727,22 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jLabel98))
                     .addGroup(meals_pan9Layout.createSequentialGroup()
                         .addGap(70, 70, 70)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         meals_pan9Layout.setVerticalGroup(
             meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, meals_pan9Layout.createSequentialGroup()
                 .addComponent(jLabel98)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(meals_pan9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(meals_pan9Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(meals_pan9Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel3)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -3701,10 +3757,10 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel36Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(meals_pan9, javax.swing.GroupLayout.DEFAULT_SIZE, 1164, Short.MAX_VALUE))
+                .addComponent(meals_pan9, javax.swing.GroupLayout.DEFAULT_SIZE, 1208, Short.MAX_VALUE))
         );
         jPanel36Layout.setVerticalGroup(
             jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3723,7 +3779,7 @@ public class MainFrame extends javax.swing.JFrame {
         MyOrderForOwnerLayout.setHorizontalGroup(
             MyOrderForOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE)
+            .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, 1214, Short.MAX_VALUE)
         );
         MyOrderForOwnerLayout.setVerticalGroup(
             MyOrderForOwnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4046,7 +4102,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void mealsOfResturantForOwnerJtableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mealsOfResturantForOwnerJtableMouseClicked
         // TODO add your handling code here:
 
-        EditMeal editMeal= new EditMeal();
+        EditMeal editMeal = new EditMeal();
         int ii = mealsOfResturantForOwnerJtable.getSelectedRow();
         int i = mealsOfResturantForOwnerTableSorter.convertRowIndexToModel(ii);
         editMeal.mealNameTextField.setText(mealList.get(i).getName());
@@ -4068,7 +4124,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
         editMeal.show();
 
-       
 
     }//GEN-LAST:event_mealsOfResturantForOwnerJtableMouseClicked
 
@@ -4087,9 +4142,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void addMealButoonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMealButoonMouseClicked
         // TODO add your handling code here:
-        AddMeal addMealFrame=new AddMeal();
+        AddMeal addMealFrame = new AddMeal();
         addMealFrame.show();
-        
+
     }//GEN-LAST:event_addMealButoonMouseClicked
 
     private void resturantIcon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resturantIcon1MouseClicked
@@ -5315,6 +5370,26 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_meal1pic2MouseClicked
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        updateOrdersTableForOwner();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here
+        updateAllRestaurantsTable();
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        // TODO add your handling code here:
+        updateCartForCustomer();
+    }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        // TODO add your handling code here:
+        updateOrdersForCustomer();
+    }//GEN-LAST:event_jLabel10MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -5364,6 +5439,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel invalidLoginLabelForSignUp;
     public javax.swing.JLabel invalidLoginLabelForSignUp1;
     public javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel10;
     public javax.swing.JLabel jLabel107;
     public javax.swing.JLabel jLabel11;
     public javax.swing.JLabel jLabel111;
@@ -5388,6 +5464,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel26;
     public javax.swing.JLabel jLabel28;
     public javax.swing.JLabel jLabel29;
+    public javax.swing.JLabel jLabel3;
     public javax.swing.JLabel jLabel30;
     public javax.swing.JLabel jLabel31;
     public javax.swing.JLabel jLabel32;
@@ -5409,6 +5486,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel5;
     public javax.swing.JLabel jLabel50;
     public javax.swing.JLabel jLabel52;
+    public javax.swing.JLabel jLabel6;
     public javax.swing.JLabel jLabel7;
     public javax.swing.JLabel jLabel8;
     public javax.swing.JLabel jLabel80;
@@ -5417,6 +5495,7 @@ public class MainFrame extends javax.swing.JFrame {
     public javax.swing.JLabel jLabel84;
     public javax.swing.JLabel jLabel87;
     public javax.swing.JLabel jLabel89;
+    public javax.swing.JLabel jLabel9;
     public javax.swing.JLabel jLabel91;
     public javax.swing.JLabel jLabel92;
     public javax.swing.JLabel jLabel93;
