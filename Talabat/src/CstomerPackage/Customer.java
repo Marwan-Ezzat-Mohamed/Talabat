@@ -50,7 +50,7 @@ public class Customer extends User {
     }
 
     public Cart loadCart() { 
-        this.cart =Talabat.database.returnCartOfCustomer(this.getUsername());
+        this.cart =Talabat.database.returnCartOfCustomer(super.getUsername());
         return this.cart;
     }
 

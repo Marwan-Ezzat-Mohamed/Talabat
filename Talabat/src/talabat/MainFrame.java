@@ -66,7 +66,6 @@ public class MainFrame extends javax.swing.JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             int w = getWidth();
             int h = getHeight();
             Color color1 = new Color(254, 70, 2);  //t2el
