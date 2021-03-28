@@ -55,7 +55,7 @@ public class Owner extends User {
     //overlaoding 
     //update with image
     public void editMeal(int index, Meal m) {
-        int id = Talabat.database.getMealId(Talabat.mainFrame.mealList.get(index).getName(), Talabat.owner.restaurant.getName());
+        int id = Talabat.database.getMealId(Talabat.mainFrame.mealList.get(index).getName(), this.restaurant.getName());
         Talabat.database.updateMeal(m, id);
     }
 
