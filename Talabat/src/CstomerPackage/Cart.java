@@ -1,7 +1,5 @@
 package CstomerPackage;
 
-
-
 import java.time.LocalDate;
 import talabat.*;
 
@@ -12,8 +10,6 @@ public class Cart {
     private float totalPrice = 0;
     private int numberOfMeals;
     private LocalDate orderDate;
-    
-    
 
     public int getMaxMeals() {
         return maxMeals;
@@ -35,9 +31,7 @@ public class Cart {
         return orderDate;
     }
 
-    
-    public void addMealIntoMealsArray (Meal meal, int quantity)
-    {
+    public void addMealIntoMealsArray(Meal meal, int quantity) {
         int index = mealFoundInMealsArray(meal);
         if (index != -1) {
             totalPrice += meal.getPrice() * quantity;
@@ -50,6 +44,7 @@ public class Cart {
         totalPrice += meal.getPrice() * quantity;
         numberOfMeals++;
     }
+
     // insert fl array bs 34an lma a3ml intialize fl awl bs
     public void addMeal(Meal meal, int quantity) {
         addMealIntoMealsArray(meal, quantity);
@@ -59,8 +54,8 @@ public class Cart {
     public void addMeal(int id, int quantity, float price, String notes, String username, String restaurantName) {
 
         Meal meal = Talabat.database.returnMealFromId(id);
-        
-        Talabat.database.insertMealIntoCart(id, quantity, price, notes,username, restaurantName);
+
+        Talabat.database.insertMealIntoCart(id, quantity, price, notes, username, restaurantName);
 
         addMealIntoMealsArray(meal, quantity);
 
@@ -68,7 +63,7 @@ public class Cart {
 
     public int mealFoundInMealsArray(Meal m) {
         for (int i = 0; i < numberOfMeals; i++) {
-            if (m.getName().equals(meals[i].getName())&&m.getRestaurantName().equals(meals[i].getRestaurantName())) {
+            if (m.getName().equals(meals[i].getName()) && m.getRestaurantName().equals(meals[i].getRestaurantName())) {
                 return i;
             }
         }
@@ -81,10 +76,10 @@ public class Cart {
         if (index == -1) {
             index = 0;
         }
-        
+
         String mealRestaurantName = meals[index].getRestaurantName();
         int mealId = Talabat.database.getMealId(meals[index].getName(), mealRestaurantName);
-        
+
         //remove mn database
         Talabat.database.removeMeal(mealId, Talabat.customer.getUsername());
 
@@ -99,7 +94,7 @@ public class Cart {
             newMeals[j++] = meals[i];
         }
         meals = newMeals;
-        
+
     }
 
     public void resetCartAfterOrder() {
@@ -107,6 +102,6 @@ public class Cart {
         totalPrice = 0;
         numberOfMeals = 0;
         orderDate = null;
-        
+
     }
 }

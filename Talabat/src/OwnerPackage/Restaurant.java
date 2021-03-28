@@ -32,8 +32,7 @@ public class Restaurant {
     }
     
     
-    
-     public Order displayOrders() {
+    public Order displayOrders() {
         Order order = Talabat.database.returnOrderOfOwner(this.name);
         return order;
     }
@@ -56,7 +55,6 @@ public class Restaurant {
         this.description = description;
     }
 
-  
     public int getMealCount() {
         return mealCount;
     }
