@@ -8,7 +8,6 @@ import talabat.*;
 
 public class Owner extends User {
 
-    public static int numberOfOwners;
     
     private Restaurant restaurant = new Restaurant();
 
@@ -19,7 +18,7 @@ public class Owner extends User {
 
         restaurant.setName(restaurantName);
 
-        numberOfOwners++;
+        
         for (int i = 0; i < 100; i++) {
             this.restaurant.getOrders()[i] = new Order();
         }
