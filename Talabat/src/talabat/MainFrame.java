@@ -205,11 +205,11 @@ public class MainFrame extends javax.swing.JFrame {
             return;
         }
         String[] columnName = {"Order No.", "", "Meal Name", "Price", "Quantity", "Date", "Notes"};
-        Object[][] rows = new Object[order.getNumberOfMealsInCart()][columnName.length];
+        Object[][] rows = new Object[order.getNumberOfMeals()][columnName.length];
 
         int orderNumber = 1;
         int prevOrderNumber = 0;
-        for (int i = 0; i < order.getNumberOfMealsInCart(); i++) {
+        for (int i = 0; i < order.getNumberOfMeals(); i++) {
 
             if (i > 0 && order.getOrdererdMeals()[i].getNumberInOrder() != prevOrderNumber) {
                 orderNumber++;
@@ -509,7 +509,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         int numberOfmealsOfOrder = 0;
         for (int i = 1; i < orders.length; i++) {
-            numberOfmealsOfOrder += orders[i].getNumberOfMealsInCart();
+            numberOfmealsOfOrder += orders[i].getNumberOfMeals();
         }
 
         String[] columnName = {"Order No.", "", "Meal Name", "Restaurant", "Price", "Quantity", "Date"};
@@ -517,7 +517,7 @@ public class MainFrame extends javax.swing.JFrame {
         int row = 0;
 
         for (int i = 1; i < orders.length; i++) {
-            for (int j = 0; j < orders[i].getNumberOfMealsInCart(); j++) {
+            for (int j = 0; j < orders[i].getNumberOfMeals(); j++) {
                 rows[row][0] = (i);
 
                 if (orders[i].getOrdererdMeals()[j].getDatabaseImage() != null) {

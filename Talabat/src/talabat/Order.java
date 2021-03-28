@@ -8,7 +8,7 @@ public class Order {
     private int quantity, numberOfOrders;
     private String notes, restaurantName;
     private Date Date;
-    private int numberOfMealsInCart;
+    private int numberOfMeals;
 
     public Meal[] getOrdererdMeals() {
         return ordererdMeals;
@@ -30,8 +30,8 @@ public class Order {
         return Date;
     }
 
-    public int getNumberOfMealsInCart() {
-        return numberOfMealsInCart;
+    public int getNumberOfMeals() {
+        return numberOfMeals;
     }
 
     public int getQuantity() {
@@ -65,27 +65,27 @@ public class Order {
     }
 
     public void setNumberOfMealsInCart(int numberOfMealsInCart) {
-        this.numberOfMealsInCart = numberOfMealsInCart;
+        this.numberOfMeals = numberOfMealsInCart;
     }
 
     
     public void addMeal(Meal m, int q, int numberInOrder) {
       
-        ordererdMeals[numberOfMealsInCart] = m;
-        ordererdMeals[numberOfMealsInCart].setMealsQuantityInCart(q);
-        ordererdMeals[numberOfMealsInCart].setNumberInOrder(numberInOrder);
-        numberOfMealsInCart++;
+        ordererdMeals[numberOfMeals] = m;
+        ordererdMeals[numberOfMeals].setMealsQuantityInCart(q);
+        ordererdMeals[numberOfMeals].setNumberInOrder(numberInOrder);
+        numberOfMeals++;
         
 
     }
 
     public void addMeal(Meal m, int q, int numberInOrder, Date d) {
         
-        ordererdMeals[numberOfMealsInCart] = m;
-        ordererdMeals[numberOfMealsInCart].setMealsQuantityInCart(q);
-        ordererdMeals[numberOfMealsInCart].setOrderDate(d);
-        ordererdMeals[numberOfMealsInCart].setNumberInOrder(numberInOrder);
-        numberOfMealsInCart++;
+        ordererdMeals[numberOfMeals] = m;
+        ordererdMeals[numberOfMeals].setMealsQuantityInCart(q);
+        ordererdMeals[numberOfMeals].setOrderDate(d);
+        ordererdMeals[numberOfMeals].setNumberInOrder(numberInOrder);
+        numberOfMeals++;
 
     }
     
